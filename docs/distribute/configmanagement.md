@@ -10,8 +10,8 @@
 - [参考链接](#参考链接)
     
 ### 产生背景  
-**困境**：在写单机应用的时候，我们通常将跟配置有关的常量放入到配置文件中，它会带来以下问题，我要做任何一个参数的修改都要重启服务，甚至重新打包，也许单机应用你可以忍受，但是在分布式场景，几十台vm甚至几百台的时候，你就无法忍受每台设备去更改，还要重启服务。为了解决这个问题，你可能尝试将配置参数配置在数据库中，每次程序调用时都去拉取一遍，这对第三方可靠性运行就要求很大了，而且这些都是没必要存在的流量（这个思路还不够好）      
-**分布式配置中心目标**:将配置文件从应用程序中脱离出来，**统一管理，统一下发，动态刷新，不需要重启服务。**   
+**困境**：在写单机应用的时候，我们通常将跟配置有关的常量放入到配置文件中，它会带来以下问题，我要做任何一个参数的修改都要重启服务，甚至重新打包，也许单机应用你可以忍受，但是在分布式场景，几十台vm甚至几百台的时候，你就无法忍受每台设备去更改，还要重启服务。为了解决这个问题，你可能尝试将配置参数配置在数据库中，每次程序调用时都去拉取一遍，这对第三方可靠性运行就要求很大了，而且这些都是没必要存在的流量，随着发展对配置要求越来越高，实时生效，灰度发布，分环境、分集群管理配置，完善的权限、审核机制....
+**分布式配置中心目标**:将配置文件从应用程序中脱离出来，**统一管理，统一下发，灰度发布，实时生效，不需要重启服务。**   
 **技术思路**: 单一的配置中心，能感知到配置是否变化，一旦变化通知订阅的用户(监听器的方式注册)，告知对方重新拉取最新的配置  
 **相关产品**: 百度`disconf`  携程`Apollo`   `spring-cloud-config`
 
@@ -38,7 +38,48 @@
 5. 应用程序可以从Apollo客户端获取最新的配置、订阅配置更新通知
 
 #### 客户端使用案例
+Apollo支持`API`和`spring`整合的方式接入  
+1. API的方式功能完备，可配置**值实时**更新(热发布)
+2. Spring接入方式，与本地配置文件使用一样
+    - Placeholder方式 代码中直接使用，如：`@Value("${someKeyFromApollo:someDefaultValue}")`
+    - Spring boot的`@ConfigurationProperties`方式
+    - 从v0.10.0开始的版本支持placeholder在`运行时自动更新`
+3. [代码使用场景](https://github.com/ctripcorp/apollo-use-cases)
+##### API使用方式
+- 获取配置属的值：
 
+        Config config = ConfigService.getAppConfig(); //config instance is singleton for each namespace and is never null
+        String someKey = "someKeyFromDefaultNamespace";
+        String someDefaultValue = "someDefaultValueForTheKey";
+        String value = config.getProperty(someKey, someDefaultValue);
+- 配置监听事件（需要热发布的）
+
+        Config config = ConfigService.getAppConfig(); //config instance is singleton for each namespace and is never null
+        config.addChangeListener(new ConfigChangeListener() {
+            @Override
+            public void onChange(ConfigChangeEvent changeEvent) {
+                System.out.println("Changes for namespace " + changeEvent.getNamespace());
+                for (String key : changeEvent.changedKeys()) {
+                    ConfigChange change = changeEvent.getChange(key);
+                    System.out.println(String.format("Found change - key: %s, oldValue: %s, newValue: %s, changeType: %s",   change.getPropertyName(), change.getOldValue(), change.getNewValue(), change.getChangeType()));
+                }
+            }
+        });
+ 
+##### spring boot 使用方式
+EnableApolloConfig 注解很关键 该注解会注入实例，连接到apolloconfig的服务器上，配置监听器
+注意`@EnableApolloConfig`要和`@Configuration`一起使用，不然不会生效
+        //这个是最简单的配置形式，一般应用用这种形式就可以了，用来指示Apollo注入application namespace的配置到Spring环境中
+        @Configuration
+        @EnableApolloConfig
+        public class AppConfig {
+          @Bean
+          public TestJavaConfigBean javaConfigBean() {
+            return new TestJavaConfigBean();
+          }
+        }
+ 
+   
 #### 源码分析
 
 
