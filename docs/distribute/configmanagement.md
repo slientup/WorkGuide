@@ -67,18 +67,19 @@ Apollo支持`API`和`spring`整合的方式接入
         });
  
 ##### spring boot 使用方式
-EnableApolloConfig 注解很关键 该注解会注入实例，连接到apolloconfig的服务器上，配置监听器
+EnableApolloConfig 注解很关键 该注解会注入实例，连接到apolloconfig的服务器上，配置监听器  
 注意`@EnableApolloConfig`要和`@Configuration`一起使用，不然不会生效
-        //这个是最简单的配置形式，一般应用用这种形式就可以了，用来指示Apollo注入application namespace的配置到Spring环境中
-        @Configuration
-        @EnableApolloConfig
-        public class AppConfig {
-          @Bean
-          public TestJavaConfigBean javaConfigBean() {
-            return new TestJavaConfigBean();
-          }
-        }
- 
+       
+           //这个是最简单的配置形式，一般应用用这种形式就可以了，用来指示Apollo注入application namespace的配置到Spring环境中
+            @Configuration
+            @EnableApolloConfig
+            public class AppConfig {
+              @Bean
+              public TestJavaConfigBean javaConfigBean() {
+                return new TestJavaConfigBean();
+              }
+            }
+
    
 #### 源码分析
 
