@@ -3,6 +3,8 @@
 - [工具](#工具)  
     - [Git](#Git)
     - [Markdown](https://github.com/slientup/README)
+- [分布式](#分布式)  
+    - [配置管理中心](#配置管理中心)
 
 ### 工具
 
