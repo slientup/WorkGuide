@@ -36,6 +36,9 @@
 4. 客户端会把从服务端获取到的配置在本地文件系统缓存一份
    - 在遇到服务不可用，或网络不通的时候，**依然能从本地恢复配置**
 5. 应用程序可以从Apollo客户端获取最新的配置、订阅配置更新通知
+##### 完整架构演进版
+- [微服务架构~携程Apollo配置中心架构剖析](https://mp.weixin.qq.com/s/-hUaQPzfsl9Lm3IqQW3VDQ)
+
 
 #### 客户端使用案例
 Apollo支持`API`和`spring`整合的方式接入  
@@ -87,6 +90,7 @@ EnableApolloConfig 注解很关键 该注解会注入实例，连接到apollocon
 ### 参考链接
 - [apollo配置中心介绍](https://github.com/ctripcorp/apollo/wiki/Apollo%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E4%BB%8B%E7%BB%8D)
 - [apollo java客户端使用介绍](https://github.com/ctripcorp/apollo/wiki/Java%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97)
+- [携程Apollo配置中心架构剖析](https://mp.weixin.qq.com/s/-hUaQPzfsl9Lm3IqQW3VDQ)
 
 
 
