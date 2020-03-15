@@ -38,7 +38,11 @@
 5. 应用程序可以从Apollo客户端获取最新的配置、订阅配置更新通知
 ##### 完整架构演进版
 - [微服务架构~携程Apollo配置中心架构剖析](https://mp.weixin.qq.com/s/-hUaQPzfsl9Lm3IqQW3VDQ)
-
+架构演进路径：
+1. 为了保证**高可用**实现服务注册发现功能，引进了`spring cloud Eureka`，Config/AdminService启动后都会注册到`Eureka`服务注册中心，并定期发送保活心跳 
+2. 但Eureka的客户端并不支持所有语言，默认只支持java，为了让其他语言的客户端也能接入进来，引入了`MetaServer`这个角色，它其实是一个`Eureka`的`Proxy`,提供一个api接口，后台调用Eureka，client 通过它来发现服务提供者；  
+3. 为保证`MetaServer`的可靠性，部署多台，client通过域名的方式访问到slb再到最终的metaserver;  
+ ![完整架构](https://mmbiz.qpic.cn/mmbiz_png/ELH62gpbFmGdnIjxDT7AOQyZgl2KQnz6LCwSGeZjrh5DlMd0MMxVIepCFQKdE6vfJWbZOKiaHqEcmia1nJia2o7Vg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 #### 客户端使用案例
 Apollo支持`API`和`spring`整合的方式接入  
