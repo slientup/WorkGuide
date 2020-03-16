@@ -10,7 +10,7 @@
 #### 使用方法   
 使用非常简单，只需要这两步  
 - `@EnableScheduling` 只需要在SpringBoot的*Application.java文件上加入`@EnableScheduling`注解即可使用Schedule  
--`@Scheduled` 使用该注解作用于方法，该方法就会执行定时任务了 @Scheduled(fixedDelay = 2000)
+- `@Scheduled` 使用该注解作用于方法，该方法就会执行定时任务了 @Scheduled(fixedDelay = 2000)
 
         @EnableScheduling
         @SpringBootApplication
