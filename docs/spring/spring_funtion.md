@@ -8,8 +8,21 @@
 #### 原理  
 最终委托调用的是并发类的`Executors.newSingleThreadScheduledExecutor()`来创建一个**新的线程**来执行这个定时任务  
 #### 使用方法   
-待写...
+使用非常简单，只需要这两步  
+- `@EnableScheduling` 只需要在SpringBoot的*Application.java文件上加入`@EnableScheduling`注解即可使用Schedule
+-`@Scheduled` 使用该注解作用于方法，该方法就会执行定时任务了 @Scheduled(fixedDelay = 2000)
 
+        @EnableScheduling
+        @SpringBootApplication
+        public class ScheduleApplication {
+            public static void main(String[] args) {
+                SpringApplication.run(ScheduleApplication.class, args);
+            }
+        }
+        @Scheduled(fixedDelay = 2000)
+        public void fixedRateTask() {
+            taskService.sayHello("fixedDelay");
+        }
 
 
 ### 异步
