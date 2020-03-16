@@ -16,7 +16,8 @@
 #### 原理 
 最终调用`Executors SimpleAsyncTaskExecutor` 启动一个新的线程,执行该方法,异步本质就是起一个新的线程；
 #### 使用方法 
-- `public` 方法上直接引入 `@Async` 
+- `@EnableAsync`：通过在配置类或者`Main`类上加`@EnableAsync`开启对异步方法的支持。
+- `@Async` 可以作用在类上或者方法上，作用在类上代表这个类的所有方法都是异步方法
 - 通过该类`AsyncResult`返回异步的结果  实际是Future类;
 - 主类通过 `Future.get()`查看返回的结果
 
