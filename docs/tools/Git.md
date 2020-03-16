@@ -2,6 +2,7 @@
 - [Git的特点](#Git的特点)
 - [Git常用命令](#Git常用命令)
   - [回退版本](#回退版本)
+  - [远程仓库](#远程仓库)
 - [参考链接](#参考链接)
 
 ### Git的特点
@@ -20,7 +21,11 @@ Git是一个分布式版本控制系统。
 #### 回退版本  
    - 回退到当前版本 git reset --hard `head`  
    - 回退到上一个版本 git reset --hard `head^`  
-   - 回退到任意版本  git reset --hard `版本提交号`  
+   - 回退到任意版本  git reset --hard `版本提交号`    
+#### 远程仓库  
+   - 查看当前的远程仓库 git remote -v 
+   - 删除远程仓库 git remote `rm` origin    
+   - 新建远程仓库 git remote `add` origin <仓库地址> 
   
 ### 参考链接
 
