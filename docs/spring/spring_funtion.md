@@ -5,16 +5,17 @@
 
 
 ### 定时任务
-####原理  
+#### 原理  
 最终委托调用的是并发类的`Executors.newSingleThreadScheduledExecutor()`来创建一个**新的线程**来执行这个定时任务  
-####使用方法   
+#### 使用方法   
+待写...
 
 
 
 ### 异步
-####原理 
+#### 原理 
 最终调用`Executors SimpleAsyncTaskExecutor` 启动一个新的线程,执行该方法,异步本质就是起一个新的线程；
-####使用方法 
+#### 使用方法 
 - `public` 方法上直接引入 `@Async` 
 - 通过该类`AsyncResult`返回异步的结果  实际是Future类;
 - 主类通过 `Future.get()`查看返回的结果
