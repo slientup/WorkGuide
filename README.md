@@ -2,7 +2,7 @@
 ## 目录
 
 - [spring](#spring)  
-    - [spring常用功能](#spring常用功能)
+    - [spring常用功能](#spring boot常用功能)
 
 - [设计模式](#设计模式)  
     - [常用设计模式](#常用设计模式)
