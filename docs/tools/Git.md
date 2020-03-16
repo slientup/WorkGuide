@@ -19,8 +19,8 @@ Git是一个分布式版本控制系统。
 
 ### Git常用命令
 #### 回退版本  
-   - 回退到当前版本 git reset --hard `head`  
-   - 回退到上一个版本 git reset --hard `head^`  
+   - 回退到当前版本 git reset --hard `head`  **高频**  
+   - 回退到上一个版本 git reset --hard `head^`   **高频**  
    - 回退到任意版本  git reset --hard `版本提交号`    
 #### 远程仓库  
    - 查看当前的远程仓库 git remote -v 
