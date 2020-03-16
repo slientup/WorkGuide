@@ -11,6 +11,7 @@
     - [Markdown](https://github.com/slientup/README)
 - [分布式](#分布式)  
     - [消息队列](#消息队列)
+    - [zookeeper](#zookeeper)
     - [配置管理中心](#配置管理中心)
 
 ### spring
@@ -33,4 +34,6 @@
 
 #### 配置管理中心
 * [配置管理中心](docs/distribute/configmanagement.md)
+#### zookeeper
+* [zookeeper](docs/distribute/zookeeper.md)
     
