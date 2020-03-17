@@ -1,7 +1,12 @@
+- [单例模式](#单例模式)
+- [单例模式](#代理模式)
+- [观察者模式](#观察者模式)
+
 ### 常用设计模式
 设计模式分三类：创建类模式、创建型模式和结构型模式  
 #### 创建类模式
-1. 单例模式  始终只有一个实例
+##### 单例模式      
+始终只有一个实例
 
       public class Singleton {
 
@@ -23,7 +28,7 @@
               return uniqueInstance;
           }
       }
-2. 代理模式  
+##### 代理模式  
 代理模式中间人，比如法律上面的代理律师一样，最终用户不能直接访问我，通过我的代理访问我
 ```
     总接口
@@ -57,8 +62,73 @@
         }
     }
 ```
-3. 观察者模式
-`发布的订阅`的模式,`通知模型`的应用，设计模式中分 `subject`和`Observer`角色,`subject`中需要存放`observer`的信息list，然后再写一个通知方法
 
+##### 观察者模式
+
+`发布的订阅`的模式,`通知模型`的应用，设计模式中分 `subject`和`Observer`角色,`subject`中需要存放`observer`的信息list，然后再写一个通知方法  
+可参考： https://juejin.im/post/5c712ab56fb9a049a7127114#heading-4
+
+##### JDK事件机制  
+观察者模式的应用：这段代码从UserService和EventApp开始看 https://juejin.im/post/5dd284d1e51d45401f0781ef
+
+      public class User {
+          private String username;
+          private String password;
+          private String sms;
+          public User(String username, String password, String sms) {
+              this.username = username;
+              this.password = password;
+              this.sms = sms;
+          }  
+      }
+      public interface UserListener extends EventListener {
+          void onRegister(UserEvent event);
+      }
+      public class SendSmsListener implements UserListener {
+          @Override
+          public void onRegister(UserEvent event) {
+              if (event instanceof SendSmsEvent) {
+                  Object source = event.getSource();
+                  User user = (User) source;
+                  System.out.println("send sms to " + user.getUsername());
+              }
+          }
+      }
+      public class UserEvent extends EventObject {
+          public UserEvent(Object source){
+              super(source);
+          }
+      }
+      public class SendSmsEvent extends UserEvent {
+          public SendSmsEvent(Object source) {
+              super(source);
+          }
+      }
+      public class UserService {
+          private List<UserListener> listenerList = new ArrayList<>();
+          //当用户注册的时候，触发发送短信事件
+          public void register(User user){
+              System.out.println("name= " + user.getUsername() + " ,password= " + 
+                                            user.getPassword() + " ,注册成功");
+              publishEvent(new SendSmsEvent(user));
+          }
+          public void publishEvent(UserEvent event){
+              for(UserListener listener : listenerList){
+                  listener.onRegister(event);
+              }
+          }
+          public void addListeners(UserListener listener){
+              this.listenerList.add(listener);
+          }
+      }
+      public class EventApp {
+          public static void main(String[] args) {
+              UserService service = new UserService();
+              service.addListeners(new SendSmsListener());
+              //添加其他监听器 ...
+              User user = new User("foo", "123456", "注册成功啦！！");
+              service.register(user);
+          }
+      }
 
 
