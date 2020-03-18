@@ -16,8 +16,7 @@ Java 线程在运行的生命周期中的指定时刻只可能处于下面 6 种
 (超时等待)状态相当于在等待状态的基础上增加了超时限制，比如通过`sleep(long millis)`方法或`wait(long millis)`方法可以将java线程置于`Time waiting`状态，当超时时间到达后java线程将会返回`Ready(就绪)`状态,当线程调用同步方法时，在没有获得锁的情况下，线程将进入**BLOCKED**阻塞状态。 
 这张图更详细简单的描述了这个状态转换关系：
 ![Java 线程状态简要图 ](https://github.com/slientup/WorkGuide/blob/master/thread_status.png) 
-
-三种状态：
+三种大的状态：
 1. 就绪状态:READY
 2. 运行状态:RUNNING
 3. 阻塞状态:wait time_waiting blocked
