@@ -98,11 +98,10 @@ join方法含义： `当前线程`等该`加入该线程`后面，等待该线�
 3. 使用案例可参见上面的源码
 
 #### 总结
-- wait方法的作用：当前线程阻塞，并释放锁；而sleep方法：并不会释放锁       
+- `wait`方法的作用：当前线程阻塞，并释放锁；而sleep方法：并不会释放锁       
 - 所以wait通常被用于线程间交互/通信，sleep 通常被用于暂停执行，而不用于同步锁的场景    
-- synchronized 同步锁内可以没有wait notify通知方法，但一旦有wait notify方法的话，必须置于同步锁内；  
-- java底层通过Object的wait和notify/notify和synchronized实现线程之间的等待/通知机制，而Condition与Lock await signal配合也能完成等待通知机制
-，后者能做到更多事情，并发容器就使用后者来实现进程之间通信。  
+- `synchronized` 同步锁内可以没有`wait notify`通知方法，但一旦有`wait notify`方法的话，必须置于同步锁内；  
+- java底层通过Object的`wait和notify/notify和synchronized`实现线程之间的等待/通知机制，而**Condition与Lock await signal**配合也能完成等待通知机制，后者能做到更多事情，并发容器就使用后者来实现进程之间通信。  
 
 在实际使用中，我们更多使用的是**封装好的容器和线程池**之类的，但底层原理都是这些。
       
