@@ -3,7 +3,7 @@
   - [线程状态转换图V2](#线程状态转换图V2)
   - [wait和notify理解](#wait和notify理解)
   - [join方法](#join方法)
-  - [synchronized 关键字](#synchronized 关键字)
+  - [synchronized关键字](#synchronized关键字)
   - [总结](#总结)
 - [参考](#参考)
   
@@ -91,17 +91,17 @@ join方法含义： `当前线程`等该`加入该线程`后面，等待该线�
         }
     }
 
-#### synchronized 关键字
+#### synchronized关键字
 它包括两种用法：`synchronized 方法`和 `synchronized 块`
 1. synchronized 方法：通过在方法声明中加入 synchronized关键字来声明 synchronized 方法, 对象锁是this/当前clas的实例
 2. synchronized(this){} 能缩下同步的范围，锁对象也是this
 3. 使用案例可参见上面的源码
 
 #### 总结
-wait方法的作用：当前线程阻塞，并释放锁；而sleep方法：并不会释放锁       
-所以wait通常被用于线程间交互/通信，sleep 通常被用于暂停执行，而不用于同步锁的场景    
-synchronized 同步锁内可以没有wait notify通知方法，但一旦有wait notify方法的话，必须置于同步锁内；  
-java底层通过Object的wait和notify/notify和synchronized实现线程之间的等待/通知机制，而Condition与Lock await signal配合也能完成等待通知机制
+- wait方法的作用：当前线程阻塞，并释放锁；而sleep方法：并不会释放锁       
+- 所以wait通常被用于线程间交互/通信，sleep 通常被用于暂停执行，而不用于同步锁的场景    
+- synchronized 同步锁内可以没有wait notify通知方法，但一旦有wait notify方法的话，必须置于同步锁内；  
+- java底层通过Object的wait和notify/notify和synchronized实现线程之间的等待/通知机制，而Condition与Lock await signal配合也能完成等待通知机制
 ，后者能做到更多事情，并发容器就使用后者来实现进程之间通信。  
 
 在实际使用中，我们更多使用的是**封装好的容器和线程池**之类的，但底层原理都是这些。
