@@ -95,7 +95,8 @@ join方法含义： `当前线程`等该`加入该线程`后面，等待该线�
 它包括两种用法：`synchronized 方法`和 `synchronized 块`
 1. synchronized 方法：通过在方法声明中加入 synchronized关键字来声明 synchronized 方法, 对象锁是this/当前clas的实例
 2. synchronized(this){} 能缩下同步的范围，锁对象也是this
-3. 使用案例可参见上面的源码
+3. synchronized 关键字加到 `static` 静态方法和 `synchronized(class)`代码块上都是是给 `Class` 类上锁
+4. 使用案例可参见上面的源码
 
 #### 总结
 - `wait`方法的作用：当前线程阻塞，并释放锁；而sleep方法：并不会释放锁       
