@@ -46,11 +46,16 @@ wait方法会让当前的线程等待，直到其他线程调用这对象的noti
 4. 当调用`obj.notify/notifyAll`后，`调用线程`依然持有`obj`锁，因此，thread1、thread2和thread3虽然被唤醒，但是只有当这个线程释放锁后，他们
 才有机会获得该锁obj对象锁;  
 
+#### join方法  
+使用场景：**当一个线程必须等待另一个线程执行完毕才能执行时**  
+join方法含义： `当前线程`等该`加入该线程`后面，等待该线程终止。
+
 
 
 
 ### 参考
 - [wait和notify的理解与使用](https://blog.csdn.net/coding_1994/article/details/80634792)
+- [join方法](https://juejin.im/post/5b3054c66fb9a00e4d53ef75)
 
 
 
