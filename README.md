@@ -19,8 +19,8 @@
    
 
 ### java
-* [java高并发](docs/java/high_concurrency.md) 
-* [高并发内存模型](docs/java/java_memory_model.md)     
+#### [java高并发](docs/java/high_concurrency.md) 
+#### [高并发内存模型](docs/java/java_memory_model.md)     
 
 ### spring
 * [springboot常用功能](docs/spring/spring_funtion.md)
