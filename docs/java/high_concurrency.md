@@ -1,6 +1,7 @@
 - [多线程](#多线程)  
   - [线程的生命周期和状态](#线程的生命周期和状态)
   - [线程状态转换图V2](#线程状态转换图V2)
+  - [wait和notify理解](#wait和notify理解)
   
 
 ### 多线程
@@ -27,6 +28,24 @@ Java 线程在运行的生命周期中的指定时刻只可能处于下面 6 种
 - `wait`阻塞状态的线程**不能直接**进入`Ready就绪状态` ,`wait阻塞`状态必须要有`其他线程notifiy`才能唤醒该线程，该线程唤醒后会继续去争取同步锁，若未获取到锁就会进入到**BLOCKED**，只有获取到锁才能进入就绪状态。  
 - 若未获取到同步锁synchronized 当前线程就进入**BLOCKED**状态，获得锁后就可以进入就绪状态.  
 - 总结：`wait_waiting` `blcoked` 可直接进入`就绪状态`，而`wait状态`的线程不可直接进入。
+
+#### wait和notify理解  
+void notify()  Wakes up a `single thread` that is waiting on this `object’s` monitor.   
+唤醒在此对象监视器上等待的单个线程  
+void notifyAll() Wakes up `all threads` that are waiting on this object’s monitor.  
+唤醒在此对象监视器上等待的所有线程  
+void wait() Causes the current thread to wait until another thread invokes the notify() method or the notifyAll( ) method for this object.  
+wait方法会让当前的线程等待，直到其他线程调用这对象的notify( ) 方法或 notifyAll( ) 方法 
+重点解释：
+1. wait() notify() notifyAll()都不属于thread类，而是属于Object基础类，也就是每个对象都有这三种方法，当然每个对象都有锁。  
+2. 这三种方法必须要加锁，否则就会出现IllegalMonitorStateException异常;  
+3. wait() notify() notifyAll() 必须放到synchronized(obj)对象里，否则会出现IllegalMonitorStateException异常;  
+4. 假设有三个线程执行了obj.wait(),使用obj.notifyall会唤醒这三个线程，他们会去竞争锁，只有获得锁的线程才会执行obj.wait()的下一条语句，
+其余的依然等待;  
+5.当调用`obj.notify/notifyAll`后，`调用线程`依然持有`obj`锁，因此，thread1、thread2和thread3虽然被唤醒，但是只有当这个线程释放锁后，他们
+才有机会获得该锁obj对象锁;  
+
+
 
 
 
