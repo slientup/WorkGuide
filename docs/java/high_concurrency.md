@@ -40,7 +40,7 @@ void wait() Causes the current thread to wait until another thread invokes the n
 wait方法会让当前的线程等待，直到其他线程调用这对象的notify( ) 方法或 notifyAll( ) 方法 
 重点解释：
 1. `wait() notify() notifyAll()`都不属于thread类，而是属于`Object`基础类，也就是**每个对象都有这三种方法**，当然**每个对象都有锁**。  
-2. wait() notify() notifyAll() 必须放到**synchronized(obj)**对象里，否则会出现IllegalMonitorStateException异常;  
+2. wait() notify() notifyAll() 必须放到`synchronized(obj)`对象里，否则会出现`IllegalMonitorStateException`异常;  
 3. 假设有三个线程执行了obj.wait(),使用obj.notifyall会唤醒这三个线程，他们会去竞争锁，只有获得锁的线程才会执行obj.wait()的下一条语句，
 其余的依然等待;  
 4. 当调用`obj.notify/notifyAll`后，`调用线程`依然持有`obj`锁，因此，thread1、thread2和thread3虽然被唤醒，但是只有当这个线程释放锁后，他们
