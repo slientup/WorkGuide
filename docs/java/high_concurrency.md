@@ -18,12 +18,13 @@ Java 线程在运行的生命周期中的指定时刻只可能处于下面 6 种
 
 ![Java 线程状态简要图 ](https://github.com/slientup/WorkGuide/blob/master/thread_status.png)
 
-**三种大的状态**：1. 就绪状态:`READY` 2. 运行状态:`RUNNING` 3. 阻塞状态:`wait` `time_waiting` `blocked`
+**三种大的状态**  
+1. 就绪状态:`READY` 2. 运行状态:`RUNNING` 3. 阻塞状态:`wait` `time_waiting` `blocked`
 这三种阻塞状态的区别： 
-1. time_waitting状态在超时时间到达后**直接**进入`Ready就绪状态`    
-2. `wait`阻塞状态的线程**不能直接**进入`Ready就绪状态` ,`wait阻塞`状态必须要有`其他线程notifiy`才能唤醒该线程，该线程唤醒后会继续去争取同步锁，若未获取到锁就会进入到**BLOCKED**，只有获取到锁才能进入就绪状态。  
-3.若未获取到同步锁synchronized 当前线程就进入**BLOCKED**状态，获得锁后就可以进入就绪状态.  
-4.总结：`wait_waiting` `blcoked` 可直接进入`就绪状态`，而`wait状态`的线程不可直接进入。
+- time_waitting状态在超时时间到达后**直接**进入`Ready就绪状态`    
+- `wait`阻塞状态的线程**不能直接**进入`Ready就绪状态` ,`wait阻塞`状态必须要有`其他线程notifiy`才能唤醒该线程，该线程唤醒后会继续去争取同步锁，若未获取到锁就会进入到**BLOCKED**，只有获取到锁才能进入就绪状态。  
+- 若未获取到同步锁synchronized 当前线程就进入**BLOCKED**状态，获得锁后就可以进入就绪状态.  
+- 总结：`wait_waiting` `blcoked` 可直接进入`就绪状态`，而`wait状态`的线程不可直接进入。
 
 
 
