@@ -26,7 +26,11 @@ The following diagram illustrates the sketched situation. One thread running on 
 and changes its count variable to 2. This change is not visible to other threads running on the right CPU, because the update to count    
 has not been flushed back to main memory yet.  
 
-![jvm虚拟机模型] (http://tutorials.jenkov.com/images/java-concurrency/java-memory-model-6.png)
+![jvm虚拟机模型](http://tutorials.jenkov.com/images/java-concurrency/java-memory-model-6.png)
+
+参考链接：  
+http://tutorials.jenkov.com/java-concurrency/java-memory-model.html
+
 
 
 
