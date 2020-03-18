@@ -2,12 +2,13 @@
 ## 目录
 - [java](#java)  
     - [java高并发](#java高并发)
-    - [高并发内存模型](#高并发内存模型)
+    - [高并发内存模型](#高并发内存模型)  
+    
 - [spring](#spring)  
-    - [springboot常用功能](#springboot常用功能)
+    - [springboot常用功能](#springboot常用功能)  
 
 - [设计模式](#设计模式)  
-    - [常用设计模式](#常用设计模式)
+    - [常用设计模式](#常用设计模式)  
 - [工具](#工具)  
     - [Git](#Git)
     - [Markdown](https://github.com/slientup/README)
