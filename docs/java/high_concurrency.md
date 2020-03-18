@@ -48,8 +48,52 @@ wait方法会让当前的线程等待，直到其他线程调用这对象的noti
 
 #### join方法  
 使用场景：**当一个线程必须等待另一个线程执行完毕才能执行时**  
-join方法含义： `当前线程`等该`加入该线程`后面，等待该线程终止。
+join方法含义： `当前线程`等该`加入该线程`后面，等待该线程终止  
+**使用案例**：
 
+        for (int i = 0; i < 5; i++) {
+            MyThread thread = new MyThread();
+            //启动线程
+            thread.start();
+            try {
+                //调用join()方法
+                thread.join();   //主线程等待子线程结束后才继续往下执行
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("主线程执行完毕");
+**源码分析**：
+
+    阻塞当前线程,直接调用子线程结束才唤醒
+    public final synchronized void join(long millis) throws InterruptedException {
+           .....省略.....
+            if (millis == 0) {  //子线程或者就一直阻塞
+                while (isAlive()) { //判断子线程是否存活
+                    wait(0); //调用wait(0)方法
+                }
+            } 
+            .....省略.....
+            
+     void threadTerminated(Thread t) {   //在线程结束时，唤醒线程
+        synchronized (this) {
+            remove(t);                          //从线程组中删除此线程
+
+            if (nthreads == 0) {                //当线程组中线程数为0时
+                notifyAll();                    //唤醒所有待定中的线程
+            }
+            if (daemon && (nthreads == 0) &&
+                (nUnstartedThreads == 0) && (ngroups == 0))
+            {
+                destroy();
+            }
+        }
+    }
+
+ 
+  
+      
+
+        
 
 
 
