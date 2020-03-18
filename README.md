@@ -1,7 +1,7 @@
 ##  WorkGuide 记录与工作中相关的一切知识点
 ## 目录
 - [java](#java)  
-    - [java 高并发](#java 高并发)
+    - [java高并发](#java高并发)
 - [spring](#spring)  
     - [springboot常用功能](#springboot常用功能)
 
