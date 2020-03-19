@@ -72,7 +72,7 @@ spring mvc的long polling
 
 ### 监听事件
 在spring的生态系统中自定义一个事件，只需要三个步骤:   
-1. A Simple Application Event  定义事件
+**1. A Simple Application Event  定义事件**
 
         public class CustomSpringEvent extends ApplicationEvent {
             private String message;
@@ -86,7 +86,7 @@ spring mvc的long polling
             }
         }
         
-2. A Publisher  
+**2. A Publisher **
 事件发布
         @Component
         public class CustomSpringEventPublisher {
@@ -99,7 +99,7 @@ spring mvc的long polling
                 applicationEventPublisher.publishEvent(customSpringEvent); 
             }
         }
-3. A listener  
+** 3. A listener ** 
 定义监听器 即事件发布通知的对象 将事件发布给该方法处理  
 
                 @Component
