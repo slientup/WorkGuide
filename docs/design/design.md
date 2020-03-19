@@ -69,7 +69,7 @@
 `发布的订阅`的模式,`通知模型`的应用，设计模式中分 `subject`和`Observer`角色,`subject`中需要存放`observer`的信息list，然后再写一个通知方法  
 可参考： https://juejin.im/post/5c712ab56fb9a049a7127114#heading-4
 
-##### JDK事件机制  
+##### JDK事件
 观察者模式的应用：这段代码从UserService和EventApp开始看 https://juejin.im/post/5dd284d1e51d45401f0781ef
 
       public class User {
