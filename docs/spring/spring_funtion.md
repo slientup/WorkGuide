@@ -1,7 +1,8 @@
 ## spring boot 常用功能实现
 - [定时任务](#定时任务)
 - [异步](#异步)
-- [long polling](#long polling)
+- [longpolling](#longpolling)
+- [监听事件](#监听事件)
 - [参考链接](#参考链接)
 
 
@@ -62,14 +63,54 @@
                 System.out.println(future.get());   //获取返回结果
             }
         }
-### long polling 
+### longpolling 
 spring mvc的long polling  
 - `polling`：如果我想在两分钟内看到快递的变化，那么，轮询会每隔两分钟去像服务器发起一次快递变更的查询请求，如果快递其实是一个小时变更一次，那么-  polling的方式在获取一次真实有效信息时需要发起30次  
 - `long polling`：**首先发起查询请求，服务端没有更新的话就不回复，直到一个小时变更时才将结果返回给客户，然后客户发起下次查询请求**。长轮询保证了每次发起的查询请求都是有效的，**极大的减少了与服务端的交互**，基于web异步处理技术，大大的提升了服务性能.  
 #### 应用场景
 **发布订阅**的例子：配置中心服务，当配置中心的配置变更好，相关的客户端程序需要及时更新最新的配置。`disconf`就是基于`zookeeper的发布订阅`来做的，apollo就是采用的`DeferredResult`的`long polling`来做的，客户端发起长轮询，配置中心监听器监听到配置变更后，将结果响应给客户端.
 
+### 监听事件
+在spring的生态系统中自定义一个事件，只需要三个步骤:   
+1. A Simple Application Event  定义事件
 
+        public class CustomSpringEvent extends ApplicationEvent {
+            private String message;
+
+            public CustomSpringEvent(Object source, String message) {
+                super(source);
+                this.message = message;
+            }
+            public String getMessage() {
+                return message;
+            }
+        }
+        
+2. A Publisher  
+事件发布
+        @Component
+        public class CustomSpringEventPublisher {
+            @Autowired
+            private ApplicationEventPublisher applicationEventPublisher;
+
+            public void doStuffAndPublishAnEvent(final String message) {
+                System.out.println("Publishing custom event. ");
+                CustomSpringEvent customSpringEvent = new CustomSpringEvent(this, message);
+                applicationEventPublisher.publishEvent(customSpringEvent); 
+            }
+        }
+3. A listener  
+定义监听器 即事件发布通知的对象 将事件发布给该方法处理  
+
+                @Component
+                public class AnnotationDrivenContextStartedListener {
+                    // @Async
+                    @EventListener
+                    public void onCustomSpringEvent(CustomSpringEvent cse) {
+                        System.out.println("Handling context started event.");
+                    }
+                }
+参考链接：https://www.baeldung.com/spring-events#simple-application-event
 
 ### 参考链接
 -[使用@Async进行异步调用详解](https://juejin.im/post/5b27b8366fb9a00e46675879)  
