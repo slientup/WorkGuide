@@ -50,8 +50,8 @@ public void write(String key,Object data){
 （1）更新数据库数据；  
 （2）缓存因为种种问题删除失败  
 （3）将需要删除的key发送至消息队列 
-（4）自己消费消息，获得需要删除的key  
-（5）继续重试删除操作，直到成功  
+（4）自己消费消息，获得需要删除的key    
+（5）继续重试删除操作，直到成功    
 ![处理流程](https://img-blog.csdnimg.cn/20190701203347688.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Rpd2Vpa2FuZw==,size_16,color_FFFFFF,t_70)
 
 
