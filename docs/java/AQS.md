@@ -3,8 +3,7 @@
 
 参考链接 
    - 深入分析AQS实现原理  https://segmentfault.com/a/1190000017372067
-   - AQS 简单介绍和CountDownLatch （倒计时器）https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/Multithread/AQS.md#3-semaphore%E4%B
-   F%A1%E5%8F%B7%E9%87%8F-%E5%85%81%E8%AE%B8%E5%A4%9A%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE
+   - AQS 简单介绍和CountDownLatch （倒计时器）https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/Multithread/AQS.md#3semaphore%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%85%81%E8%AE%B%E5%A4%9A%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E8%AE%BF%E9%97%AE
   
 
 
@@ -31,10 +30,7 @@ public class Demo {
 
 AQS：AbstractQueuedSynchronizer  AQS依赖内部的FIFI双向队列，如果当前线程竞争锁失败，那么AQS会把当前线程以及等待状态信息构造成一个Node加入
 到同步队列中，同时再阻塞该线程，当获取锁的线程释放锁以后，会从队列中唤醒一个阻塞的节点(线程)
-![原理图](https://camo.githubusercontent.com/55090fdc22963d41a3e56d5dadb17dfa7ad6379f/68747470733a2f2f6d792d626c6f672d746f2d7573652
-e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f4a617661253230254537254138253842254535254241253846254535253931253938254535
-254246253835254535254134253837254546254243253941254535254239254236254535253846253931254537253946254135254538254146253836254537254233
-2542422545372542422539462545362538302542422545372542422539332f434c482e706e67)
+![原理图](https://camo.githubusercontent.com/55090fdc22963d41a3e56d5dadb17dfa7ad6379f/68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f4a6176612532302545372541382538422545352542412538462545352539312539382545352542462538352545352541342538372545462542432539412545352542392542362545352538462539312545372539462541352545382541462538362545372542332542422545372542422539462545362538302542422545372542422539332f434c482e706e67)
 
 从使用层面来说，AQS的功能分为两种：独占和共享  
 - 独占：只允许一个线程能获得锁   比如ReentrantLock  
@@ -47,11 +43,13 @@ e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f4a617661253230254537254
 
 ### CountDownLatch(倒计时器)
 CountDownLatch允许`count`个线程阻塞在一个地方，**直至所有线程的任务都执行完毕**   
-**运行原理**：CountDownLatch是共享锁的一种实现,它默认构造 AQS 的 `state` 值为 `count`。当线程使用countDown方法时,其实使用了tryReleaseShared      
-方法以CAS的操作来减少state,直至state为0就代表所有的线程都调用了`countDown`方法。当调用`await`方法的时候，如果state不为0，`就代表仍然有线程没有    
-调用countDown方法`，那么就把已经调用过countDown的线程都放入阻塞队列Park,并自旋CAS判断state == 0，直至最后一个线程调用了countDown，使得state    
-== 0，于是阻塞的线程便判断成功，全部往下执行。    
-CountDownLatch和CyclicBarrier非常像，应用场景也很类似，只是后者是`cycle`循环的，`count`计数可重复使用。  
+**运行原理**：CountDownLatch是共享锁的一种实现,它默认构造 AQS 的 `state` 值为 `count`。当线程使用countDown方法时,其实使用了tryReleaseShared  
+方法以CAS的操作来减少state,直至state为0就代表所有的线程都调用了`countDown`方法。当调用`await`方法的时候，如果state不为0，`就代表仍然有线程没有     
+调用countDown方法`，那么就把已经调用过countDown的线程都放入阻塞队列Park,并自旋CAS判断state == 0，直至最后一个线程调用了countDown，使得state      
+== 0，于是阻塞的线程便判断成功，全部往下执行。  
+
+`CountDownLatch`和`CyclicBarrier`非常像，应用场景也很类似，只是后者是`cycle`循环的，`count`计数可重复使用。
+
 **CountDownLatch两种典型运用场景**
 
 - **某一线程在开始运行前等待 n 个线程执行完毕**。将 CountDownLatch 的计数器初始化为 n ：new CountDownLatch(n)，每当一个任务线程执行完毕，就将计数器
