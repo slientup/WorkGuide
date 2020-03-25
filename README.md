@@ -4,6 +4,12 @@
     - [java高并发](#java高并发)
     - [高并发内存模型](#高并发内存模型)  
     
+- [其他](#其他) 
+  - [代码规范](#代码规范)
+  - [学习资料](#学习资料)
+   
+   
+  
 - [spring](#spring)  
     - [springboot常用功能](#springboot常用功能)  
 - [数据库](#数据库)  
@@ -17,11 +23,16 @@
     - [消息队列](#消息队列)
     - [zookeeper](#zookeeper)
     - [配置管理中心](#配置管理中心)
+    
    
-
 ### java
 #### [java高并发](docs/java/high_concurrency.md) 
 #### [高并发内存模型](docs/java/java_memory_model.md)     
+
+### 其他
+#### [代码规范](docs/other/code_standard.md) 
+#### [学习视频播客](https://snailclimb.gitee.io/javaguide/#/docs/questions/java-learning-website-blog)   
+
 
 ### spring
 * [springboot常用功能](docs/spring/spring_funtion.md)
