@@ -3,12 +3,13 @@
 - 一文搞懂 Docker 镜像的常用操作！ https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker-Image
 
 
-#### 工作中docker步骤：(如果hub中已有的镜像就不用这么dockerfile了)  
+#### 工作中docker创建：(如果hub中已有的镜像就不用这么dockerfile了)  
 1. 创建一个dockerfile容器文件(自己项目的一些基础步骤)    
 2. 通过该文件生成对应的镜像文件 docker image build -t  
 3. 配置对应的docker-compose.yaml文件   
 4. 启动容器 docker-compose up -d
-#### 容器迁移
+
+#### 容器迁移步骤
 1. 将该镜像文件上传到hub上  
 2. 其他机器从hub中下载文件  
 3. 启动容器 docker-compose up -d  
@@ -28,19 +29,19 @@
 ```
 2. docker image build -t    //生产镜像文件
 
-#### 测试环境模拟记录
+#### 测试环境模拟记录  基于dockerfile创建镜像并基于该镜像再次构造
 
-    [root@localhost docker]# `cat Dockerfile`  》》》 创建dockerfile文件
+    [root@localhost docker]# cat Dockerfile  》》》 创建dockerfile文件
     FROM nginx         # 基于nginx基础
     RUN mkdir -p /opt/django/    # 在这个基础上在镜像文件中添加目录
     
-    [root@localhost docker]# `docker build -t nginx:test`   》》创建镜像文件
+    [root@localhost docker]# docker build -t nginx:test   》》根据dockerfile创建镜像文件 在dockerfile目录下运行
     
-    [root@localhost docker]# `docker images`   》》查看镜像文件的ID号 
+    [root@localhost docker]# docker images   》》查看镜像文件的ID号 
     REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
     nginx_test          0.1                 97666d6131e2        8 minutes ago       127 MB
     
-    [root@localhost docker]# `docker run -it 97666d6131e2   /bin/bash`   》》 运行容器 并进入
+    [root@localhost docker]# docker run -it 97666d6131e2   /bin/bash   》》 运行容器 并进入
     root@f4384e31d51a:/# cat index.html   》》》 创建index.html文件
     test testdadfas
     
