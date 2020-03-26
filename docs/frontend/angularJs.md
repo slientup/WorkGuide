@@ -57,11 +57,10 @@ angular.module("App", [
 ```
 
 #### url中#的作用  
-`http://xxxx:9090/netmon/#/detail/Snmp%20failnack` 处理有先后顺序
-`第一步`：将`#`前面的 `http://xxxx:9090/netmon/` 发送给服务器处理
-`第二步`：再将`/detail/Snmp%20failnack` 发给angularjs处理
-参考链接：https://www.ruanyifeng.com/blog/2011/03/url_hash.html
-
+`http://xxxx:9090/netmon/#/detail/Snmp%20failnack` 处理有先后顺序    
+`第一步`：将`#`前面的 `http://xxxx:9090/netmon/` 发送给服务器处理     
+`第二步`：再将`/detail/Snmp%20failnack` 发给angularjs处理    
+参考链接：https://www.ruanyifeng.com/blog/2011/03/url_hash.html    
 
 ### 注意事项
 - AngularJs中有自己独立的标签，在该应用中需使用AngularJs独立的标签
