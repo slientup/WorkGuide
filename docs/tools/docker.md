@@ -3,11 +3,11 @@
 - 一文搞懂 Docker 镜像的常用操作！ https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker-Image
 
 
-#### 工作项目中工作中使用：(如果hub中已有的镜像就不用这么dockerfile了)  
-`第一步`： 创建一个dockerfile容器文件(自己项目的一些基础步骤)    
-`第二步`：通过该文件生成对应的镜像文件 docker image build -t  
-`第三步`：配置对应的docker-compose.yaml文件   
-`第四步`：启动容器 docker-compose up -d  
+#### 工作中docker步骤：(如果hub中已有的镜像就不用这么dockerfile了)  
+1. 创建一个dockerfile容器文件(自己项目的一些基础步骤)    
+2. 通过该文件生成对应的镜像文件 docker image build -t  
+3. 配置对应的docker-compose.yaml文件   
+4. 启动容器 docker-compose up -d
 #### 容器迁移
 1. 将该镜像文件上传到hub上  
 2. 其他机器从hub中下载文件  
@@ -28,7 +28,7 @@
 ```
 2. docker image build -t    //生产镜像文件
 
-#### 测试环境模拟 基于已有镜像创建容器
+#### 测试环境模拟记录
 
     [root@localhost docker]# `cat Dockerfile`  》》》 创建dockerfile文件
     FROM nginx         # 基于nginx基础
