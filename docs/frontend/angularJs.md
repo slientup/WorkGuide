@@ -28,7 +28,7 @@ app.controller('myCtrl', function($scope) {    //引入$scope变量 这样在htm
 ```
 
 ### AngularJS路由是一种纯前端的解决方案  
-他的本质是当请求一个url时，根据路由配置匹配这个url，然后请求模板片段，并插入到ui-view或者ng-view中去，其中模块的内容就是通过控制器来改变
+本质是当请求一个url时，根据路由配置匹配这个url，然后请求模板片段，并插入到`ui-view`或者`ng-view`中去，其中模块的内容就是通过控制器来改变
 
 1. 项目中的base.html  
 ```
@@ -76,6 +76,7 @@ angular.module("App", [
 - `ng-view`中嵌入的是路由变化后的返回页面 后期版本通过 `ui-view` 替换
 - url中的`#`是告诉浏览器的，#前面的发送配置给服务器，`#`后面的内容用于浏览器传给angularjs进行路由处理
 
-
+### 参考链接
+- [Angular简介](https://www.kancloud.cn/hzjlltj/angular/204152)
 
 
