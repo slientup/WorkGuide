@@ -24,7 +24,7 @@
     - [zookeeper](#zookeeper)
     - [配置管理中心](#配置管理中心)
 - [前端](#前端) 
-   - [消息队列](#angularJs)
+   - [angularJs](#angularJs)
    
 ### java
 #### [java高并发](docs/java/high_concurrency.md) 
