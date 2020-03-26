@@ -55,6 +55,14 @@ angular.module("App", [
 ```
    <li><a href="/erspan/#/erspan.html"><i class="oicon-target"></i>ERSPAN</a></li>   
 ```
+5. 模板返回的内容替换`ui-view`的位置
+```
+{% block body %}
+    <div ng-controller="AppCtrl">
+        <div ui-view></div>
+    </div>
+{% endblock %}
+```
 
 #### url中#的作用  
 `http://xxxx:9090/netmon/#/detail/Snmp%20failnack` 处理有先后顺序    
