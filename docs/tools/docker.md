@@ -29,7 +29,8 @@
 ```
 2. docker image build -t    //生产镜像文件
 
-#### 测试环境模拟记录  基于dockerfile创建镜像并基于该镜像再次构造
+#### 测试环境模拟记录  
+基于dockerfile创建镜像并基于该镜像再次构造
 
     [root@localhost docker]# cat Dockerfile  》》》 创建dockerfile文件
     FROM nginx         # 基于nginx基础
