@@ -1,0 +1,33 @@
+参考链接：
+- Docker 基本概念解读 https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker
+- 一文搞懂 Docker 镜像的常用操作！ https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker-Image
+
+
+#### 自己项目工作中使用：(如果hub中已有的镜像就不用这么dockerfile了)  
+`第一步`： 创建一个dockerfile容器文件(自己项目的一些基础步骤)    
+`第二步`：通过该文件生成对应的镜像文件 docker image build -t  
+`第三步`：配置对应的docker-compose.yaml文件   
+`第四步`：启动容器 docker-compose up -d  
+#### 容器迁移
+1. 将该镜像文件上传到hub上  
+2. 其他机器从hub中下载文件  
+3. 启动容器 docker-compose up -d  
+
+#### 相关案例  
+1. dockerfile文件的大体命令：  
+```
+  FROM docker.io/ubuntu:latest
+  LABEL version="1.0" maintainer="Allen <zxzeng@foxmail.com>"
+  # essential python  packages list
+  COPY ./requirements/  /opt/requirements/
+  RUN pip install -r /opt/requirements/requirements.txt
+  #  set env for db, mq, supervisor
+  ENV  NRDB_SERVICE_HOST  8.8.8.8
+  ENV  NRDB_SERVICE_USER  zxzeng
+  CMD ["/usr/bin/supervisord"]
+```
+2. docker image build -t    //生产镜像文件
+
+
+
+
