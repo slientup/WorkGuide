@@ -1,11 +1,11 @@
 ### 现在主流的前端是vue，但由于工作中老项目的原因，依然会维护angularJs
 
-### AngularJS主要作用能实现数据的动态刷新 最终都是html中的变量跟控制器中的变量做绑定
+`解决问题`：AngularJS主要作用能实现数据的动态刷新 最终都是html中的变量跟控制器中的变量做绑定
 
-### 常用指令
 
-### 核心指令  任何一个AngularJS都`必须拥有至少这三种元素`
+### 核心指令  
 
+任何一个AngularJS都`必须拥有至少这三种元素` 
 - `ng-app` 指令告诉 AngularJS，某个html元素下内容是AngularJS 应用程序 的"所有者"。  
 - `ng-controller` 用于定义一个控制器 该html元素下的变量跟ng-controller中的存在对应关系  
 - `Scope` 作用域就是提供应用在 `HTML (视图)` 和 `controller (控制器)`之间的`纽带`  
@@ -33,7 +33,8 @@ app.controller('myCtrl', function($scope) {    //引入$scope变量 这样在htm
 他的本质是当请求一个url时，根据路由配置匹配这个url，然后请求模板片段，并插入到ng-view中去，其中模块的内容就是通过控制器来改变
 
 1. 项目中的base.html  
-<html lang="en" ng-app="App">  //直接在html页面下就直接属于了angularJs  
+<html lang="en" ng-app="App">  //直接在html页面下就直接属于了angularJs 
+    
 2. 在App中的路由配置  
 ```
 angular.module("App", [
