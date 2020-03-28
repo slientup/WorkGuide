@@ -1,5 +1,8 @@
 ##  WorkGuide 记录与工作中相关的一切知识点
 ## 目录
+- [基础](#基础)
+  - [日志](#日志)
+  
 - [java](#java)  
     - [java高并发](#java高并发)
     - [高并发内存模型](#高并发内存模型)  
@@ -7,7 +10,6 @@
 - [其他](#其他) 
   - [代码规范](#代码规范)
   - [学习资料](#学习资料)
-   
    
   
 - [spring](#spring)  
@@ -26,7 +28,10 @@
     - [配置管理中心](#配置管理中心)
 - [前端](#前端) 
    - [angularJs](#angularJs)
-   
+ 
+### 基础
+#### 日志(#docs/basic/log.md)  
+
 ### java
 #### [java高并发](docs/java/high_concurrency.md) 
 #### [高并发内存模型](docs/java/java_memory_model.md)     
