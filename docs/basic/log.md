@@ -7,7 +7,8 @@
 简单的日志门面，`只提供了统一的日志使用接口`，没有具体的实现，具体的`实现日志系统`有`log4j` `logback`等      
 SLF4j由于只是一个接口，要实现日志功能，需要调用对应的实现日志系统，需要添加对应jar包。  
 - SLF4J和logback结合使用时需要提供的jar:slf4j-api.jar,logback-classic.jar,logback-core.jar  
-- SLF4J和log4j结合使用时需要提供的jar:slf4j-api.jar,slf4j-log412.jar,log4j.jar  
+- SLF4J和log4j结合使用时需要提供的jar:slf4j-api.jar,slf4j-log412.jar,log4j.jar
+  
 **注意，以上slf4j和各日志实现包结合使用时最好只使用一种结合，不然的话会提示重复绑定日志，并且会导致日志无法输出.**   
 
 slf4j-api.jar:对外提供统一的日志调用接口，该接口具体提供的调用方式和方法举例说明：   
@@ -31,7 +32,7 @@ public class Test {
 #### 总结
 1. slf4j是java的一个日志门面，实现了日志框架一些通用的api，log4j和logback是具体的日志框架  
 2. 他们可以单独的使用，也可以绑定slf4j一起使用
-#### 推荐方案
+#### 推荐方案(也是阿里巴巴推荐的方案)
 `slf4j`+`logback` 不用log4j 为什么要使用SLF4J?   
 - slf4j是一个日志接口，自己没有具体实现日志系统，只提供了一组标准的调用api,这样将调用和具体的日志实现分离，使用slf4j后有利于根据自己实际的需求
 更换具体的日志系统，比如，之前使用的具体的日志系统为log4j,想更换为logback时，只需要删除log4j相关的jar,然后加入logback相关的jar和日志配置文件即可，
