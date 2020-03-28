@@ -54,7 +54,7 @@ Junit是java中的最小单元的测试，程序中最小单元是方法，单�
 ![测试用例](https://pics1.baidu.com/feed/d009b3de9c82d158436c798bed5b8eddbd3e42f0.jpeg?token=c2525a1b12b71981ce1660c1ced583d8&s=3281B14CD2BEB66E5AECCC0B0000A0C10)
 ![测试结果](https://pics1.baidu.com/feed/00e93901213fb80e76792d585780b82bb838946f.jpeg?token=39f79bfb6d385c94f8d690a9a0d13f0a&s=3A84A14CFAE2F7744E45440F0000F0C0)
 #### 参考链接
--[使用JUnit进行单元测试](https://www.jianshu.com/p/a3fa5d208c93)
--[junit单元测试详解](https://baijiahao.baidu.com/s?id=1647361249282882030&wfr=spider&for=pc)
+- [使用JUnit进行单元测试](https://www.jianshu.com/p/a3fa5d208c93)
+- [junit单元测试详解](https://baijiahao.baidu.com/s?id=1647361249282882030&wfr=spider&for=pc)
 
 
