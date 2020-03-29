@@ -30,7 +30,8 @@
    - [angularJs](#angularJs)
 - [开源项目](#开源项目) 
    - [github不错的开源项目](#github不错的开源项目)   
- 
+- [面试](#面试) 
+   - [大厂面试题](#大厂面试题)    
 ### 基础
 #### [日志](docs/basic/log.md)  
 
@@ -77,9 +78,9 @@
 * [angularJs](docs/frontend/angularJs.md)
 
 #### 开源项目
-* [github不错的开源项目](#docs/openSource/Java_Python.md)
+* [github不错的开源项目](docs/openSource/Java_Python.md)
 #### 面试
-* [大厂面试题](#docs/interview/interview.md)
+* [大厂面试题](docs/interview/interview.md)
 
 
     
