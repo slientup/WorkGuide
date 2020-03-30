@@ -11,11 +11,11 @@
 
 ### RabbitMq
 #### 常用命令
-- service rabbitmq-server start 启动服务
-- chkconfig rabbitmq-server on  开机启动
-- service rabbitmq-server status 查看服务状态
-- rabbitmq-plugins enable rabbitmq_management  开启web管理插件
-- rabbitmqctl 是rabbitmq的管理工具命令
+- `service rabbitmq-server start` 启动服务
+- `chkconfig rabbitmq-server on`  开机启动
+- `service rabbitmq-server status` 查看服务状态
+- `rabbitmq-plugins enable rabbitmq_management`  开启web管理插件
+- `rabbitmqctl` 是rabbitmq的管理工具命令
 #### Erlang节点和Erlang应用程序
 rabbitmq依赖于Erlang 在Erlang中节点和应用程序的区别：就好比jvm和java程序的区别 应用程序必须运行在节点之上，只有`同时都在才能运行`  
 - rabbitmqctl stop 关闭节点和应用
