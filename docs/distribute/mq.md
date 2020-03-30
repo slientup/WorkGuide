@@ -1,5 +1,6 @@
 
 - [RabbitMq](#RabbitMq)
+   - [常用命令](#常用命令)
 - [Kafka](#Kafka)
 - [两者对比](#两者对比)
     - [架构模型](#架构模型)
@@ -9,9 +10,19 @@
 - [参考链接](#参考链接)  
 
 ### RabbitMq
-待写.....
+#### 常用命令
+- service rabbitmq-server start 启动服务
+- chkconfig rabbitmq-server on  开机启动
+- service rabbitmq-server status 查看服务状态
+- rabbitmq-plugins enable rabbitmq_management  开启web管理插件
+- rabbitmqctl 是rabbitmq的管理工具命令
+#### Erlang节点和Erlang应用程序
+rabbitmq依赖于Erlang 在Erlang中节点和应用程序的区别：就好比jvm和java程序的区别 应用程序必须运行在节点之上，只有`同时都在才能运行`  
+- rabbitmqctl stop 关闭节点和应用
+- rabbitmqctl stop_app 只关闭节点
+在实际应用中，主要使用rabbitmqctl stop/start就ok了
 
-### Kafka
+### Kafka 
 待写.....
 
 ### 两者对比
