@@ -1,6 +1,7 @@
 #### 参考链接：
 - [Docker 基本概念解读](https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker)
 - [一文搞懂 Docker 镜像的常用操作](https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker-Image)
+- [centos安装docker-ce](https://blog.csdn.net/qq_25760623/article/details/88657491)
 
 
 #### 工作中docker创建：(如果hub中已有的镜像就不用这么dockerfile了)  
