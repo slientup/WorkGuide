@@ -62,13 +62,8 @@
 * [Git入门](docs/tools/Git.md)
 * [docker](docs/tools/docker.md)
 ### 分布式
-
-#### 消息队列
 * [消息队列](docs/distribute/mq.md)
-
-#### 配置管理中心
 * [配置管理中心](docs/distribute/configmanagement.md)
-#### zookeeper
 * [zookeeper](docs/distribute/zookeeper.md)
 
 ### 微服务
