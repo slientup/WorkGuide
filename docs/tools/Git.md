@@ -21,7 +21,8 @@ Git是一个分布式版本控制系统。
 #### 回退版本  
    - 回退到当前版本 git reset --hard `head`  **高频**  
    - 回退到上一个版本 git reset --hard `head^`   **高频**  
-   - 回退到任意版本  git reset --hard `版本提交号`    
+   - 回退到任意版本  git reset --hard `版本提交号` 
+   - 查看所有版本提交历史(包括已回滚和reset的)  git relog  常常用于返回到最高版本 
 #### 远程仓库  
    - 查看当前的远程仓库 git remote -v 
    - 删除远程仓库 git remote `rm` origin    
