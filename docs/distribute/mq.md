@@ -1,5 +1,5 @@
 
-- [RabbitMq](#RabbitMq)
+- [RabbitMQ](#RabbitMQ)
    - [常用命令](#常用命令)
 - [Kafka](#Kafka)
 - [两者对比](#两者对比)
