@@ -50,6 +50,7 @@ rabbitmq依赖于Erlang 在Erlang中节点和应用程序的区别：就好比jv
 
 ### 参考链接
 - [RabbitMQ和Kafka的区别](https://www.cnblogs.com/iiwen/p/10195293.html)
+- [rabbitmq简介](https://snailclimb.gitee.io/javaguide/#/docs/system-design/data-communication/rabbitmq)
 
 
 
