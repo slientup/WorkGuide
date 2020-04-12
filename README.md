@@ -60,6 +60,7 @@
 
 * [Git入门](docs/tools/Git.md)
 * [docker](docs/tools/docker.md)
+* [k8s入门](docs/tools/k8s.md)
 ### 分布式
 * [消息队列](docs/distribute/mq.md)
 * [配置管理中心](docs/distribute/configmanagement.md)
