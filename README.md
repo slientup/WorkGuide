@@ -20,6 +20,7 @@
     - [Git](#Git)
     - [Markdown](https://github.com/slientup/README)
     - [docker](#docker)
+    - [k8s](#k8s)
 - [分布式](#分布式)  
     - [消息队列RabbitMQ和Kafka](#消息队列)
     - [zookeeper](#zookeeper)
