@@ -1,8 +1,9 @@
--[python](#python)
--[java](#java)
--[linux](#linux)
+- [python](#python)
+   
+- [java](#java)
+- [linux](#linux)
 ### python
-#### nat_remote_collector采集器`10天`左右 cpu就`100%`
+#### 故障一:nat_remote_collector采集器`10天`左右 cpu就`100%`
 **可能性分析**：这段程序通过`多进程`+`多线程`的方式采集，怀疑线程未释放掉
 **排障记录**：
 - `top`命令查看python进程cpu非常高
