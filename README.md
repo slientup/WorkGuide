@@ -82,6 +82,7 @@
 * [大白话入门 Spring Cloud](https://snailclimb.gitee.io/javaguide/#/docs/system-design/micro-service/spring-cloud)
 * [一次性讲明白Spring Cloud核心组件](https://mp.weixin.qq.com/s/UNm8cBw4TKq4OobVKHUBXA)
 * [大白话讲API网关](https://www.sohu.com/a/341757994_463994)
+* [常用限流算法](docs/microServer/limit_speed.md)
 
 #### 前端
 * [angularJs](docs/frontend/angularJs.md)
