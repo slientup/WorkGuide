@@ -81,6 +81,7 @@
 ### 微服务
 * [大白话入门 Spring Cloud](https://snailclimb.gitee.io/javaguide/#/docs/system-design/micro-service/spring-cloud)
 * [一次性讲明白Spring Cloud核心组件](https://mp.weixin.qq.com/s/UNm8cBw4TKq4OobVKHUBXA)
+* [API网关](https://www.sohu.com/a/341757994_463994)
 
 #### 前端
 * [angularJs](docs/frontend/angularJs.md)
