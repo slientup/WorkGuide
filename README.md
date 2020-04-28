@@ -65,6 +65,7 @@
 #### Git
 
 * [Git入门](docs/tools/Git.md)
+* [maven入门](https://github.com/slientup/maven-learning-notes/blob/master/README.md)
 * [docker](docs/tools/docker.md)
 * [k8s入门](docs/tools/k8s.md)
 ### 分布式
