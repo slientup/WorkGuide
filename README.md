@@ -95,6 +95,7 @@
 #### 面试
 * [大厂面试题interview_internal_reference](https://github.com/0voice/interview_internal_reference)  
   2019年最新总结，阿里，腾讯，百度，美团，头条等技术面试题目，以及答案，专家出题人分析汇总
+* [interview_python](https://github.com/slientup/interview_python)
   
 #### python
 * [python异步编程的演进之路](https://github.com/slientup/Python_Common/blob/master/Concurrence/readme.md)
