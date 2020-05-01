@@ -98,6 +98,9 @@
 #### python
 * [python异步编程的演进之路](https://github.com/slientup/Python_Common/blob/master/Concurrence/readme.md)
 
+#### 读书笔记
+* [spring cloud微服务实战](docs/books/spring_cloud.md)
+
 #### 故障记录
 
   
