@@ -50,6 +50,86 @@ spring boot应用中监控应用性能非常全面的模块 提供了各类api�
 - /trace
 
 
+API 网关服务：spring cloud zuul
+---- 
+API 网关服务是分布式系统对外提供服务的统一入口，而这个统一入口可以做很多事情，与实际业务无关的事情都可以交给网关来做，比如**验证授权限流负载均衡等**
+
+#### 路由中的路径匹配
+通配符   说明
+？       匹配任意单个字符    /user-service/?   匹配 /user-servcie/a  /user-servcie/b  但不匹配/user-servcie/ab
+*        匹配任意数量的字符  /user-service/*   匹配 /user-servcie/ab  /user-servcie/abc  但不匹配/user-servcie/a/b
+**       匹配任意数量的字符 支持多级目录 /user-service/** 除了匹配上面的，还能匹配/user-servcie/a/b
+
+#### 服务路由规则
+```
+zuul.routes.service-order=/order/**
+zuul.routes.service-order.serviceId=order
+```
+对于这种规则性的配置默认zuul已经配置好
+
+#### Hystrix和Ribbon支持
+Zuul默认就对这两个特性支持，前提是使用的`path和serviceId`的组合来进行配置
+
+#### 过滤器详解
+zuul主要提供两个功能路由和过滤，而实际在实现中都是通过过滤器来实现，zuul提供一个很长的过滤器的链路，而我们可以通过对过滤器自定义来实现pre或者post后的处理逻辑；
+过滤器主要由四部分构成，过滤类型，执行顺序，执行条件，具体操作 
+```
+String filterType();
+int filterOrder();   通过int值来定义过滤器的执行顺序
+boolean shouldFilter();  返回一个boolean类型来判断该过滤器是否要执行
+Object run();   具体执行内容
+```
+过滤类型决定了执行的阶段：
+- `pre`：可以在请求被路由之前调用
+- `route`：在路由请求时候被调用
+- `post`：在route和error过滤器之后被调用
+- `error`：处理请求时发生错误时被调用
+
+#### 请求生命周期
+![请求生命周期](!https://img-blog.csdn.net/20170111153538629?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGFoYTcyODk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+
+
+
+ 消息流 spring cloud stream
+---- 
+spring cloud stream组件就是解决跟消息队列等中间件打交道，如kafka、rabbitmq，spring cloud stream对其做了一层封装，使我们能方便与中间件通信
+
+
+ 分布式服务链路跟踪 spring cloud sleuth
+---- 
+在分布式系统中，前端任何一个操作都会形成一条复杂的调用链路，这条链路过程中会出现依赖的某个服务延迟过高或者错误，而**全链路跟踪sleuth就是跟踪一条
+请求的调用链路，以及对应的延时信息**
+
+跟踪链路主要有如下四个字段        
+- 当前应用名称  
+- 当前请求链路id  **在一次服务请求链中会保持并传递同一个traceid**  
+- 基本的工作单元id 可用于统计延时信息  
+- 布尔型 是否输出到zipkin等外部收集器中  
+
+日志的格式为：[application name, traceId, spanId, export]      
+`application name` — 应用的名称，也就是application.properties中的spring.application.name参数配置的属性。  
+`traceId` — 为一个请求分配的ID号，用来标识一条请求链路。  
+`spanId` — 表示一个基本的工作单元，一个请求可以包含多个步骤，每个步骤都拥有自己的spanId。一个请求包含一个TraceId，多个SpanId  
+`export` — 布尔类型。表示是否要将该信息输出到类似Zipkin这样的聚合器进行收集和展示。   
+
+在日志输出的时候增加这四个字段信息，日志举例如下:
+2018-04-16 16:35:55.161  INFO [**Sleuth Tutorial,0afe3e67168fce4f,0afe3e67168fce4f,false**] 5968 --- [nio-8080-execc.p.spring.cloud.sleuth.SleuthService    : Doing some work
+
+**跟踪原理：**
+
+为了实现请求跟踪，当请求发送到分布式系统的入口端点时，只需要服务跟踪框架为该请求创建一个唯一的跟踪标识，**同时在分布式系统内部流转的时候，框架始终保持传递该唯一标识，直到返回给请求方为止**，这个唯一标识就是前文中提到的Trace ID。通过Trace ID的记录，我们就能将所有请求过程日志关联起来。
+
+为了统计各处理单元的时间延迟，当请求达到各个服务组件时，或是处理逻辑到达某个状态时，也通过一个唯一标识来标记它的开始、具体过程以及结束，该标识就是我们前文中提到的Span ID，对于每个Span来说，**它必须有开始和结束两个节点，通过记录开始Span和结束Span的时间戳，就能统计出该Span的时间延迟**，除了时间戳记录之外，它还可以包含一些其他元数据，比如：事件名称、请求信息等
+
+**与logstash整合**
+spring boot 与elk对接的时候，可以只与logstash对接就行，在配置文件中增加对logstash的`appender`就可以
+
+**与Zipkin整合**
+
+能提供对各个阶段的延时关注，更细致
+
+
 
 
 
