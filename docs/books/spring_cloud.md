@@ -49,8 +49,47 @@ spring boot应用中监控应用性能非常全面的模块 提供了各类api�
 - /dump
 - /trace
 
+三 服务治理：spring cloud Eureka
+---- 
+服务治理主要解决的是服务注册和服务发现，而Eureka-server就是分布式中所有服务的管理者；
 
-API 网关服务：spring cloud zuul
+#### 高可用注册中心
+Eureka-server的高可用实际上就是将自己作为服务向其他服务注册中心注册自己
+
+#### 服务治理机制的原理
+[服务治理机制](https://www.jianshu.com/p/5f732dbe05c0)
+
+四 负载均衡器：spring cloud Ribbon
+---- 
+负载均衡器的核心在于负载均衡算法
+当Ribbon与Eureka结合使用的时候，serviceList的维护机制会交给服务治理框架来维护
+
+#### 重试机制
+spring cloud Eureka的实现服务治理机制强调了CAP中的AP，即可用性和可靠性，它与zookeeper这类强调CP(一致性、可靠性)的最大区别是，为了实现服务的高可用性，牺牲了一定的一致性，在极端情况下它宁愿接受故障实例也不愿丢弃健康实例，比如当服务注册中心的网络发生故障断开时，由于所有的服务实例无法维持心跳，在强调ap的分布式中Eureka则会因为超过85%的实例丢失心跳而触发保护机制，注册中心将会保留此时的所有节点，以实现服务间依然可以进行互相调用的场景，即使其中有部分故障节点，但这样做可以继续保障大多数服务的正常消费
+
+再加上服务剔除的延时，客户端都有必要做**容错机制**
+
+五 服务容错保护：spring cloud Hystrix
+---- 
+在微服务架构中，存在那么多的服务单元，若一个单元出现故障，就很容易因依赖关系而引发故障的蔓延，从而导致整个系统的瘫痪，而断路器通过降级 熔断 限流等措施实现降服务来保护其他不受影响的服务单位。
+
+断路器工作原理：https://www.jianshu.com/p/664bc13227fc   https://blog.csdn.net/hzygcs/article/details/87280213
+![断路器工作流程](https://upload-images.jianshu.io/upload_images/3977236-1f6756eb09538b21.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
+
+**依赖隔离** 通过实现对依赖服务的线程池隔离，实现依赖服务之间的相互隔离
+
+**threadPool属性** 线程池属性可以设置对应的线程池大小 队列大小等参数
+
+**Hystrix仪表盘** 对Hystrix请求的度量指标的dashboard
+
+六 声明式服务调用：spring cloud Feign
+---- 
+spring cloud Hystrix和spring cloud Ribbon总是成对出现，于是`feign`就对其进行了整合，且还提供了一种声明式的web服务客户端的请求，对restTemplate
+又一层封装。
+默认情况下，feign的所有方法都封装到Hystrix命令中进行服务保护
+
+
+七 API 网关服务：spring cloud zuul
 ---- 
 API 网关服务是分布式系统对外提供服务的统一入口，而这个统一入口可以做很多事情，与实际业务无关的事情都可以交给网关来做，比如**验证授权限流负载均衡等**
 API 网关的核心在于过滤链
@@ -94,14 +133,22 @@ Object run();   具体执行内容
 核心过滤器是zuul内置的过滤器，当某个请求到达该zuul的时候就会经过这些`核心过滤器链和自定义的过滤器`
 ![核心过滤器](https://github.com/slientup/WorkGuide/blob/master/zuul-filter-core.png)
 
+#### 动态加载
+生产业务能不重启应用就不要重启，尤其是API网关对外提供统一的入口，一旦重启就影响服务中断，所以`动态加载`很重要
+**动态路由**  
+路由是写到配置文件中的，所以动态路由的更新可以通过配置中心管理来实现
+**动态过滤器**
+这一部分是要更改代码的，要想实现动态更新，需要利用jvm的动态类加载，比如通过`Groovy`来实现动态加载
 
 
- 消息流 spring cloud stream
+
+
+八 消息流 spring cloud stream
 ---- 
 spring cloud stream组件就是解决跟消息队列等中间件打交道，如kafka、rabbitmq，spring cloud stream对其做了一层封装，使我们能方便与中间件通信
 
 
- 分布式服务链路跟踪 spring cloud sleuth
+九 分布式服务链路跟踪 spring cloud sleuth
 ---- 
 在分布式系统中，前端任何一个操作都会形成一条复杂的调用链路，这条链路过程中会出现依赖的某个服务延迟过高或者错误，而**全链路跟踪sleuth就是跟踪一条
 请求的调用链路，以及对应的延时信息**
