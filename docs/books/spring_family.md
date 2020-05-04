@@ -54,4 +54,39 @@ Hibernate 和 Mybatis 都是ORM的实现
 
 JPA是规范，Hibernate是JPA的一种实现，Spring Data JPA（对hibernate又做了一层抽象）可以帮助大家更方便地使用JPA，它底层用了Hibernate。
 Hibernate替我们做了ORM的工作，简单的场景中，你并不需要手写SQL。   
-MyBatis跟JPA没什么关系，对于不怎么复杂的项目，我觉得JPA（也就是Hibernate）更简单点。MyBatis对底层SQL的把控度更强一点，更有利于DBA对SQL做优化。  
+
+MyBatis跟JPA没什么关系，对于不怎么复杂的项目，我觉得JPA（也就是Hibernate）更简单点。MyBatis对底层SQL的把控度更强一点，更有利于DBA对SQL做优化。
+所以大厂更偏向mybatis
+
+源码学习 Spring Data JPA的Repository是怎么从接口变成Bean的
+SimpleJpaRepository里面就定义了简单的sql查询方法
+
+**让mybatis更好用的工具 MyBatis Generator**
+该工具自动生成mapper xml model 等代码
+项目中如果存在手写和生成的mapper，建议分开放置，分开放能够很好的支持后期的维护，而且自动生成的不建议再修改
+自动生成的都是单表的CRUD，join的你只能靠自己
+
+**让mybatis更好用的工具 MyBatis PageHelper**
+顾名思义该工具目的就是用来做分页的插件
+
+**让mybatis更好用的工具 MyBatis-Plus**
+
+Spring Boot针对数据源可以做初始化，默认是针对内嵌数据源**自动执行schema.sql和data.sql**，这个也可以配置为always，一直执行。spring.datasource.initialization-mode=always
+
+Spring Boot + H2 database数据库
+
+三 NoSQL
+----
+docker 的好处 在开发的人眼中 可快速搭建开发中工具 如mongodb redis
+windows 安装docker 操作步骤 https://mp.weixin.qq.com/s?__biz=Mzg3MzAyODY2Nw==&mid=100000009&idx=1&sn=bcb5680973c15835be0abd50f4d290ff&chksm=4ee70c5d7990854bdcfca932d05aab2ba17acec4ef3224e29a593fcdcadd1981154638c3fad4#rd
+
+#### mongodb的操作
+支持两种方式
+- `Template`  能做各式各样的操作，比较灵活，但什么都得自己写 累啊 
+- `Repository` 则更符合DDD里数据仓库的习惯，做了很好的封装，用起来比较方便，更符合我们的操作系统 但非常复杂的需要用Template来实现
+
+
+
+
+
+
