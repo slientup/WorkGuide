@@ -43,3 +43,15 @@ HikariCP的优点就是特别快，spring 2.0开始默认就是HikariCP的数据
  **解禁所有 Endpoint**   
  • application.properties / application.yml  
  • management.endpoints.web.exposure.include=*   
+
+假设你的多租户是B端的商户，一般商户也会分小商户、中型商户和大商户，小商户大家可以共用一套表，中型的自己独占一套，大商户自己还需要分库分表。可以通过中间件配合路由表来实现。系统里只要保证每次操作数据库都带上商户号，剩下的交给中间件就好了
+
+druid 支持slow query 日志 在配置文件中开启就可以
+
+二 ORM
+----
+Hibernate 和 Mybatis 都是ORM的实现
+
+JPA是规范，Hibernate是JPA的一种实现，Spring Data JPA（对hibernate又做了一层抽象）可以帮助大家更方便地使用JPA，它底层用了Hibernate。
+Hibernate替我们做了ORM的工作，简单的场景中，你并不需要手写SQL。   
+MyBatis跟JPA没什么关系，对于不怎么复杂的项目，我觉得JPA（也就是Hibernate）更简单点。MyBatis对底层SQL的把控度更强一点，更有利于DBA对SQL做优化。  
