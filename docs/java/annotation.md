@@ -1,6 +1,6 @@
 # java注解
-[java中自定义注解](https://www.cnblogs.com/Lyn4ever/p/11594533.html)
-[java注解视频](https://www.bilibili.com/video/BV1Vt411g7RP?from=search&seid=4689814467860577055)
+- [java中自定义注解](https://www.cnblogs.com/Lyn4ever/p/11594533.html)
+- [java注解视频](https://www.bilibili.com/video/BV1Vt411g7RP?from=search&seid=4689814467860577055)
 
 当我们在某个类中引入注解的时候，它与当前类的关系是什么啦？它是如何起到相关的作用啦？  
 当前类与注解之间的关系，是通过**反射**来关联起来的，只是这些繁琐的代码被对应的框架来实现了，如spring框架
