@@ -88,6 +88,12 @@ repository相对封装地更多一些，用起来更方便，xxxTemplate这套�
 
 mysql和mongodb各有适用领域，mongodb查询效率高，更适合海量数据
 
+#### redis的操作
+spring data redis
+- 支持客户端Jedis / lettuce
+- redisTemplate
+- Repository支持
+
 
 
 
