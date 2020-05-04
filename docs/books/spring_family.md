@@ -84,7 +84,9 @@ windows 安装docker 操作步骤 https://mp.weixin.qq.com/s?__biz=Mzg3MzAyODY2N
 支持两种方式
 - `Template`  能做各式各样的操作，比较灵活，但什么都得自己写 累啊 
 - `Repository` 则更符合DDD里数据仓库的习惯，做了很好的封装，用起来比较方便，更符合我们的操作系统 但非常复杂的需要用Template来实现
+repository相对封装地更多一些，用起来更方便，xxxTemplate这套给你更大的灵活度，如果是普通的场景里用用repository就够了
 
+mysql和mongodb各有适用领域，mongodb查询效率高，更适合海量数据
 
 
 
