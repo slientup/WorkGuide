@@ -44,9 +44,9 @@
 
 ### java
 #### [java注解](docs/java/annotation.md) 
-#### [java高并发](docs/java/high_concurrency.md) 
+#### [java高并发](docs/java/high_concurrency.md)
 #### [高并发内存模型](docs/java/java_memory_model.md)     
-
+#### [AQS](docs/java/AQS.md) 
 ### 其他
 #### [代码规范](docs/other/code_standard.md) 
 #### [学习视频播客](https://snailclimb.gitee.io/javaguide/#/docs/questions/java-learning-website-blog)   
@@ -57,7 +57,7 @@
 
 ### 数据库
 #### redis
-1. -[Redis与数据库一致性问题](docs/db/redis_consistency.md)
+1. [Redis与数据库一致性问题](docs/db/redis_consistency.md)
 
 ### 设计模式
 * [常用设计模式](docs/design/design.md)
