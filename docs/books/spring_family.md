@@ -18,28 +18,28 @@ HikariCP的优点就是特别快，spring 2.0开始默认就是HikariCP的数据
  
 
 #### 常用注解   
-Java Config 相关注解
-• @Configuration
-• @ImportResource
-• @ComponentScan
-• @Bean
-• @ConfigurationProperties 
-定义相关注解
-• @Component / @Repository 数据库访问层/ @Service
-• @Controller / @RestController(ResposeBody+Controller)
-• @RequestMapping
-注⼊相关注解   **优先使用Autowired注解 引入接口或者类有多个的时候，再使用Qualifier指定具体的名字**
-• @Autowired / @Qualifier（指定名字） / @Resource
-• @Value（注入常量）
+**Java Config 相关注解**  
+- @Configuration
+- @ImportResource
+- @ComponentScan
+- @Bean
+- @ConfigurationProperties 
+**定义相关注解**  
+- @Component / @Repository 数据库访问层/ @Service
+- @Controller / @RestController(ResposeBody+Controller)
+- @RequestMapping
+
+**注⼊相关注解   **优先使用Autowired注解 引入接口或者类有多个的时候，再使用Qualifier指定具体的名字**  
+- @Autowired / @Qualifier（指定名字） / @Resource
+- @Value（注入常量）
 [@Autowired注解与@Qualifier注解搭配使用](https://www.cnblogs.com/hjw-zq/p/10626347.html)
     
 #### 如何解禁 Endpoint
- /actuator/health 健康检查
- /actuator/beans 查看容器中的所有 Bean
- /actuator/mappings 查看 Web 的 URL 映射
- /actuator/env 查看环境信息)
- 默认
- • /actuator/health 和 /actuator/info 可 Web 访问
- **解禁所有 Endpoint**
- • application.properties / application.yml
- • management.endpoints.web.exposure.include=* 
+ /actuator/health 健康检查  
+ /actuator/beans 查看容器中的所有 Bean  
+ /actuator/mappings 查看 Web 的 URL 映射  
+ /actuator/env 查看环境信息)  
+ 默认 actuator/health 和 /actuator/info 可 Web 访问   
+ **解禁所有 Endpoint**   
+ • application.properties / application.yml  
+ • management.endpoints.web.exposure.include=*   
