@@ -128,6 +128,8 @@ Spring的缓存抽象是将方法的执行结果缓存起来，而客户端或�
 **我们怎么向容器中放入我们需要的对象呢?**
 在spring中就是由**ApplicationContext应用上下文**来实现  将你需spring帮你管理的对象放入容器的一种对象.可以理解为spring容器抽象的一种实现
 
+我们常见的ApplicationContext本质上说就是一个维护Bean定义以及对象之间协作关系的高级接口  还记得最开始写spring框架的时候用的上下文加载bean
+
 
 
 
