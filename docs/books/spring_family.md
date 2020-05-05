@@ -111,7 +111,9 @@ Spring的缓存抽象是将方法的执行结果缓存起来，而客户端或�
 四 Reactor 
 ----
 响应式编程参考链接: https://www.ibm.com/developerworks/cn/java/j-cn-with-reactor-response-encode/index.html
-响应式编程通过`推送的模式`，rabbitmq消息队列中的推送方式来实现自动更新，而不是`拉的方式`。
+响应式编程 bhttps://zhuanlan.zhihu.com/p/45351651  
+
+响应式编程通过`推送的模式`，rabbitmq消息队列中的推送方式来实现自动更新，而不是`拉的方式`，一种异步编写方案
 
 反应式编程来源于数据流和变化的传播，意味着由底层的执行模型负责通过数据流来自动传播变化。比如求值一个简单的表达式 c=a+b，当 a 或者 b 的值发生变化时，传统的编程范式需要对 a+b 进行重新计算来得到 c 的值。如果使用反应式编程，当 a 或者 b 的值发生变化时，c 的值会自动更新。反应式编程最早由 .NET 平台上的 Reactive Extensions (Rx) 库来实现。后来迁移到 Java 平台之后就产生了著名的 RxJava 库，并产生了很多其他编程语言上的对应实现。在这些实现的基础上产生了后来的反应式流（Reactive Streams）规范。该规范定义了反应式流的相关接口，并将集成到 Java 9 中。
 
