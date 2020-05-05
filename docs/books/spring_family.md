@@ -94,7 +94,7 @@ spring data redis
 - redisTemplate
 - Repository支持
 
-#### Spring的缓存抽象
+#### Spring的缓存抽象  这是spring平台为我们提供的
 缓存的另一种实现方式:Spring的缓存抽象  通过这种方式也可以实现缓存，而不用redis,支持本地缓存，分布式redis缓存
 spring的缓存抽象默认情况下使用的jvm来做缓存的(本地缓存)，也可以指定通过redis来做
 至于spring.cache.cache-names=coffee，是用来配置默认缓存的，启动时会把其中指定的缓存创建出来。@CacheConfig用来配置类级别共享的缓存配置
