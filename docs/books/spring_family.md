@@ -133,7 +133,8 @@ Spring的缓存抽象是将方法的执行结果缓存起来，而客户端或�
 idea中集成的http请求的插件：`RestfulToolkit`
 可以直接debug进依赖的库里的，就用你自己的工程就好 然后通过网页访问某个接口的方式直接debug
 
-先在依赖包找到对应的DispatcherServlet 打开，Intellj会在页面提示Download Source。下载，打上断点然后debug的方式运行程序 然后就可以进行调试运行了
+先在依赖包找到对应的DispatcherServlet 打开，Intellj会在页面提示`Download Source`下载 如果不下载的话，就只能看到class文件，class文件是看不到注解的，打上断点然后debug的方式运行程序 然后就可以进行调试运行了
+
 
 
 
