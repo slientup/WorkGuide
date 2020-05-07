@@ -28,9 +28,10 @@
 ### API模块
 API模块使用的是Django REST framework框架 该框架主要提供`APIView`与`Viewsets`这两种方式提供api接口  
 Django REST framework的知识点 见github官网  
-django 权限相关的知识点：https://www.chenshaowen.com/blog/permissions-of-django-rest-framework.html    
-主要做了两类权限校验    
-IsInWhiteList(白名单)  IsNetManager(网络组)  
+django 权限相关的知识点：https://www.chenshaowen.com/blog/permissions-of-django-rest-framework.html 
+
+#### 两类权限校验    
+`IsInWhiteList`(白名单)  `IsNetManager`(网络组)  
 白名单 主要是针对无法认证的用户 即合法api接口调用者   
 网络组 主要是网页判断用户是否是网络组 只有网络组的用户才拥有权限下发配置
 ```
@@ -46,8 +47,26 @@ from constance import config
                 return False
         return True
 ```
-通过`django_constance`来管理动态的配置变量 参考链接：https://www.jianshu.com/p/22a991582d54
-SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')  安全的方法就是可读的方法
+通过`django_constance`来管理动态的配置变量 参考链接：https://www.jianshu.com/p/22a991582d54     
+`SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')`  安全的方法就是可读的方法
+
+#### @detail_route 
+在django_rest_framework 定义额外的路由信息 参考链接 https://juejin.im/post/5a991807518825558a060a77
+```
+    @detail_route(methods=['post'])
+    def set_password(self, request, pk=None):
+        user = self.get_object()
+        serializer = PasswordSerializer(data=request.data)
+```
+访问url `users/{pk}/set_password` 重点是这里的**set_password**
+
+#### rest中method对应关系
+- 'get': 'list',
+- 'post': 'create'
+- 'get': 'retrieve',
+- 'put': 'update',
+- 'patch': 'partial_update',
+- 'delete': 'destroy'
 
 
 二，再比如，我们在网站放到服务器上正式运行后，DEBUG改为了 False，这样更安全，但是有时候发生错误我们不能看到错误详情，调试不方便，有没有办法处理好这两个事情呢？
