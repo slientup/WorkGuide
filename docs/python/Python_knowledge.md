@@ -34,5 +34,6 @@ def log(param='log'):
  @log()
  def remove_trunk_vlan(self, port, vlan, native=False):
  ```
-
+#### 分布式celery
+参考链接 https://segmentfault.com/a/1190000016082551
 
