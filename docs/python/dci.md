@@ -26,13 +26,13 @@
 二 模块详细分析
 ---
 ### API模块
-API模块使用的是Django REST framework框架 该框架主要提供`APIView`与`Viewsets`这两种方式提供api接口
-Django REST framework的知识点 见github官网
-django 权限相关的知识点：https://www.chenshaowen.com/blog/permissions-of-django-rest-framework.html  
-主要做了两类权限校验  
-IsInWhiteList(白名单)  IsNetManager(网络组)
-白名单 主要是针对无法认证的用户 即合法api接口调用者
-网络组 主要是网页判断用户是否是网络组
+API模块使用的是Django REST framework框架 该框架主要提供`APIView`与`Viewsets`这两种方式提供api接口  
+Django REST framework的知识点 见github官网  
+django 权限相关的知识点：https://www.chenshaowen.com/blog/permissions-of-django-rest-framework.html    
+主要做了两类权限校验    
+IsInWhiteList(白名单)  IsNetManager(网络组)  
+白名单 主要是针对无法认证的用户 即合法api接口调用者   
+网络组 主要是网页判断用户是否是网络组 只有网络组的用户才拥有权限下发配置
 ```
 from constance import config
     def has_permission(self, request, view):
@@ -47,10 +47,8 @@ from constance import config
         return True
 ```
 通过`django_constance`来管理动态的配置变量 参考链接：https://www.jianshu.com/p/22a991582d54
+SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')  安全的方法就是可读的方法
 
-
-
-https://www.jianshu.com/p/22a991582d54
 
 二，再比如，我们在网站放到服务器上正式运行后，DEBUG改为了 False，这样更安全，但是有时候发生错误我们不能看到错误详情，调试不方便，有没有办法处理好这两个事情呢？
 普通访问者看到的是友好的报错信息
