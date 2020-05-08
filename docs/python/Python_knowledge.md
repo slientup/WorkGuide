@@ -92,6 +92,24 @@ print(t._x) # 20
 # print(t.__x) # AttributeError: 'test' object has no attribute '__x'
 ```
 
+#### @property
+将类中的方法变成属性，通过obeject.方法名的方式调用，而不是()的方式调用
+```
+class Student(object):
+    @property
+    def birth(self):
+        return self._birth
+    @birth.setter
+    def birth(self, value):
+        self._birth = value
+    
+    student = Student()
+    student.birth=10
+    student.birth   <10>
+```
+参考 https://www.liaoxuefeng.com/wiki/897692888725344/923030547069856
+
+
 
 
 #### python装饰器
