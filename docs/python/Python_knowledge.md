@@ -109,6 +109,12 @@ class Student(object):
 ```
 参考 https://www.liaoxuefeng.com/wiki/897692888725344/923030547069856
 
+#### format格式化字符串
+如果待格式化的字符串中含有`{}`，则可以通过`{{}}`的方式实现字符串中含有{}
+```
+"{} {}".format("hello", "world")  hello world
+"{0} {{test}} {1}".format("hello", "world")    hello {test} world
+```
 
 
 
