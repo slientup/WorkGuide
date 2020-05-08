@@ -226,8 +226,8 @@ class Netranger(Client):
             "routing_key": routing_key
         }
   ```
- 2. 如何监控各个组件的好坏？比如说网站是否可用 
- 通过hickwall的采集去采集各个组件的tcp端口是否可达
+ 2. 如何监控各个组件的好坏？比如说网站是否可用  
+ 通过hickwall的remote.snmp.socket采集器测试端口是否可达
  
   
 
