@@ -167,7 +167,7 @@ GIL是什么？全局解释锁，python设计之初为了线程安全而做的
 2. 执行代码知道sleep或者python虚拟机将其挂起
 3. 释放GIL
 **可见，某个线程想要执行，必须先拿到GIL，我们可以把GIL看作是“通行证”，并且在一个python进程中，GIL只有一个。拿不到通行证的线程，就不允许进入CPU执行**
-GIL锁释放逻辑是：在python2.x里，GIL的释放逻辑是当前线程遇见`IO操作`或者`ticks计数达到100`（ticks可以看作是python自身的一个计数器，专门做用于GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整），进行释放
+GIL锁释放逻辑是：在python2.x里，GIL的释放逻辑是当前线程遇见`IO操作`或者`ticks计数达到100(很容易到达)`（ticks可以看作是python自身的一个计数器，专门做用于GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整），进行释放
 
 IO型任务 `多线程`  cpu密集型任务 `多进程`
 
