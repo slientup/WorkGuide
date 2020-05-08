@@ -200,7 +200,7 @@ class Netranger(Client):
         return super(Netranger, cls)._rest_call(url, method, **kwargs)
 ```  
 ### 日志流
-将日志写到本地———>logagent——————>kafka——————>es 还可以更好
+将日志写到本地———>logagent——————>kafka——————>es 还可以更好  topic `ops.net.sdn`
 ### 待解决问题
 1. celery是不是只使用了一个队列？
 任务队列分配信息在`celery_config`中
@@ -226,7 +226,8 @@ class Netranger(Client):
             "routing_key": routing_key
         }
   ```
- 2. 如何监控各个组件的好坏？比如说网站是否可用
+ 2. 如何监控各个组件的好坏？比如说网站是否可用 
+ 通过hickwall的采集去采集各个组件的tcp端口是否可达
  
   
 
