@@ -46,7 +46,7 @@ is是对比地址  ==是对比值
     A.m2(1) # cls: <class '__main__.A'>
     A.m3(1)
 ```
-它们的区别在于def m3(n):  def m2(cls, n):  `staticmethod`不需要写上`cls` 跟普通方法一模一样
+它们的区别在于def m3(n):  def m2(`cls`, n):  `staticmethod`不需要写上`cls` 跟普通方法一模一样
 
 #### 可变类型的变量和不可变类型变量
 `strings`, `tuples`, 和`numbers`是不可更改的对象(**类似java常量池**)，而 `list, dict, set` 等则是可以修改的对象 
@@ -112,9 +112,68 @@ class Student(object):
 #### format格式化字符串
 如果待格式化的字符串中含有`{}`，则可以通过`{{}}`的方式实现字符串中含有{}
 ```
-"{} {}".format("hello", "world")  hello world
-"{0} {{test}} {1}".format("hello", "world")    hello {test} world
+"{} {}".format("hello", "world")   #  hello world
+"{0} {{test}} {1}".format("hello", "world")   #  hello {test} world
 ```
+####  迭代器、生成器、yield
+参考链接：https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do  
+**迭代器** 迭代器里面所有的值都保存在内存中 占内存空间
+**生成器** 当我们需要某个值的，会立即生成，用完就会销毁 即需要某个值才生成 不占内存空间 但不能重复利用
+当数据量大的时候，一定要使用生成器
+
+```
+>>> mylist = [x*x for x in range(3)]   这里是迭代器
+>>> for i in mylist:
+...    print(i)
+0
+1
+4
+
+>>> mygenerator = (x*x for x in range(3))  这里是生成器  仅仅是将[]替换成（）
+>>> for i in mygenerator:
+...    print(i)
+0
+1
+4
+```
+`yield` is a keyword that is used like return, except the function will return a `generator`
+eg：
+```
+>>> def createGenerator():
+...    mylist = range(3)
+...    for i in mylist:
+...        yield i*i
+...
+>>> mygenerator = createGenerator()   # create a generator  
+>>> print(mygenerator) # mygenerator is an object!
+<generator object createGenerator at 0xb7555c34>
+>>> for i in mygenerator:
+...     print(i)
+0
+1
+4
+```
+#### python中重载方法
+python中没有重载方法，因为python中的方法变量数量可以是任意的，同时也可以指定默认值
+
+#### python变量查找顺序
+先从局部——全局的方式
+本地作用域（Local）→当前作用域被嵌入的本地作用域（Enclosing locals）→全局/模块作用域（Global）→内置作用域（Built-in）
+
+#### GIL锁
+GIL是什么？全局解释锁，python设计之初为了线程安全而做的
+在python多线程下，**每个线程的执行方式**：
+1. 获取GIL
+2. 执行代码知道sleep或者python虚拟机将其挂起
+3. 释放GIL
+**可见，某个线程想要执行，必须先拿到GIL，我们可以把GIL看作是“通行证”，并且在一个python进程中，GIL只有一个。拿不到通行证的线程，就不允许进入CPU执行**
+GIL锁释放逻辑是：在python2.x里，GIL的释放逻辑是当前线程遇见`IO操作`或者`ticks计数达到100`（ticks可以看作是python自身的一个计数器，专门做用于GIL，每次释放后归零，这个计数可以通过 sys.setcheckinterval 来调整），进行释放
+
+IO型任务 `多线程`  cpu密集型任务 `多进程`
+
+
+
+
 
 
 
