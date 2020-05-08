@@ -1,5 +1,5 @@
 # sdn项目
-该项目是sdn设备的配置管理的南向接口，涉及的技术django+celery+restful api+cache(django自带缓存)
+该项目是sdn设备的配置管理的南向接口，涉及的技术django+celery+restful api+cache(django自带缓存)，haproxy+keepalived高可用部署
 
 一 项目模块
 ---
@@ -68,8 +68,171 @@ from constance import config
 - 'patch': 'partial_update',
 - 'delete': 'destroy'
 
+#### raise Exception("no ip resources")  抛出异常
 
-二，再比如，我们在网站放到服务器上正式运行后，DEBUG改为了 False，这样更安全，但是有时候发生错误我们不能看到错误详情，调试不方便，有没有办法处理好这两个事情呢？
-普通访问者看到的是友好的报错信息
-管理员看到的是错误详情，以便于修复 BUG
+#### rest处理异常
+```
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'api.utils.exceptions.custom_exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'api.decorators.CustomPagination',
+    'PAGE_SIZE': 20
+}
+```
+### bin模块
+该模块是通过命令的方式运行采集任务
+### domain模块
+不太清楚domain模块的作用
+### inventory模块
+该模块通过定时任务获取设备的资源信息 如lldp信息 硬件资源信息
+由于有多个终端的存在，这里做一个工厂方法，根据设备型号和任务类型 返回对应的类
+```
+def get_collect_factory(device, collector):
+    package = __import__("agent.collectors")
+    module = getattr(package, "collectors")    # 对象的属性值 CiscoHardWare  hardWare
+    sub_module = getattr(module, collector)
+    return getattr(sub_module, "{0}{1}".format(device.manufacturer.capitalize(), COLLECT_MAPPING[collector]))
+    
+@shared_task(ignore_result=True)
+@agent_log()
+def collect_check_sync_task(d):   
+    return get_collect_factory(d, "check_sync")(d).check()  //初始化调用
+```
+调用逻辑：定时任务——inventory——agent.collector——southbound
+### middleware模块
+主要解决超级用户访问报错的时候，直接返回报错信息，而用户访问报错的时候，返回友好的报错内容
 https://code.ziqiangxuetang.com/django/django-middleware.html
+```
+class UserBasedExceptionMiddleware(object):
+    def process_exception(self, request, exception):
+        if request.user.is_superuser or request.META.get('REMOTE_ADDR') in getattr(settings, "INTERNAL_IPS"):
+            return technical_500_response(request, *sys.exc_info())
+```
+
+### overlay模块
+在模型设计中所有类都继承`TimestampedModel`  这是非常好的设计
+```
+class TimestampedModel(models.Model):
+    objects = MyQuerySet.as_manager()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        abstract = True 
+```
+模型中增加property字段 像访问属性点的方式 `.` 访问字段
+```
+class SUBNet(TimestampedModel):
+    uuid = models.CharField(max_length=150, unique=True)
+    network = models.ForeignKey(Network)
+    name = models.CharField(max_length=100)
+    cidr = models.CharField(max_length=100, unique=True)
+    gateway = models.GenericIPAddressField(null=True)
+    dhcp = models.BooleanField(default=True)
+    shared = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.name
+
+    @property   
+    def mask(self):   
+        return self.cidr.split("/")[1]
+
+    @property
+    def net(self):
+        return self.cidr.split("/")[0]
+
+    @property
+    def router_interfaces(self):
+        return self.routerinterface_set.all()
+      
+    subnet_obj.mask 访问mask属性
+    
+```
+### script模块 
+该模块针对的是supervisor做监控检测的 通过调用对应的api接口 https://www.cnblogs.com/halleluyah/p/9674584.html
+
+### southbound模块
+这模块都是网络设备下发相关的命令封装，然后再调用netconf接口下发配置,跨系统的位置必须封装log
+
+```
+    @redis_set
+    @log()
+    def create_external2_bgp(self, vrf, bgp_asn, peer_ip, template, remote_bgp_asn):
+        cmd = ["conf t",
+               "router bgp %s" % bgp_asn,
+               "vrf %s" % vrf,
+               "neighbor %s" % peer_ip,
+               "inherit peer %s" % template,
+               "remote-as %s" % remote_bgp_asn]
+        self.nc.send_commands(cmd)
+        return cmd
+  
+  这是日志的装饰器
+  def log(param='log'):
+    def decorator(func):
+        @wraps(func)
+        def func_wrapper(self, *args, **kwargs):
+            try:
+                ret = func(self, *args, **kwargs)
+                southbound.info("%s_%s_%s" % (func.__name__, self.ip, ret))  
+                return ret
+            except Exception, e:
+                southbound.error("%s_%s_%s" % (func.__name__, self.ip, e))
+                raise Exception(e)
+        return func_wrapper
+    return decorator
+```
+日志进行封装的时候，必须涵盖有用信息，比如调用的方法模块，访问url 访问内容 结果状态等信息
+
+### utils模块
+该模块是对http调用外部系统的再次封装上实现 在对httpclient进行封装的时候,将`url`中的`地址`和`uri`分开会更好 
+
+对于本地变量常用`_`
+```
+class Netranger(Client):
+    _osg_token = None
+    @classmethod
+    def _rest_call(cls, url, method="GET", **kwargs):
+        if 'headers' not in kwargs:
+            kwargs['headers'] = dict()
+        kwargs['headers']['Content-Type'] = 'application/json'
+        kwargs['headers']['Accept'] = 'application/json'
+        return super(Netranger, cls)._rest_call(url, method, **kwargs)
+```  
+### 待解决问题
+1. celery是不是只使用了一个队列？
+任务队列分配信息在`celery_config`中
+```
+    def route_for_task(self, task, args=None, kwargs=None):
+        if task.startswith("inventory.tasks.collect"):
+            routing_key, exchange = "device", "collector"
+        else:
+            exchange = "port"
+            if task == "inventory.tasks.create_port_task":
+                routing_key = "device%s" % args[0].ip[-1]
+            elif task == "inventory.tasks.destroy_port_task":
+                routing_key = "device%s" % args[0].ip[-1]
+            elif task == "overlay.tasks.create_router_interface_task":
+                routing_key = "device%s" % args[0].ip[-1]
+            elif task == "overlay.tasks.destory_router_interface_task":
+                routing_key = "device%s" % args[0].ip[-1]
+            else:
+                routing_key = "port"
+        return {
+            "exchange": exchange,
+            "exchange_type": "direct",
+            "routing_key": routing_key
+        }
+  ```
+
+
+
+
+
+
+
+
+
+
+
+
