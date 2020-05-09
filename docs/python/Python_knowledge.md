@@ -3,7 +3,25 @@
   * [1 浅拷贝和深拷贝](#1-浅拷贝和深拷贝)
   * [2 is和==的区别](#2-is和==的区别)
   * [3 read,readline和readlines](#3-read,readline和readlines)
-  * [4 range and xrange](#4-range and xrange)
+  * [4 range和xrange](#4-range和xrange)
+  * [5 @staticmethod和@classmethod区别](#5-@staticmethod和@classmethod区别)
+  * [6 可变类型的变量和不可变类型变量](#6-可变类型的变量和不可变类型变量)
+  * [7 class中特殊的方法](#7-class中特殊的方法)
+  * [8 python中的变量_和__](#8-python中的变量_和__)
+  * [9 @property](#9-@property)
+  * [10 format格式化字符串](#10-format格式化字符串)
+  * [11 迭代器、生成器和yield](#11-迭代器、生成器和yield)
+  * [12 python中重载方法](#12-python中重载方法)
+  * [13 python变量查找顺序](#13-python变量查找顺序)
+  * [14 GIL锁](#14-GIL锁)
+  * [15 __new__和__init__的区别](#15-__new__和__init__的区别)
+  * [16 单例模式](#16-单例模式)
+  * [17 lambda函数](#17-lambda函数)
+  * [18 高阶函数](#18-高阶函数)
+  * []()
+  * []()
+  
+  
  
  
 一 基础
@@ -30,7 +48,7 @@ is是对比地址  ==是对比值
 - readline 一行读取到内存 使用生成器 **在量很大的情况下 使用这种方式处理文件**
 - readlines 读取整个文件到一个迭代器中 供我们遍历
 
-#### 4 range and xrange
+#### 4 range和xrange
 必须使用**xange**     
 `xrange`是懒加载，当你需要某个数的时候才生成，而`range`是一次性生成， range(1,1000) 就会在内存里面生成1000个数
 
@@ -82,7 +100,7 @@ print a  # [1]  改变了
 - hasattr() 判断某个属性是否存在
 - isinstance() 判断当前对象类型与给定的是否一致
 
-#### 6 python中的变量_和__
+#### 8 python中的变量_和__
 - xx：公有变量
 - `_xx`: 前置单下划线，私有化属性或方法 只是约定俗称
 - `__xx`: 前置双下划线，私有化属性或者方法 强制的
@@ -98,7 +116,7 @@ print(t._x) # 20
 # print(t.__x) # AttributeError: 'test' object has no attribute '__x'
 ```
 
-#### 7 @property
+#### 9 @property
 将类中的方法变成属性，通过obeject.方法名的方式调用，而不是()的方式调用 当对某个字段需要格式化处理的时候也可以使用property
 ```
 class Student(object):
@@ -115,13 +133,13 @@ class Student(object):
 ```
 参考 https://www.liaoxuefeng.com/wiki/897692888725344/923030547069856
 
-#### 8 format格式化字符串
+#### 10 format格式化字符串
 如果待格式化的字符串中含有`{}`，则可以通过`{{}}`的方式实现字符串中含有{}
 ```
 "{} {}".format("hello", "world")   #  hello world
 "{0} {{test}} {1}".format("hello", "world")   #  hello {test} world
 ```
-#### 9 迭代器、生成器和yield
+#### 11 迭代器、生成器和yield
 参考链接：https://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do  
 **迭代器** 迭代器里面所有的值都保存在内存中 占内存空间
 **生成器** 当我们需要某个值的，会立即生成，用完就会销毁 即需要某个值才生成 不占内存空间 但不能重复利用
@@ -159,14 +177,14 @@ eg：
 1
 4
 ```
-#### 10 python中重载方法
+#### 12 python中重载方法
 python中没有重载方法，因为python中的方法变量数量可以是任意的，同时也可以指定默认值
 
-#### 11 python变量查找顺序
+#### 13 python变量查找顺序
 先从局部——全局的方式
 本地作用域（Local）→当前作用域被嵌入的本地作用域（Enclosing locals）→全局/模块作用域（Global）→内置作用域（Built-in）
 
-#### 12 GIL锁
+#### 14 GIL锁
 GIL是什么？全局解释锁，python设计之初为了线程安全而做的
 在python多线程下，**每个线程的执行方式**：
 1. 获取GIL
@@ -177,7 +195,7 @@ GIL锁释放逻辑是：在python2.x里，GIL的释放逻辑是当前线程遇�
 
 IO型任务 `多线程`  cpu密集型任务 `多进程`
 
-#### 13 __new__和__init__的区别
+#### 15 __new__和__init__的区别
 - `__new__` 平时很少使用(因为继承父类的object默认就有这个方法)  __init__ 经常会使用
 - `__new__` 方法的作用是**创建实例**对象, __init__ 的作用**只是初始化**
 - `__new__` 静态方法(如果它不是静态方法就无法创建实例)  __init__ 实例方法
@@ -190,7 +208,7 @@ python中创建顺序：`元类(metaclass)`可以通过方法 `__metaclass__`创
 
 参考链接：https://www.cnblogs.com/jayliu/p/9013155.html
 
-#### 14 单例模式
+#### 16 单例模式
 单例模式是非常常见的设计模式，在python中实现也很简单
 1. **import方法导入** 在类模块中先定义个实例对象，后续需要使用的地方 都导入该实例对象
 ```
@@ -257,7 +275,7 @@ My name is Michael.
 ```
 参考链接：https://zhuanlan.zhihu.com/p/37534850
 
-#### 15 lambda函数
+#### 17 lambda函数
 lambda就是`匿名函数`,就是减少代码量
 ```
 lambda x: x * x
@@ -267,7 +285,7 @@ def f(x):
 ```
 关键字`lambda`表示匿名函数，冒号前面的`x`表示函数参数  `省略`掉**函数名、函数()和retrun**
 
-#### 16 高阶函数
+#### 18 高阶函数
 1. **map函数**
 `map/reduce`来源于Google大名鼎鼎的那边大数据开山之作论文
 
