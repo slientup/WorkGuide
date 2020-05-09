@@ -21,10 +21,10 @@
   * [19 python垃圾回收机制](#19-python垃圾回收机制)
   * [20 super()方法](#20-super()方法)
   * [21 MRO顺序](#21-MRO顺序)
+  * [22 装饰器wraps的作用](#22-装饰器wraps的作用)
+  * [23 双层装饰器](#23-双层装饰器)
   
   
- 
- 
 一 基础
 ---
 #### 1 浅拷贝和深拷贝
@@ -308,7 +308,7 @@ list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
 Python GC主要使用引用计数（`reference counting`）来跟踪和回收垃圾。在引用计数的基础上，通`标记-清除`（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率.
 
 #### 20 super()方法
-super()解决的是多继承的问题
+super()解决的是多继承，子类调用父类方法的问题
 ```
 在python 3中  
 class ChildB(Base):
@@ -319,33 +319,13 @@ class ChildB(Base):
 super(ChildB, self).__init__()   
 ```
 #### 21 MRO顺序 
-多class继承顺序问题 http://www.srikanthtechnologies.com/blog/python/mro.aspx
+多class继承顺序问题：当子类访问父类方法的时候，如果出现重名的的方法，通过MRO规则决定调用哪个
+http://www.srikanthtechnologies.com/blog/python/mro.aspx
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### python装饰器
+#### 22 装饰器wraps的作用
 [python装饰器的wraps作用](https://blog.csdn.net/liuskyter/article/details/80357647)
 
-**双层封装器**
+#### 23 双层装饰器
 ```
 # 第一层
 def redis_set(func):
@@ -377,6 +357,7 @@ def log(param='log'):
  @log()
  def remove_trunk_vlan(self, port, vlan, native=False):
  ```
+ 
 #### 分布式celery
 参考链接 https://segmentfault.com/a/1190000016082551
 
