@@ -245,6 +245,7 @@ print(id(single1) == id(single2))
 这种方式更好，只要想实例单例的`class`,引入该类装饰器就好，节省代码
 这里利用了python class的`__call__`属性：它的作用就是表明某个实例对象可以向函数一样通过`()`的方式访问
 ```
+# 思路：定义一个字典，字典的key就是class
 class Singleton(object):
     def __init__(self, cls):
         self._cls = cls
