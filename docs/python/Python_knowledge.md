@@ -3,7 +3,7 @@
   * [1 浅拷贝和深拷贝](#1-浅拷贝和深拷贝)
   * [2 is和==的区别](#2-is和==的区别)
   * [3 read,readline和readlines](#3-read,readline和readlines)
-  * [4 range and xrange](#4 range and xrange)
+  * [4 range and xrange](#4-range and xrange)
  
  
 一 基础
