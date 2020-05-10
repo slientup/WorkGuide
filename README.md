@@ -112,7 +112,7 @@
 * [spring cloud微服务实战](docs/books/spring_cloud.md)
 
 #### 故障记录
-
+* [故障记录](docs/fault/fault.md)
   
 
 
