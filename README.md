@@ -49,7 +49,7 @@
 #### [AQS](docs/java/AQS.md) 
 
 ### linux
-#### [shell编程入门](#https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
+* [shell编程入门](https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
 
 ### 其他
 #### [代码规范](docs/other/code_standard.md) 
@@ -101,6 +101,7 @@
 * [大厂面试题interview_internal_reference](https://github.com/0voice/interview_internal_reference)  
   2019年最新总结，阿里，腾讯，百度，美团，头条等技术面试题目，以及答案，专家出题人分析汇总
 * [interview_python](https://github.com/slientup/interview_python)
+* [javaguide-interview](https://snailclimb.gitee.io/javaguide-interview/#/)
   
 #### python
 * [python异步编程的演进之路](https://github.com/slientup/Python_Common/blob/master/Concurrence/readme.md)
