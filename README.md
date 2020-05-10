@@ -47,6 +47,10 @@
 #### [java高并发](docs/java/high_concurrency.md)
 #### [高并发内存模型](docs/java/java_memory_model.md)     
 #### [AQS](docs/java/AQS.md) 
+
+### linux
+#### [shell编程入门](#https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
+
 ### 其他
 #### [代码规范](docs/other/code_standard.md) 
 #### [学习视频播客](https://snailclimb.gitee.io/javaguide/#/docs/questions/java-learning-website-blog)   
