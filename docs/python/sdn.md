@@ -232,8 +232,10 @@ class Netranger(Client):
  3. 抛出异常处理思路？
  日志+抛出提示   日志是给我们看的 抛出提示是给用户看的
  抛出异常的思路是：后端抛出异常或者回复中携带非200状态码，前端再根据状态码来做处理 
- 目前的思路：  前端右上角抛出异常
+ 目前的思路：  前端右上角抛出异常 
  ```
+ raise Exception("no ip resources") 内部程序抛出异常
+ 
  后端通过 回复True or False 来实现异常处理
 def update(self, request, *args, **kwargs):
     try:
