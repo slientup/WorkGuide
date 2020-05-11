@@ -4,7 +4,7 @@
 #### 优秀项目集合
 [GitHub-Chinese-Top-Charts](https://github.com/kon9chunkit/GitHub-Chinese-Top-Charts#Python)
 #### 经典算法
-[用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
+[经典算法之用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
 #### Java
 - [mall](https://github.com/macrozheng/mall) stars `32k`   
