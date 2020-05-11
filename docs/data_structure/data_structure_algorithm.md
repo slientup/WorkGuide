@@ -1,4 +1,7 @@
 # 数据结构与算法
+
+[用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
+
 一 算法
 ---
 ### 递归算法
