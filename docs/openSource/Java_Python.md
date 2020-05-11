@@ -3,6 +3,8 @@
 
 #### 优秀项目集合
 [GitHub-Chinese-Top-Charts](https://github.com/kon9chunkit/GitHub-Chinese-Top-Charts#Python)
+[technology-talk](https://github.com/aalansehaiyang/technology-talk)
+汇总java生态圈常用技术框架、开源中间件，系统架构、数据库、大公司架构案例、常用三方类库、项目管理、线上问题排查、个人成长、思考等知识
 #### 经典算法
 [经典算法之用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
 
