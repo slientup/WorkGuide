@@ -229,6 +229,37 @@ class Netranger(Client):
  2. 如何监控各个组件的好坏？比如说网站是否可用  
  通过hickwall的`remote.snmp.socket`采集器测试端口是否可达
  
+ 3. 抛出异常处理思路？
+ 日志+抛出提示   日志是给我们看的 抛出提示是给用户看的
+ 抛出异常的思路是：后端抛出异常或者回复中携带非200状态码，前端再根据状态码来做处理 
+ 目前的思路：  前端右上角抛出异常
+ ```
+ 后端通过 回复True or False 来实现异常处理
+def update(self, request, *args, **kwargs):
+    try:
+        instance = self.get_object()
+        self.controller_class.update_service_port(instance, request.data)
+        return Response(api_res(True))
+    except Exception, e:
+        LOG.exception(e)
+        return Response(api_res(False, [], e))
+ ```
+ ```
+ # 前端通过后端回复的状态来实现消息提示
+ 
+ $scope.saveTenant = function(){
+    $http.post(API_URI["tenants"], $scope.items).success(function(data){
+        if (data.status){
+            $scope.cancel();
+            $state.reload();
+            toastr.success("success");
+        }else{
+            toastr.error(data.message);  //状态异常的时候 给出错误提示
+        }
+    })
+}
+ ```
+ 
   
 
 
