@@ -119,6 +119,9 @@
 
 #### 故障记录
 * [故障记录](docs/fault/fault.md)
+
+#### 优质文章收藏
+* [优质技术分享文章](docs/article/article.md)
   
 
 
