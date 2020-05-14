@@ -6,8 +6,13 @@
 - [technology-talk](https://github.com/aalansehaiyang/technology-talk)       
 汇总java生态圈常用技术框架、开源中间件，系统架构、数据库、大公司架构案例、常用三方类库、项目管理、线上问题排查、个人成长、思考等知识
 - [架构经验](https://github.com/aalansehaiyang/technology-talk/blob/master/system-architecture/architecture-experience.md)
+- [The System Design Primer](https://github.com/donnemartin/system-design-primer)  
+Learn how to design large-scale systems. Prep for the system design interview. Includes Anki flashcards.
+- [public-apis](https://github.com/public-apis/public-apis)   
+A collective list of free APIs for use in software and web development
 #### 经典算法
 [经典算法之用动画的形式呈现解LeetCode题目的思路](https://github.com/MisterBooo/LeetCodeAnimation)
+
 
 #### Java
 - [mall](https://github.com/macrozheng/mall) stars `32k`   
