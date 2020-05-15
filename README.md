@@ -63,6 +63,7 @@
 
 ### spring
 * [springboot常用功能](docs/spring/spring_funtion.md)
+* [spring 常用注解](https://github.com/Snailclimb/JavaGuide/blob/master/docs/system-design/framework/spring/spring-annotations.md)
 
 ### 数据库
 #### redis
