@@ -93,6 +93,46 @@ public class CommonResult<T> {
     }
     
 ```
+`枚举类`的定义值得借鉴
+```
+public enum ResultCode implements IErrorCode {
+    SUCCESS(200, "操作成功"),
+    FAILED(500, "操作失败"),
+    VALIDATE_FAILED(404, "参数检验失败"),
+    UNAUTHORIZED(401, "暂未登录或token已经过期"),
+    FORBIDDEN(403, "没有相关权限");
+
+    private long code;
+    private String message;
+
+    private ResultCode(long code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public long getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
+
+```
+controller层对`CommonResult.success`的调用 
+```
+    @ApiOperation(value = "根据专题名称分页获取专题")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<CmsSubject>> getList(@RequestParam(value = "keyword", required = false) String keyword,
+                                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                        @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
+        List<CmsSubject> subjectList = subjectService.list(keyword, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(subjectList));
+    }
+```
+
 
 
 
