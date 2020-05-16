@@ -184,6 +184,59 @@ public class PerformanceInteceptor implements HandlerInterceptor {
 }
 ```
 
+七 访问web资源
+--- 
+restTemplate spring boot未直接提供实例 我们需要通过bean的方式先将restTemplate注入容器
+
+restTemplate是spring对底层http请求的封装，`ClientHttpRequestFactory`是通过接口，默认使用`SimpleClientHttpRequestFactory`来实现
+实现http的请求，该类实际调用的是jdk的`HttpURLConnection`，但在工作中，我们多半会修改底层实现的类库，该接口也支持`HttpClient`， `OKhttp`,'webclient'
+
+我们定制后台请求模板，主要优化的是请求策略   
+`connectTimeout` `readTimeout`  `连接池`等信息
+
+简单例子：
+注意点就是，如果请求返回的结果直接序列化成对应的对象实例的话，则该对象必须实现`implements Serializable` 我们在controller层接收的类不用实现序列化
+是因为`requestbody`这个注解，会帮我们序列化
+
+
+```
+String coffeeUri = "http://localhost:8080/coffee/";
+Coffee request = Coffee.builder()
+		.name("Americano")
+		.price(Money.of(CurrencyUnit.of("CNY"), 25.00))
+                .build();
+		
+Coffee response = restTemplate.postForObject(coffeeUri, request, Coffee.class);  
+
+log.info("New Coffee: {}", response);
+
+// 这里coffee 类的定义
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Coffee implements Serializable {   //这里必须继承序列化接口
+    private Long id;
+    private String name;
+    private Money price;
+    private Date createTime;
+    private Date updateTime;
+}
+
+```
+
+可通过官网查看具体定制为httpclient的操作
+
+webclient  相当于异步请求
+
+创建对象实例 create() build()   
+获取结果 exchange()  retrieve()
+
+
+八  Web开发进阶
+----
+restful 相关的论文 https://www.infoq.cn/article/web-based-apps-archit-design
 
 
 
