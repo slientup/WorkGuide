@@ -54,11 +54,7 @@
 #### 数据结构与算法
 * [数据结构与算法](docs/data_structure/data_structure_algorithm.md) 
 
-### 其他
 
-
-#### [代码规范](docs/other/code_standard.md) 
-#### [学习视频播客](https://snailclimb.gitee.io/javaguide/#/docs/questions/java-learning-website-blog)   
 
 
 ### spring
@@ -123,7 +119,15 @@
 
 #### 优质文章收藏
 * [优质技术分享文章](docs/article/article.md)
+
+
+### 其他
+
+* [代码规范](docs/other/code_standard.md) 
+* [学习视频播客](https://snailclimb.gitee.io/javaguide/#/docs/questions/java-learning-website-blog)   
 * [手把手教你搭建一个文档类型的网站!免费且高速](https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486555&idx=2&sn=8486026ee9f9ba645ff0363df6036184&chksm=cea24390f9d5ca86ff4177c0aca5e719de17dc89e918212513ee661dd56f17ca8269f4a6e303&token=298703358&lang=zh_CN#rd)
+* [10个 解放双手的 IDEA 插件，能自动生成的绝不手写](https://juejin.im/post/5ebdf2225188256d4c558c38)
+* [我常用的IDEA插件大公开，个个是精品！](https://juejin.im/post/5eba9a5bf265da7bca50010c)
   
 
 
