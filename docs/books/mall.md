@@ -1,4 +1,6 @@
 # 开源项目mall 源码阅读笔记
+[mall-common](#mall-common)
+
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
 
@@ -63,7 +65,7 @@ public interface OmsPortalOrderService {
     Map<String, Object> generateOrder(OrderParam orderParam);
 ```
 #### `api`模块
-api接口模块是对所有返回结果进行的封装，增加`status`和`message`字段(状态解释)  提供给用户更多有用信息
+api接口模块是对**所有返回结果**进行的封装，增加`status`和`message`字段(状态解释)  提供给用户更多有用信息
 
 在设计该类的时候，由于这是通用的类，并不知道传入进来的data的类型，所以该类是`模板类`
 ```
