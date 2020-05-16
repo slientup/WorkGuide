@@ -136,6 +136,55 @@ idea中集成的http请求的插件：`RestfulToolkit`
 先在依赖包找到对应的DispatcherServlet 打开，Intellj会在页面提示`Download Source`下载 如果不下载的话，就只能看到class文件，class文件是看不到注解的，打上断点然后debug的方式运行程序 然后就可以进行调试运行了
 
 
+### spring Interceptor
+拦截器与spring mvc处理流程有关系，我们实际写的`controller`处于流程的中间，可看源代码`doservice()`    
+1. 在主应用程序中 add 自定义`PerformanceInteceptor`
+```
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new PerformanceInteceptor())
+				.addPathPatterns("/coffee/**").addPathPatterns("/order/**");
+	}
+```
+2.配置拦截器  实现统计时间的功能
+```
+public class PerformanceInteceptor implements HandlerInterceptor {
+    private ThreadLocal<StopWatch> stopWatch = new ThreadLocal<>();
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        StopWatch sw = new StopWatch();
+        stopWatch.set(sw);
+        sw.start();
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        stopWatch.get().stop();
+        stopWatch.get().start();
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        StopWatch sw = stopWatch.get();
+        sw.stop();
+        String method = handler.getClass().getSimpleName();
+        if (handler instanceof HandlerMethod) {
+            String beanType = ((HandlerMethod) handler).getBeanType().getName();
+            String methodName = ((HandlerMethod) handler).getMethod().getName();
+            method = beanType + "." + methodName;
+        }
+        log.info("{};{};{};{};{}ms;{}ms;{}ms", request.getRequestURI(), method,
+                response.getStatus(), ex == null ? "-" : ex.getClass().getSimpleName(),
+                sw.getTotalTimeMillis(), sw.getTotalTimeMillis() - sw.getLastTaskTimeMillis(),
+                sw.getLastTaskTimeMillis());
+        stopWatch.remove();
+    }
+}
+```
+
+
 
 
 
