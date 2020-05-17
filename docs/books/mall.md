@@ -135,8 +135,14 @@ controller层对`CommonResult.success`的调用
 ```
 
 ### mall-admin
-自定义 `Validator`(通过注解的方式)  通过实现`ConstraintValidator`接口来实现校验器
+#### resource目录结构
+![resource目录结构](https://github.com/slientup/WorkGuide/blob/master/docs/books/mall_admin_resource.png)
 
+
+
+
+#### Validator
+自定义 `Validator`(通过注解的方式)  通过实现`ConstraintValidator`接口来实现校验器
 
 定义 `FlagValidator`注解
 ```
