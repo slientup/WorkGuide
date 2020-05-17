@@ -1,5 +1,6 @@
 # 开源项目mall 源码阅读笔记
 [mall-common](#mall-common)
+[mall-admin](#mall-admin)
 
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
