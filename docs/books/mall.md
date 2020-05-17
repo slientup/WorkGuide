@@ -1,6 +1,6 @@
 # 开源项目mall 源码阅读笔记
-[mall-common](#mall-common)
-[mall-admin](#mall-admin)
+* [mall-common](#mall-common)
+* [mall-admin](#mall-admin)
 
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
@@ -133,6 +133,53 @@ controller层对`CommonResult.success`的调用
         return CommonResult.success(CommonPage.restPage(subjectList));
     }
 ```
+
+### mall-admin
+自定义 `Validator`(通过注解的方式)  通过实现`ConstraintValidator`接口来实现校验器
+
+
+定义 `FlagValidator`注解
+```
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD,ElementType.PARAMETER})
+@Constraint(validatedBy = FlagValidatorClass.class)    // 指定了实现的该接口实现的class
+public @interface FlagValidator {
+    String[] value() default {};
+
+    String message() default "flag is not found";   //  校验器未通过返回的信息
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+}
+```
+定义`FlagValidatorClass`实现`ConstraintValidator<FlagValidator,Integer>`接口
+```
+public class FlagValidatorClass implements ConstraintValidator<FlagValidator,Integer> {
+    private String[] values;
+    @Override
+    public void initialize(FlagValidator flagValidator) {
+        this.values = flagValidator.value();    // 初始化
+    }
+
+    @Override
+    public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
+        boolean isValid = false;
+        if(value==null){
+            //当状态为空时使用默认值
+            return true;
+        }
+        for(int i=0;i<values.length;i++){
+            if(values[i].equals(String.valueOf(value))){
+                isValid = true;
+                break;
+            }
+        }
+        return isValid;
+    }
+}
+```
+参考资料：[spring自定义vaildation](https://snailclimb.gitee.io/springboot-guide/#/./docs/advanced/spring-bean-validation)
 
 
 
