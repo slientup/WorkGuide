@@ -148,7 +148,13 @@ controller层对`CommonResult.success`的调用
 **dao**
 mybatis访问数据库有两种方式实现，一种基于`xml`，另一种基于`注解`(放在`service`层) 这里选择的是基于`xml`的方式，他们的唯一区别
 是把sql语句放在`注解`里，还是`xml`中.
+mybatis的应用中分层架构  `controller`--->`service`---->`dao(mappper)`--访问数据库操作   
+dao(mapper)----数据库bean----xml  这三个文件都是用来对数据库的操作，对上层service来说 提供的就是某个方法，即对哪个数据库进行什么操作
+由service来调用，dao以下的进行封装   
+自定义的数据库操作 `dao`层  生成器生成的我们定义为`mapper`层  生成器是根据数据库生成的，前提是先创建数据库里面的表
 参考资料:[springboot_mybatis](https://github.com/Snailclimb/springboot-guide/blob/master/docs/basis/springboot-mybatis.md)    
+
+
 **application.yml**
 该配置文件存放的`prod`和`dev`环境共有的配置内容 主要包含几大块`spring` `mysbatis` `jwt` `redis` `secure` `aliyun` `log`
 ```
