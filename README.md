@@ -60,6 +60,7 @@
 ### spring
 * [springboot常用功能](docs/spring/spring_funtion.md)
 * [spring 常用注解](https://github.com/Snailclimb/JavaGuide/blob/master/docs/system-design/framework/spring/spring-annotations.md)
+* [spring boot 知识点](https://github.com/slientup/SpringBoot_Learn/blob/master/README.md)
 
 ### 数据库
 #### redis
@@ -99,6 +100,7 @@
 
 #### 开源项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
+
 #### 面试
 * [大厂面试题interview_internal_reference](https://github.com/0voice/interview_internal_reference)  
   2019年最新总结，阿里，腾讯，百度，美团，头条等技术面试题目，以及答案，专家出题人分析汇总
@@ -113,6 +115,7 @@
 #### 读书笔记
 * [spring cloud微服务实战](docs/books/spring_cloud.md)
 * [极客时间spring全家桶](docs/books/spring_family.md)
+* [mall源码分析](docs/books/mall.md)
 
 #### 故障记录
 * [故障记录](docs/fault/fault.md)
