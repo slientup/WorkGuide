@@ -1,8 +1,11 @@
 # 开源项目mall 源码阅读笔记
 * [mall-common](#mall-common)
 * [mall-admin](#mall-admin)
+* [mall-security](#mall-security)
 * [AOP](#AOP)
 * [跨域问题](#跨域问题)
+
+
 
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
@@ -353,9 +356,144 @@ public class FlagValidatorClass implements ConstraintValidator<FlagValidator,Int
     }
 }
 ```
-参考资料：[spring自定义vaildation](https://snailclimb.gitee.io/springboot-guide/#/./docs/advanced/spring-bean-validation)
+参考资料：
+[spring自定义vaildation](https://snailclimb.gitee.io/springboot-guide/#/./docs/advanced/spring-bean-validation)
 
 
+
+### mall-security
+该模块主要包含安全认证相关的配置主要使用`Spring Security`+`JWT`的技术
+Spring Security 相关接口和类
+- `WebSecurityConfigurerAdapter`   安全相关的配置类 可以写类继承该类
+- `SecurityContextHolder` SecurityContextHolder存储安全上下文（security context）的信息。当前操作的用户是谁，该用户是否已经被认证，他拥有哪些角色权等等，这些都被保存在SecurityContextHolder中
+- `UserDetails接口`  提供认证相关的用户的信息. 其主要的方法就是：String `getPassword()`; 和 String `getUsername()`;
+- `User 类`  特指 org.springframework.security.core.userdetails 包中的 User 类。 它实现了 UserDetails 接口
+- `UserDetailsService 接口` 作用是在特定用户权限认证时，用于加载用户信息。 该接口只有一个方法，用于返回用户的信息：UserDetails
+  `loadUserByUsername`(String username) throws UsernameNotFoundException;那么，它的框架里面默认的实现类有 InMemoryUserDetailsManager，
+   CachingUserDetailsService 和 JdbcDaoImpl，一个用于从内存中拿到用户信息，一个用于从数据库中拿到用户信息
+常用注解
+- `@EnableWebSecurity`  开启Spring Security的功能
+- `@EnableGlobalMethodSecurity(prePostEnabled = true)` 可以开启security的注解，我们可以在需要控制权限的方法上面使用@PreAuthorize，@PreFilter这些注解
+
+`WebSecurityConfigurerAdapter`的配置  这是整个`spring security`处理逻辑的**核心**
+```
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+//使用@EnableGlobalMethodSecurity(prePostEnabled = true)
+// 这个注解，可以开启security的注解，我们可以在需要控制权限的方法上面使用@PreAuthorize，@PreFilter这些注解。
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    //@Autowired
+    //LightSwordUserDetailService lightSwordUserDetailService;
+
+    @Override
+    @Bean
+    public UserDetailsService userDetailsService() { //覆盖写userDetailsService方法 (1)
+        return new LightSwordUserDetailService();
+
+    }
+
+    /**
+     * If subclassed this will potentially override subclass configure(HttpSecurity)
+     *
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //super.configure(http);
+        http.csrf().disable();
+
+        http.authorizeRequests()
+            .antMatchers("/").permitAll()
+            .antMatchers("/amchart/**",
+                "/bootstrap/**",
+                "/build/**",
+                "/css/**",
+                "/dist/**",
+                "/documentation/**",
+                "/fonts/**",
+                "/js/**",
+                "/pages/**",
+                "/plugins/**"
+            ).permitAll() //默认不拦截静态资源的url pattern （2）
+            .anyRequest().authenticated().and()
+            .formLogin().loginPage("/login")// 登录url请求路径 (3)
+            .defaultSuccessUrl("/httpapi").permitAll().and() // 登录成功跳转路径url(4)
+            .logout().permitAll();
+
+        http.logout().logoutSuccessUrl("/"); // 退出默认跳转页面 (5)
+
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //auth
+        //    .inMemoryAuthentication()
+        //    .withUser("root")
+        //    .password("root")
+        //    .roles("ADMIN", "USER")
+        //    .and()
+        //    .withUser("admin").password("admin")
+        //    .roles("ADMIN", "USER")
+        //    .and()
+        //    .withUser("user").password("user")
+        //    .roles("USER");
+
+        //AuthenticationManager使用我们的 lightSwordUserDetailService 来获取用户信息
+        auth.userDetailsService(userDetailsService()); // （6）
+    }
+
+}
+
+```
+**mall项目的安全配置**   这种链式方法调用 只要满足就退出 不走下面的流程
+```
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
+                .authorizeRequests();
+        //不需要保护的资源路径允许访问
+        for (String url : ignoreUrlsConfig().getUrls()) {
+            registry.antMatchers(url).permitAll();
+        }
+        //允许跨域请求的OPTIONS请求
+        registry.antMatchers(HttpMethod.OPTIONS)
+                .permitAll();
+        // 任何请求需要身份认证   
+        registry.and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                // 关闭跨站请求防护及不使用session
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // 自定义权限拒绝处理类
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler())
+                .authenticationEntryPoint(restAuthenticationEntryPoint())
+                // 自定义权限拦截器JWT过滤器
+                .and()
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //有动态权限配置时添加动态权限校验过滤器
+        if(dynamicSecurityService!=null){
+            registry.and().addFilterBefore(dynamicSecurityFilter(), FilterSecurityInterceptor.class);
+        }
+```
+- 不需要保护的资源路径允许访问 
+- 允许跨域请求的OPTIONS请求
+-  所有请求都要验证
+-  关闭跨站请求防护及不使用session
+- 在`UsernamePasswordAuthenticationFilter`过滤器前执行`jwtAuthenticationTokenFilter`过滤器
+
+参考资料
+- [Spring Boot集成Spring Security](https://www.jianshu.com/p/08cc28921fd0)
+- [Spring securing ](https://spring.io/guides/gs/securing-web/)
+- [Spring securing 执行顺序](https://www.jianshu.com/p/ac42f38baf6e)
 ### AOP
 AOP:让`关注点代码`与`业务代码`分离,指对很多功能都有的`重复的代码`抽取，再在运行的时候往业务方法上动态植入“切面类代码”
 我们最终的效果是 业务代码只写业务代码  `异常` `日志` `统计`等需要重复写代码的都可以交给`AOP`去统一处理，`filter` `Interceptor`等技术都是切面的应用   
