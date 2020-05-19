@@ -582,7 +582,7 @@ public class AOP {
 ### 跨域问题
 CORS全称Cross-Origin Resource Sharing，意为跨域资源共享 域的定义统一服务(ip+port) 当**一个资源**去访问**另一个域名或者同域名不同端口**的时候，就出现跨域需求   
 跨域的请求分两步：
-- 先发起一次`OPTIONS`请求进行预检
+- 先发起一次`OPTIONS`请求进行预检 看是否访问权限
 - 发起真实的跨域请求
 
 options预检请求头信息
