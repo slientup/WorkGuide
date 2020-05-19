@@ -1,6 +1,7 @@
 # 开源项目mall 源码阅读笔记
 * [mall-common](#mall-common)
 * [mall-admin](#mall-admin)
+* [AOP](#AOP)
 
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
@@ -152,6 +153,15 @@ mybatis的应用中分层架构  `controller`--->`service`---->`dao(mappper)`--�
 dao(mapper)----数据库bean----xml  这三个文件都是用来对数据库的操作，对上层service来说 提供的就是某个方法，即对哪个数据库进行什么操作
 由service来调用，dao以下的进行封装   
 自定义的数据库操作 `dao`层  生成器生成的我们定义为`mapper`层  生成器是根据数据库生成的，前提是先创建数据库里面的表
+
+`@MapperScan`注解：用于扫描对应包里面的mapper进入spring boot容器中，方便`@Autowired`使用   
+```
+@Configuration
+@EnableTransactionManagement
+@MapperScan({"com.macro.mall.mapper","com.macro.mall.dao"})   统一引入
+public class MyBatisConfig {
+}
+```
 参考资料:[springboot_mybatis](https://github.com/Snailclimb/springboot-guide/blob/master/docs/basis/springboot-mybatis.md)    
 
 
@@ -343,6 +353,92 @@ public class FlagValidatorClass implements ConstraintValidator<FlagValidator,Int
 }
 ```
 参考资料：[spring自定义vaildation](https://snailclimb.gitee.io/springboot-guide/#/./docs/advanced/spring-bean-validation)
+
+
+### AOP
+AOP:让`关注点代码`与`业务代码`分离,指对很多功能都有的`重复的代码`抽取，再在运行的时候往业务方法上动态植入“切面类代码”
+我们最终的效果是 业务代码只写业务代码  `异常` `日志` `统计`等需要重复写代码的都可以交给`AOP`去统一处理，`filter` `Interceptor`等技术都是切面的应用   
+**知识点**
+- `@Aspect`  指定一个类为切面类
+- `@Pointcut("execution(* cn.itcast.e_aop_anno..(..))")` 指定切入点表达式  即在**哪些类中引入切面**  定义目标方法
+- `@Before("pointCut_()") ` 前置通知：目标方法之前执行
+- `@After("pointCut_()") ` 后置通知：在目标方法执行后执行该方法 **始终执行**
+- `@AfterReturning("pointCut_()")` 返回后通知： 执行方法结束前执
+- `@AfterThrowing("pointCut_()")`  异常通知：出现异常时候执行
+- `@Around("pointCut_()")`  环绕通知： 环绕目标方法执行  目标放在在该方法中调用执行 **常用的方法**
+
+```
+    // 前置通知 : 在执行目标方法之前执行
+    @Before("pointCut_()")
+    public void begin(){
+        System.out.println("开始事务/异常");
+    }
+
+    // 后置/最终通知：在执行目标方法之后执行  【无论是否出现异常最终都会执行】
+    @After("pointCut_()")
+    public void after(){
+        System.out.println("提交事务/关闭");
+    }
+
+    // 返回后通知： 在调用目标方法结束后执行 【出现异常不执行】
+    @AfterReturning("pointCut_()")
+    public void afterReturning() {
+        System.out.println("afterReturning()");
+    }
+
+    // 异常通知： 当目标方法执行异常时候执行此关注点代码
+    @AfterThrowing("pointCut_()")
+    public void afterThrowing(){
+        System.out.println("afterThrowing()");
+    }
+
+    // 环绕通知：环绕目标方式执行
+    @Around("pointCut_()")
+    public void around(ProceedingJoinPoint pjp) throws Throwable{
+        System.out.println("环绕前....");
+        pjp.proceed();  // 执行目标方法
+        System.out.println("环绕后....");
+    }
+```
+正常功能编写代码：每次写`Before`、`After`等，都要重写一次切入点表达式，这样就不优雅了
+```
+    @Before("execution(* aa.*.*(..))")
+    public void begin() {
+        System.out.println("开始事务");
+    }
+
+    @After("execution(* aa.*.*(..))")
+    public void close() {
+        System.out.println("关闭事务");
+    }
+```
+我们可以利用`@Pointcut`这个注解来指定切入点表达式，在用到的地方中引用。
+```
+@Component
+@Aspect//指定为切面类
+@Order(1)  // 指定执行顺序 同一个方法下应用多个切面时，通过该顺序来执行
+public class AOP {
+    // 指定切入点表达式，拦截哪个类的哪些方法
+    @Pointcut("execution(* aa.*.*(..))")
+    public void pt() {
+
+    }
+    @Before("pt()")
+    public void begin() {
+        System.out.println("开始事务");
+    }
+
+    @After("pt()")
+    public void close() {
+        System.out.println("关闭事务");
+    }
+}
+```
+
+参考资料：
+- [Spring AOP就是这么简单啦](https://juejin.im/post/5b06bf2df265da0de2574ee1)
+- [Spring【AOP模块】就这么简单](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247483954&idx=1&sn=b34e385ed716edf6f58998ec329f9867&chksm=ebd74333dca0ca257a77c02ab458300ef982adff3cf37eb6d8d2f985f11df5cc07ef17f659d4#rd)
+- [SpringBoot应用中使用AOP记录接口访问日志](http://www.macrozheng.com/#/technology/aop_log)
 
 
 
