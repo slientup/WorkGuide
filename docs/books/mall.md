@@ -362,9 +362,9 @@ public class FlagValidatorClass implements ConstraintValidator<FlagValidator,Int
 
 
 ### mall-security
-该模块主要包含安全认证相关的配置主要使用`Spring Security`+`JWT`的技术
+该模块主要包含安全认证相关的配置主要使用`Spring Security`+`JWT`的技术   
 Spring Security 相关接口和类
-- `WebSecurityConfigurerAdapter`   安全相关的配置类 可以写类继承该类
+- `WebSecurityConfigurerAdapter`   安全相关的配置类 可以写类继承该类 核心
 - `SecurityContextHolder` SecurityContextHolder存储安全上下文（security context）的信息。当前操作的用户是谁，该用户是否已经被认证，他拥有哪些角色权等等，这些都被保存在SecurityContextHolder中
 - `UserDetails接口`  提供认证相关的用户的信息. 其主要的方法就是：String `getPassword()`; 和 String `getUsername()`;
 - `User 类`  特指 org.springframework.security.core.userdetails 包中的 User 类。 它实现了 UserDetails 接口
@@ -375,7 +375,7 @@ Spring Security 相关接口和类
 - `@EnableWebSecurity`  开启Spring Security的功能
 - `@EnableGlobalMethodSecurity(prePostEnabled = true)` 可以开启security的注解，我们可以在需要控制权限的方法上面使用@PreAuthorize，@PreFilter这些注解
 
-`WebSecurityConfigurerAdapter`的配置  这是整个`spring security`处理逻辑的**核心**
+`WebSecurityConfigurerAdapter`的配置  这是整个`spring security`处理逻辑的**核心核心核心**
 ```
 @Configuration
 @EnableWebSecurity
