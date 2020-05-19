@@ -2,6 +2,7 @@
 * [mall-common](#mall-common)
 * [mall-admin](#mall-admin)
 * [AOP](#AOP)
+* [跨域问题](#跨域问题)
 
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
@@ -439,6 +440,85 @@ public class AOP {
 - [Spring AOP就是这么简单啦](https://juejin.im/post/5b06bf2df265da0de2574ee1)
 - [Spring【AOP模块】就这么简单](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247483954&idx=1&sn=b34e385ed716edf6f58998ec329f9867&chksm=ebd74333dca0ca257a77c02ab458300ef982adff3cf37eb6d8d2f985f11df5cc07ef17f659d4#rd)
 - [SpringBoot应用中使用AOP记录接口访问日志](http://www.macrozheng.com/#/technology/aop_log)
+
+### 跨域问题
+CORS全称Cross-Origin Resource Sharing，意为跨域资源共享 域的定义统一服务(ip+port) 当**一个资源**去访问**另一个域名或者同域名不同端口**的时候，就出现跨域需求   
+跨域的请求分两步：
+- 先发起一次`OPTIONS`请求进行预检
+- 发起真实的跨域请求
+
+options预检请求头信息
+```
+Access-Control-Request-Headers: content-type   
+Access-Control-Request-Method: POST  // 表明请求方法
+Origin: http://localhost:8090   // 表明请求origin 
+Referer: http://localhost:8090/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+```
+响应头信息
+```
+Access-Control-Allow-Credentials: true    //这四个字段才是重点
+Access-Control-Allow-Headers: content-type
+Access-Control-Allow-Methods: POST
+Access-Control-Allow-Origin: http://localhost:8090
+
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Content-Length: 0
+Date: Sat, 27 Jul 2019 13:40:32 GMT
+Expires: 0
+Pragma: no-cache
+Vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+```
+spring boot的解决思路：
+第一步:定义一个全局覆盖默认的CorsFilter类
+```
+@Configuration
+public class GlobalCorsConfig {
+
+    /**
+     * 允许跨域调用的过滤器
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        //允许所有域名进行跨域调用
+        config.addAllowedOrigin("*");
+        //允许跨越发送cookie
+        config.setAllowCredentials(true);
+        //放行全部原始头信息
+        config.addAllowedHeader("*");
+        //允许所有请求方法跨域调用
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+}
+```
+设置SpringSecurity允许OPTIONS请求访问 否则预检请求不能正常通过
+```
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
+                .authorizeRequests();
+        //不需要保护的资源路径允许访问
+        for (String url : ignoreUrlsConfig().getUrls()) {
+            registry.antMatchers(url).permitAll();
+        }
+        //允许跨域请求的OPTIONS请求
+        registry.antMatchers(HttpMethod.OPTIONS)    
+                .permitAll();
+```
+
+
+
+参考资料：
+* [前后端分离项目，如何解决跨域问题](http://www.macrozheng.com/#/technology/springboot_cors?id=%e4%bb%80%e4%b9%88%e6%98%af%e8%b7%a8%e5%9f%9f%e9%97%ae%e9%a2%98)
+* [springboot系列文章之实现跨域请求(CORS)](https://juejin.im/post/5b99dcca6fb9a05d3154f8b7)
+
+
 
 
 
