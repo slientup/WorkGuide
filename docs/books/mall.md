@@ -7,6 +7,7 @@
 
 
 
+
 ### mall-common 
 该模块存放其他模块都可能调用的类 主要是对`api`结果的封装，`exception` 异常的封装，统一管理   
 
@@ -362,7 +363,12 @@ public class FlagValidatorClass implements ConstraintValidator<FlagValidator,Int
 
 
 ### mall-security
-该模块主要包含安全认证相关的配置主要使用`Spring Security`+`JWT`的技术   
+该模块主要包含安全认证相关的配置主要使用`Spring Security`+`JWT`的技术 
+
+**思路：**
+在对用户进行认证和授权时，可以通过注解的方式在需要进行授权的时候，进行授权，但这种方式很繁琐，认证授权最好的方式就是通过过滤器在用户访问
+真正的页面之前做统一处理。
+
 Spring Security 相关接口和类
 - `WebSecurityConfigurerAdapter`   安全相关的配置类 可以写类继承该类 核心
 - `SecurityContextHolder` SecurityContextHolder存储安全上下文（security context）的信息。当前操作的用户是谁，该用户是否已经被认证，他拥有哪些角色权等等，这些都被保存在SecurityContextHolder中
@@ -448,7 +454,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 
 ```
-**mall项目的安全配置**   这种链式方法调用 只要满足就退出 不走下面的流程
+**mall项目的安全配置**  
 ```
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
@@ -494,6 +500,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 - [Spring Boot集成Spring Security](https://www.jianshu.com/p/08cc28921fd0)
 - [Spring securing ](https://spring.io/guides/gs/securing-web/)
 - [Spring securing 执行顺序](https://www.jianshu.com/p/ac42f38baf6e)
+
+#### JWT
+> 本文主要讲解mall通过整合SpringSecurity和JWT实现后台用户的登录和授权功能，同时改造Swagger-UI的配置使其可以自动记住登录令牌进行发送
+
+- JWT token的格式：header.payload.signature
+- header中用于存放签名的生成算法 {"alg": "HS512"}
+- payload中用于存放用户名、token的生成时间和过期时间   {"sub":"admin","created":1489079981393,"exp":1489684781}
+- signature为以header和payload生成的签名，一旦header和payload被篡改，验证将失败 
+  String signature = HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret
+  
+**JWT实现认证和授权的原理**
+- 用户调用登录接口，登录成功后获取到JWT的token；
+- 之后用户每次调用接口都在http的`header`中添加一个叫`Authorization`的头，值为JWT的`token`；
+- 后台程序通过对`Authorization`头中信息的解码及数字签名校验来获取其中的用户信息，从而实现认证和授权。 
+
+参考资料 [mall整合SpringSecurity和JWT实现认证和授权（一）](http://www.macrozheng.com/#/architect/mall_arch_04)
+
 ### AOP
 AOP:让`关注点代码`与`业务代码`分离,指对很多功能都有的`重复的代码`抽取，再在运行的时候往业务方法上动态植入“切面类代码”
 我们最终的效果是 业务代码只写业务代码  `异常` `日志` `统计`等需要重复写代码的都可以交给`AOP`去统一处理，`filter` `Interceptor`等技术都是切面的应用   
