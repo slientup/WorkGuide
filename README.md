@@ -96,6 +96,7 @@
 
 #### 前端
 * [angularJs](docs/frontend/angularJs.md)
+* [vue](docs/frontend/vue.md)
 
 
 #### 开源项目
