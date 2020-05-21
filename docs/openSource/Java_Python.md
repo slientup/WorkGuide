@@ -3,6 +3,8 @@
 
 #### 优秀项目集合
 - [GitHub-Chinese-Top-Charts](https://github.com/kon9chunkit/GitHub-Chinese-Top-Charts#Python)   
+- [advanced-java](https://github.com/doocs/advanced-java)    
+   互联网 Java 工程师进阶知识完全扫盲：涵盖高并发、分布式、高可用、微服务、海量数据处理等领域知识，后端同学必看
 - [technology-talk](https://github.com/aalansehaiyang/technology-talk)       
 汇总java生态圈常用技术框架、开源中间件，系统架构、数据库、大公司架构案例、常用三方类库、项目管理、线上问题排查、个人成长、思考等知识
 - [架构经验](https://github.com/aalansehaiyang/technology-talk/blob/master/system-architecture/architecture-experience.md)
