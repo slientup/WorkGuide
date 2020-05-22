@@ -1,5 +1,5 @@
-# sdn项目
-该项目是sdn设备的配置管理的南向接口，涉及的技术django+celery+restful api+cache(django自带缓存)，haproxy+keepalived高可用部署
+# xxx项目
+该项目是xxx设备的配置管理的南向接口，涉及的技术django+celery+restful api+cache(django自带缓存)，haproxy+keepalived高可用部署
 
 一 项目模块
 ---
@@ -200,7 +200,7 @@ class Netranger(Client):
         return super(Netranger, cls)._rest_call(url, method, **kwargs)
 ```  
 ### 日志流
-将日志写到本地———>logagent——————>kafka——————>es 还可以更好  topic `ops.net.sdn`
+将日志写到本地———>logagent——————>kafka——————>es 还可以更好  topic `xxxx`
 ### 待解决问题
 1. celery是不是只使用了一个队列？
 任务队列分配信息在`celery_config`中
