@@ -275,6 +275,257 @@ template: `<div>这是一个局部的自定义组件，只能在当前Vue实例�
 ```
 这样,在Vue实例的methods方法中就可以调用传进来的参数了
 
+## vuex
+> vuex是vue框架中全局状态管理插件，全局状态管理，即我们需要定义的全局变量 核心组件包含`state` `getters` `Mutations` `Actions` `Module`
+`state`又是核心，定义了哪些全局变量，getters是解决全局变量获取的问题，即通过getters方法获取全局变量(state中的定义)，我们当然也会有修改的
+变量值的需求，即通过`Mutations`来修改，但是该方法是同步的，而`Actions`却是异步的，于是我们可以通过`Actions`方法调用`Mutations`来达到最终
+修改去全局变量，当我们项目变的越来越大的时候，我们就需要分成不同的`module`方便管理，这是自然而然的思维，这与类的思维一模一样.
+### state
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+ const state={//要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+ const store = new Vuex.Store({   //将state属性引入到store中
+       state
+    });
+ 
+export default store;   //导出以便于其他地方导入使用
+```
+上面案例只有`state`属性，该属性就用来定义全局变量，其他组件导入`store`后，可以通过`this.store.state.showFoote`r或t`his.store.state.changebleNum`在任何一个组件里面获取showfooter和changebleNum定义的值了,但这不是推荐的方式，推荐使用`getter`方法获取state中变量的值，就像类不推荐直接访问变量一样
+
+### getters 
+> 通过`getters`属性获取`state`中定义的变量值,该getters可实时监听state值的变化，类似`computed`计算属性,实现双向绑定 通过`this.$store.getters.isShow`方式访问
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+ const state={   //要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+const getters = {   //实时监听state值的变化(最新状态)
+    isShow(state) {  //方法名随意,主要是来承载变化的showFooter的值
+       return state.showFooter
+    },
+    getChangedNum(){  //方法名随意,主要是用来承载变化的changableNum的值
+       return state.changebleNum
+    }
+};
+const store = new Vuex.Store({
+       state,
+       getters
+});
+export default store;
+```
+### mutations
+> 当我们定义个全局变量后，很多时候也会有修改的需求，而不仅仅只是访问，而`mutations`就负责修改`state`中全局变量 通过`this.store.commit('show')` 其中`show`是方法名的方式调用  方法定义的时候必须包含`state`参数 因为你是要操作state的
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+ const state={   //要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+const getters = {   //实时监听state值的变化(最新状态)
+    isShow(state) {  //承载变化的showFooter的值
+       return state.showFooter
+    },
+    getChangedNum(){  //承载变化的changebleNum的值
+       return state.changableNum
+    }
+};
+const mutations = {
+    show(state) {   //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+        state.showFooter = true;
+    },
+    hide(state) {  //同上
+        state.showFooter = false;
+    },
+    newNum(state,sum){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+       state.changableNum+=sum;
+    }
+};
+ const store = new Vuex.Store({
+       state,
+       getters,
+       mutations
+});
+export default store;
+```
+### actions
+> 由于`mutations`是同步操作，而`actions`却是异步方法，所以我们实际中使用`actions`去调用`mutations`设置属性值 方法中必须包含`context`参数
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex';
+Vue.use(Vuex);
+ const state={   //要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+const getters = {   //实时监听state值的变化(最新状态)
+    isShow(state) {  //承载变化的showFooter的值
+       return state.showFooter
+    },
+    getChangedNum(){  //承载变化的changebleNum的值
+       return state.changableNum
+    }
+};
+const mutations = {
+    show(state) {   //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+        state.showFooter = true;
+    },
+    hide(state) {  //同上
+        state.showFooter = false;
+    },
+    newNum(state,sum){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+       state.changableNum+=sum;
+    }
+};
+ const actions = {
+    hideFooter(context) {  //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
+        context.commit('hide');
+    },
+    showFooter(context) {  //同上注释
+        context.commit('show');
+    },
+    getNewNum(context,num){   //同上注释，num为要变化的形参
+        context.commit('newNum',num)
+     }
+};
+  const store = new Vuex.Store({
+       state,
+       getters,
+       mutations,
+       actions
+});
+export default store;
+```
+通过`dispatch` `this.$store.dispatch('hideFooter')`来调用
+
+### module
+> 当项目比较大的时候，全局变量都放到一个文件里，显然不行，通常我们会根据不同的应用划分不同的模块，最后再组装起来 于是这种`module
+index.js文件里的配置
+```javascript
+import Vue from 'vue';
+import Vuex from 'vuex';
+import footerStatus from './modules/footerStatus'
+import collection from './modules/collection'
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+    modules:{
+         footerStatus,
+         collection
+    }
+});
+```
+namespaced: true的含义就是可通过当前模块的名字访问该模块
+```
+//footerStatus.js
+ 
+const state={   //要设置的全局访问的state对象
+     showFooter: true,
+     changableNum:0
+     //要设置的初始属性值
+   };
+const getters = {   //实时监听state值的变化(最新状态)
+    isShow(state) {  //承载变化的showFooter的值
+       return state.showFooter
+    },
+    getChangedNum(){  //承载变化的changebleNum的值
+       return state.changableNum
+    }
+};
+const mutations = {
+    show(state) {   //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+        state.showFooter = true;
+    },
+    hide(state) {  //同上
+        state.showFooter = false;
+    },
+    newNum(state,sum){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+       state.changableNum+=sum;
+    }
+};
+ const actions = {
+    hideFooter(context) {  //自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
+        context.commit('hide');
+    },
+    showFooter(context) {  //同上注释
+        context.commit('show');
+    },
+    getNewNum(context,num){   //同上注释，num为要变化的形参
+        context.commit('newNum',num)
+     }
+};
+export default {
+    namespaced: true, //用于在全局引用此文里的方法时标识这一个的文件名 
+    state,
+    getters,
+    mutations,
+    actions
+}
+```
+###  mapState,mapGetters,mapActions 特殊属性
+> 这三个属性本质上减少代码冗余量的 `map`映射作用
+```
+<script>
+ import {mapState} from "vuex"; // 引入mapState 
+ export default {
+　　　　　　// 下面这两种写法都可以
+  computed: mapState({
+   count: state => state.count // 组件内的每一个属性函数都会获得一个默认参数state, 然后通过state 直接获取它的属性更简洁  
+   count: 'count'　　　　　　　　　// 'count' 直接映射到state 对象中的count, 它相当于 this.$store.state.count,
+  })
+ }
+</script>
+```
+
+## Application Structure
+
+> 如下是推荐的应用结构
+├── index.html
+├── main.js
+├── api
+│   └── ... # abstractions for making API requests
+├── components
+│   ├── App.vue
+│   └── ...
+└── store
+    ├── index.js          # where we assemble modules and export the store
+    ├── actions.js        # root actions
+    ├── mutations.js      # root mutations
+    └── modules
+        ├── cart.js       # cart module
+        └── products.js   # products module
+
+
+
+
+### 参考
+- [VueJS中学习使用Vuex详解](https://segmentfault.com/a/1190000015782272)
+- [vuex官网](https://vuex.vuejs.org/guide/modules.html)
+
+
+
+
+
+
+
+
 ## 参考资料
+> 每篇参考文章都很经典 值得仔细阅读
 - [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
+- [vue官网](https://cn.vuejs.org/v2/guide/)
 - [如何在5天内学会Vue？聊聊我的学习方法！](https://mp.weixin.qq.com/s/R--Qh4Lp5nhhO0eNWNDmIw)
+- [VueJS中学习使用Vuex详解](https://segmentfault.com/a/1190000015782272)
+- [vuex官网](https://vuex.vuejs.org/guide/modules.html)
