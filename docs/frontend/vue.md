@@ -59,7 +59,7 @@ var vm = new Vue({
   }
 })
 ```
-### watch计算属性
+### watch监听属性
 > 顾名思义，监听某个值发生了变化就触发某些内容 当`question`值发生改变调用对应的方法处理
 ```javascript
 var watchExampleVM = new Vue({
