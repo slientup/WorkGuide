@@ -7,6 +7,7 @@
 - [vue-router](vue-router)
 - [axios](#axios)
 - [js-cookie](#js-cookie)
+- [参考资料](#参考资料)
 
 ## vue基础
 > vue属性是vue最重要的特性之一，其中**数据**和**方法**属性最重要
@@ -273,10 +274,7 @@ template: `<div>这是一个局部的自定义组件，只能在当前Vue实例�
   <my-component2 v-on:myclick="onClick"></my-component2>
 ```
 这样,在Vue实例的methods方法中就可以调用传进来的参数了
- 
-   
-组件参考资料：
-- [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
 
-参考资料：
+## 参考资料
+- [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
 - [如何在5天内学会Vue？聊聊我的学习方法！](https://mp.weixin.qq.com/s/R--Qh4Lp5nhhO0eNWNDmIw)
