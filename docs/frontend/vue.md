@@ -2,6 +2,7 @@
 > vue是前端框架，是目前最接近后端编程语言思路的框架，对后端程序员来说上手很容易
 
 - [vue基础](#vue基础)
+- [vue组件](#vue组件)
 - [vuex](#vuex)
 - [vue-router](vue-router)
 - [axios](#axios)
@@ -145,7 +146,101 @@ var watchExampleVM = new Vue({
 </script>
 ```
 ### 组件
-> 组件是可复用的Vue实例,对它是vue实例，也就是vue实例有的它都有
+> 组件是可复用的Vue实例,对它是vue实例，也就是vue实例有的属性他都有，但也现有一些区别，组件最终是要渲染成**模板的一部分** 我们在配置组件的时候
+一般会配置`template`模板属性
+
+#### 全局组件与局部组件
+- 全局组件： **直接**使用`Vue.component()`创建的组件，**所有的Vue实例**都可以使用
+- 局部组件： 在某个**Vue实例**中注册**只有自己**能使用的组件
+```javascript
+ // 全局组件
+ Vue.component('mycomponent',{
+    template: `<div>这是一个自定义组件</div>`,
+    data () {
+      return {
+        message: 'hello world'
+      }
+    }
+  })
+
+ <div id="app">
+    <mycomponent></mycomponent>    //引用全局组件
+    <my-component></my-component>  //引用自己的局部组件
+</div>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+    },
+    components: {
+      'my-component': {
+        template: `<div>这是一个局部的自定义组件，只能在当前Vue实例中使用</div>`,
+      }
+    }
+  })
+</script>
+```
+#### 模板属性 
+> 组件中的模板属性**只能**有一个根元素,下面案例是不被允许的
+```javascript
+template: `<div>这是一个局部的自定义组件，只能在当前Vue实例中使用</div>
+            <button>hello</button>`,  
+```
+
+#### 组件中的data必须是函数
+```javascript
+  // data 属性的配置方法
+    data () {
+      return {
+        message: 'hello world'
+      }
+    }
+```
+#### 属性Props和事件
+> 解决父子组件通信问题 父传子 通过`Props属性` 子传父 通过`事件`  
+- **Props属性** vue组件通过`props`属性来声明一个自己的属性，然后父组件就可以向该变量传递自己`data`属性的值 
+- **事件** 当子组件需要将自己的属性传递给父 就通过**自定义事件**来把这个事情涉及到的数据暴露出来，供父组件处理
+```html
+<my-component v-bind:foo="baz" v-on:event-a="doThis(arg1,...arg2)"></my-component>
+ ```
+ - `foo`是<my-component>组件内部定义的一个`prop`属性，`baz`是父组件的一个data属性，
+ - `event-a`是子组件定义的一个事件，`doThis`是父组件的一个方法
+书写格式：
+ - v-bind:foo(子组件props属性)="baz(父组件的data属性)"
+ - v-on:event-a(子组件方法事件)="doThis(arg1,...arg2)(父组件的方法)"
+过程如下：
+- 父组件把`baz`数据通过`prop`传递给子组件的`foo`；
+- 子组件内部得到`foo`的值，就可以进行相应的操作；
+- 当子组件内部发生了一些变化，希望父组件能知道时，就利用代码触发`event-a`事件，把一些数据发送出去
+- 父组件把这个事件处理器绑定为`doThis`方法，子组件发送的数据，就作为`doThis`方法的参数被传进来
+- 然后父组件就可以根据这些数据，进行相应的操作   
+  
+Props属性代码:
+```javascript
+<div id="myApp">
+    <div>请输入您的名字：<input v-model="myname"></div>
+    <hr/>
+    <say-hello :pname="myname" />     //将父组件的myname data属性传递给子组件pname props属性
+</div>
+<script>
+    Vue.component('say-hello', {
+        props: ['pname'],
+        template: '<div>你好，<strong>{{pname}}</strong>！</div>',
+    });
+    var myApp = new Vue({
+        el: '#myApp', 
+        data: {
+            myname: 'Koma'
+        }
+    });
+</script>  
+```
+  
+
+组件参考资料：
+- [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
+
+
 
 
 
