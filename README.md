@@ -133,6 +133,7 @@
 * [10个 解放双手的 IDEA 插件，能自动生成的绝不手写](https://juejin.im/post/5ebdf2225188256d4c558c38)
 * [我常用的IDEA插件大公开，个个是精品！](https://juejin.im/post/5eba9a5bf265da7bca50010c)
 * [Precesson制图模板](docs/other/precesson.md)
+* [如何在5天内学会Vue？聊聊我的学习方法！](https://mp.weixin.qq.com/s/R--Qh4Lp5nhhO0eNWNDmIw)
   
 
 
