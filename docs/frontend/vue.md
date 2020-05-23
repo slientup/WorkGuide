@@ -597,6 +597,86 @@ const router = new VueRouter({
 |/user/:username/post/:post_id|	/user/evan/post/123|{ username: 'evan', post_id: '123' }|
 通过`$route.params.username` 取到对应的`evan`值
 
+### 路由嵌套  
+> 路由嵌套通过`children`实现
+```html
+<div id="app">
+  <router-view></router-view>
+</div>
+```javascript
+// 定义user组件 该组件里面嵌套了`router-view`
+const User = {
+  template: `
+    <div class="user">
+      <h2>User {{ $route.params.id }}</h2>
+      <router-view></router-view>
+    </div>
+  `
+}
+```
+UserProfile 会被渲染在user的<router-view>中
+```javascript
+const router = new VueRouter({
+  routes: [
+    { path: '/user/:id', component: User,
+      children: [
+        {
+          // 当 /user/:id/profile 匹配成功 
+          // UserProfile 会被渲染在 **User 的 <router-view> **中
+          path: 'profile',
+          component: UserProfile
+        },
+        {
+          // 当 /user/:id/posts 匹配成功
+          // UserPosts 会被渲染在 User 的 <router-view> 中
+          path: 'posts',
+          component: UserPosts
+        }
+      ]
+    }
+  ]
+})
+```
+### 命名路由
+> 可通过名字的方式访问路由，代替`path`的方式
+```js
+  const router = new VueRouter({
+  routes: [
+    {
+      path: '/user/:userId',
+      name: 'user',
+      component: User
+    }
+  ]
+})  
+```
+```html
+<router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+```
+### 命名视图
+> 有时候我们想要同级展示多个视图，而不是路由视图，这个时候只需要给`router-view`增加`name`属性，并在路由中，配置多个组件就可以了
+```html
+ // add name  
+<router-view class="view one"></router-view>
+<router-view class="view two" name="a"></router-view>
+<router-view class="view three" name="b"></router-view>
+```  
+```javascript
+  // 同一个路径映射多个组件
+  const router = new VueRouter({
+  routes: [
+    {
+      path: '/',
+      components: {
+        default: Foo,
+        a: Bar,
+        b: Baz
+      }
+    }
+  ]
+})
+  ```
+  
 
 
 
