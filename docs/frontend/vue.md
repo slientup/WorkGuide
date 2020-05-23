@@ -591,9 +591,10 @@ const router = new VueRouter({
 })
 ```
 `/user/foo` 和 `/user/bar` 都将映射到相同的路由 其中":"标记着该字段是一个参数 参数都存放在`$route.params`字段里
-模式	                               匹配路径	                                        $route.params
-/user/:username	                    /user/evan	                                  { username: 'evan' }
-/user/:username/post/:post_id	   /user/evan/post/123	                  { username: 'evan', post_id: '123' }
+|模式|匹配路径|$route.params|
+|----|-----|-----|
+|/user/:username|/user/evan|{ username: 'evan' }|
+|/user/:username/post/:post_id|	/user/evan/post/123|{ username: 'evan', post_id: '123' }|
 
 
 
