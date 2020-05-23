@@ -676,7 +676,8 @@ const router = new VueRouter({
   ]
 })
   ```
-  
+### 参考资料 
+[vue-router官方](https://router.vuejs.org/zh/guide/)
 
 
 
