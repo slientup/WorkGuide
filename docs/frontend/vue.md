@@ -577,7 +577,7 @@ const app = new Vue({
 }).$mount('#app')
 ```
 ### 动态路由匹配
-> 我们经常需要把**某种模式**匹配到的所有路由，**全都映射**到同个组件 
+> 我们经常需要把**某种模式**匹配到的所有路由，**全都映射**到同个组件  可通过`/user/:id`方式实现
 ```javascript
 const User = {
   template: '<div>User</div>'
@@ -595,7 +595,7 @@ const router = new VueRouter({
 |----|-----|-----|
 |/user/:username|/user/evan|{ username: 'evan' }|
 |/user/:username/post/:post_id|	/user/evan/post/123|{ username: 'evan', post_id: '123' }|
-
+通过`$route.params.username` 取到对应的`evan`值
 
 
 
