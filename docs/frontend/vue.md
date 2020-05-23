@@ -7,6 +7,9 @@
 - [vue-router](#vue-router)
 - [axios](#axios)
 - [js-cookie](#js-cookie)
+- [path-to-regexp](#path-to-regexp)
+- [nprogress](#nprogress)
+
 - [参考资料](#参考资料)
 
 ## vue基础
@@ -738,6 +741,13 @@ Cookies.get('nothing') // => undefined
 Cookies.get() // => { name: 'value' }  // Read all visible cookies:
 ```
 更多详细信息参见官方文档：[js-cookie官方文档](https://github.com/js-cookie/js-cookie)
+
+## path-to-regexp 
+针对路径字符串进行处理的正则表达式工具 使用见官网[path-to-regexp](https://github.com/pillarjs/path-to-regexp)
+
+## nprogress
+一款基于JavaScript的进度条UI组件 使用参考官网[nprogress](https://github.com/rstacruz/nprogress)
+
 ## 参考资料
 > 每篇参考文章都很经典 值得仔细阅读
 - [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
