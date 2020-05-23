@@ -679,7 +679,42 @@ const router = new VueRouter({
 ### 参考资料 
 [vue-router官方](https://router.vuejs.org/zh/guide/)
 
+## axios
+> axios是http请求客户端，功能非常丰富 如`异步`，自动转换数据，`Intercept`拦截器等功能
+### get请求
+```js
+const axios = require('axios');
 
+// Make a request for a user with a given ID
+axios.get('/user?ID=12345')
+  .then(function (response) {
+    // handle success   Any status code that lie within the range of 2xx cause this function to trigger
+     console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.headers);
+    console.log(response.config);
+  })
+  .catch(function (error) {
+    // handle error   Any status code that fall outside the range of 2xx  cause this function to trigger
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
+```
+### Intercept
+```js
+// Add a request interceptor 
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+```
+全局请求参数配置等其他信息见官方文档，非常详细 [axios官方文档](https://github.com/axios/axios)
 
 ## 参考资料
 > 每篇参考文章都很经典 值得仔细阅读
