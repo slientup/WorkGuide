@@ -716,6 +716,28 @@ axios.interceptors.request.use(function (config) {
 ```
 全局请求参数配置等其他信息见官方文档，非常详细 [axios官方文档](https://github.com/axios/axios)
 
+## js-cookie
+> A simple, lightweight JavaScript API for handling cookies
+### set cookie
+Create a cookie, valid across the entire site:
+```js
+Cookies.set('name', 'value')
+```
+Create a cookie that expires 7 days from now, valid across the entire site:
+```js
+Cookies.set('name', 'value', { expires: 7 })
+```
+Create an expiring cookie, valid to the path of the current page:
+```js
+Cookies.set('name', 'value', { expires: 7, path: '' })   
+```
+### read cookie
+```js
+Cookies.get('name') // => 'value'
+Cookies.get('nothing') // => undefined 
+Cookies.get() // => { name: 'value' }  // Read all visible cookies:
+```
+更多详细信息参见官方文档：[js-cookie官方文档](https://github.com/js-cookie/js-cookie)
 ## 参考资料
 > 每篇参考文章都很经典 值得仔细阅读
 - [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
