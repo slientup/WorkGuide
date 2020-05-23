@@ -4,7 +4,7 @@
 - [vue基础](#vue基础)
 - [vue组件](#vue组件)
 - [vuex](#vuex)
-- [vue-router](vue-router)
+- [vue-router](#vue-router)
 - [axios](#axios)
 - [js-cookie](#js-cookie)
 - [参考资料](#参考资料)
@@ -510,13 +510,90 @@ export default {
 
 
 
-
 ### 参考
 - [VueJS中学习使用Vuex详解](https://segmentfault.com/a/1190000015782272)
 - [vuex官网](https://vuex.vuejs.org/guide/modules.html)
 
+## vue-router
+> vue-router是vue.js的官方路由器，路由器就是route/view的映射关系，即通过path路径返回对应的视图页面 在vue中是`path--->component'的关系
+我们需要做的就是 将组件 (components) 映射到路由 (routes)，然后告诉 Vue Router 在哪里渲染它们
 
+### 起步 
+> `<router-link>` 指定path  `<router-view>`路由出口 即对应组件渲染的地方
+```html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+```
+`vue-router`在js中的完整配置
+- 导入vue-router模块
+- 定义路由组件
+- 定义路由 路由与组件绑定
+- 创建路由实例 
+- 创建并将路由挂载到根实例
+
+```javascript
+// 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
+
+// 1. 定义 (路由) 组件。
+// 可以从其他文件 import 进来
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+// 2. 定义路由
+// 每个路由应该映射一个组件。 其中"component" 可以是
+// 通过 Vue.extend() 创建的组件构造器，
+// 或者，只是一个组件配置对象。
+// 我们晚点再讨论嵌套路由。
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 3. 创建 router 实例，然后传 `routes` 配置
+// 你还可以传别的配置参数, 不过先这么简单着吧。
+const router = new VueRouter({
+  routes // (缩写) 相当于 routes: routes
+})
+
+// 4. 创建和挂载根实例。
+// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount('#app')
+```
+### 动态路由匹配
+> 我们经常需要把**某种模式**匹配到的所有路由，**全都映射**到同个组件 
+```javascript
+const User = {
+  template: '<div>User</div>'
+}
+
+const router = new VueRouter({
+  routes: [
+    // 动态路径参数 以冒号开头
+    { path: '/user/:id', component: User }
+  ]
+})
+```
+`/user/foo` 和 `/user/bar` 都将映射到相同的路由 其中":"标记着该字段是一个参数 参数都存放在`$route.params`字段里
+模式	                               匹配路径	                                        $route.params
+/user/:username	                    /user/evan	                                  { username: 'evan' }
+/user/:username/post/:post_id	   /user/evan/post/123	                  { username: 'evan', post_id: '123' }
 
 
 
