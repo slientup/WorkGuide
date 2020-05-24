@@ -4,6 +4,7 @@
 * [mall-security](#mall-security)
 * [AOP](#AOP)
 * [跨域问题](#跨域问题)
+* [admin-vue-web](#admin-vue-web)
 
 
 
@@ -673,6 +674,40 @@ public class GlobalCorsConfig {
                 .permitAll();
 ```
 
+### admin-vue-web
+> mall前端项目
+#### Promise异步编程
+- 登录远程调用方法封装到Promise中
+- 组件(控制层)在调用异步方法
+```js
+  actions: {
+    // 登录远程调用方法封装到Promise中
+    Login({ commit }, userInfo) {
+      const username = userInfo.username.trim()
+      return new Promise((resolve, reject) => {
+        login(username, userInfo.password).then(response => {
+          const data = response.data
+          const tokenStr = data.tokenHead+data.token
+          setToken(tokenStr)
+          commit('SET_TOKEN', tokenStr)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+```
+组件中调用异步`login` `then`处理异步的返回结果 `catch`处理异步异常的结果
+```js
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+              this.loading = false;
+              setCookie("username",this.loginForm.username,15);
+              setCookie("password",this.loginForm.password,15);
+              this.$router.push({path: '/'})
+            }).catch(() => {
+              this.loading = false
+         })
+```
 
 
 参考资料：
