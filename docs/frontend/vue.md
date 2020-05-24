@@ -9,6 +9,8 @@
 - [js-cookie](#js-cookie)
 - [path-to-regexp](#path-to-regexp)
 - [nprogress](#nprogress)
+- [npm](#npm)
+
 
 - [参考资料](#参考资料)
 
@@ -747,6 +749,72 @@ Cookies.get() // => { name: 'value' }  // Read all visible cookies:
 
 ## nprogress
 一款基于JavaScript的进度条UI组件 使用参考官网[nprogress](https://github.com/rstacruz/nprogress)
+
+## npm
+> npm 前端`javascript`包管理器
+### package.json
+> 包管理文件  主要包含依赖包和作者信息
+- scripts字段 :npm run *   //* 是sricpts中的键值 比如 dev  build:prod 
+- `dependencies` 生产环境依赖
+- `devDependencies` 开发环境依赖
+```js
+{
+  "name": "xxxx",
+  "description": "xxxx",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build:prod": "vue-cli-service build",
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
+  },
+  "dependencies": {
+    "axios": "0.18.1",
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0",
+  }
+```
+### 常用命令
+```js
+npm install <package_name> 
+npm isntall <git url>
+ 
+#安装最新版本
+npm install <package_name>@latest
+ 
+#安装指定版本
+npm install <package_name>@0.1.1
+
+#安装写到dependencies,-s是简写
+npm install <package_name> --save
+npm install <package_name> --s
+ 
+#安装写到devDependencies,-D是简写,
+npm install <package_name> --save-dev
+npm install <package_name> --D
+ 
+#安装beta版本
+npm install <module-name>@beta
+ 
+#npm更新
+npm update <package_name>
+ 
+#npm 卸载
+npm uninstall <package_name>
+ 
+#npm执行脚本，package.json文件有个scripts字段，可以定义脚本命令(lint,build)，npm直接执行
+npm run lint
+npm run build
+ 
+#npm run 执行script下面所有的命令
+npm run
+ 
+#dev 脚本，开发阶段要做的处理.dev是自定义命令
+npm run dev 
+ 
+#serve,脚本用于启动服务,serve是自定义命令
+npm run serve
+```
+参考资料：[npm详解](https://blog.csdn.net/xingmeiok/article/details/90299089)
 
 ## 参考资料
 > 每篇参考文章都很经典 值得仔细阅读
