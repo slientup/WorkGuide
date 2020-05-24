@@ -10,6 +10,7 @@
 - [path-to-regexp](#path-to-regexp)
 - [nprogress](#nprogress)
 - [npm](#npm)
+- [vue项目启动流程](#vue项目启动流程)
 
 
 - [参考资料](#参考资料)
@@ -816,6 +817,9 @@ npm run serve
 ```
 参考资料：[npm详解](https://blog.csdn.net/xingmeiok/article/details/90299089)
 
+
+## vue项目启动流程
+写的非常详细:[webpack项目启动流程](https://www.cnblogs.com/xifengxiaoma/p/9493544.html)
 ## 参考资料
 > 每篇参考文章都很经典 值得仔细阅读
 - [深刻理解Vue中的组件](https://segmentfault.com/a/1190000010527064)
