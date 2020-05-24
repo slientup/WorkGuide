@@ -708,6 +708,10 @@ public class GlobalCorsConfig {
               this.loading = false
          })
 ```
+### Vue:router的beforeEach与afterEach钩子函数
+> 该钩子函数会在路由组件匹配之前或者之后运行，往往用来做一些特殊处理
+
+
 
 
 参考资料：
