@@ -32,7 +32,7 @@ export default function () {
 import customName from './export-default';  //contomName 自定义的名字
 customName(); // 'foo'  
 ```
-[参考资料](https://www.cnblogs.com/fanyanzhao/p/10298543.html)
+参考资料:[export 和 export default 的区别](https://www.cnblogs.com/fanyanzhao/p/10298543.html)
 
 
 
