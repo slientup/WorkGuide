@@ -52,5 +52,8 @@ customName(); // 'foo'
 ```
 参考资料:[export 和 export default 的区别](https://www.cnblogs.com/fanyanzhao/p/10298543.html)
 
+## ==和===的区别
+> `==`用于一般比较，`===`用于严格比较，`==`在比较的时候可以转换数据类型，`===`严格比较，只要类型不匹配就返回flase
+
 
 
