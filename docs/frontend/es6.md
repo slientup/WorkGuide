@@ -1,10 +1,28 @@
 # es6特性
 > 记录一些es特性的用法
+## =>箭头函数语法
+```
+function(x){
+	reuturn x+6;
+}
+等价于
+(x)=>x+6;
+或者
+x=>x+6;
+```
+
 ## const简写
 ```js
 const {dispatch} = this.props;
 等价于
 const dispatch = this.props.dispatch;
+```
+## filter 过滤器
+> 这与java的filter含义一样
+```js
+var arr = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+const newArr = arr.filter(word => word.length > 6);
+console.log(newArr);   //["exuberant", "destruction", "present"]
 ```
 ## promise对象
 Promise是异步编程的一种解决方案，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
