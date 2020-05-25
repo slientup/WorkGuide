@@ -4,7 +4,7 @@
 * [mall-security](#mall-security)
 * [AOP](#AOP)
 * [跨域问题](#跨域问题)
-* [admin-vue-web](#admin-vue-web)
+* [mall-admin-web](#mall-admin-web)
 
 
 
@@ -674,7 +674,7 @@ public class GlobalCorsConfig {
                 .permitAll();
 ```
 
-### admin-vue-web
+### mall-admin-web
 > mall前端项目
 #### Promise异步编程
 - 登录远程调用方法封装到Promise中
@@ -709,7 +709,31 @@ public class GlobalCorsConfig {
          })
 ```
 ### Vue:router的beforeEach与afterEach钩子函数
-> 该钩子函数会在路由组件匹配之前或者之后运行，往往用来做一些特殊处理
+> `beforeEach`钩子函数会在路由组件匹配之前运行，`afterEach`在路由组件匹配之后处理，类似filter，每次进入vue-router处理流程都会调用这个方法，
+往往用来做一些特殊处理
+1.通过`token`判断用户是否已登录，如果未登陆，重定向到`login`页面  见`permission.js`
+```js
+router.beforeEach((to, from, next) => {
+  console.log("beforeEach start")
+  NProgress.start()
+  if (getToken()) {       // 是否存在token
+    console.log("beforeEach token")
+    if (to.path === '/login') {
+      console.log("beforeEach  login start")
+      next({ path: '/' })     //重定向到首页
+    }
+    else {      //不存在token的情况     
+    console.log("no token")
+    if (whiteList.indexOf(to.path) !== -1) {
+      console.log("login in whitelist")
+      next()
+    } else {
+      console.log("redirect login")
+      next('/login')
+      NProgress.done()
+    }
+```
+2. 根据用户信息生成动态路由
 
 
 
