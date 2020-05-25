@@ -751,8 +751,17 @@ Cookies.get() // => { name: 'value' }  // Read all visible cookies:
 ## nprogress
 一款基于JavaScript的进度条UI组件 使用参考官网[nprogress](https://github.com/rstacruz/nprogress)
 
+
 ## npm
 > npm 前端`javascript`包管理器
+
+### 设置npm源
+```js
+# 设置为淘宝的镜像源
+npm config set registry https://registry.npm.taobao.org
+# 设置为官方镜像源
+npm config set registry https://registry.npmjs.org
+```
 ### package.json
 > 包管理文件  主要包含依赖包和作者信息
 - scripts字段 :npm run *   //* 是sricpts中的键值 比如 dev  build:prod 
