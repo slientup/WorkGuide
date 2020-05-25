@@ -708,6 +708,69 @@ public class GlobalCorsConfig {
               this.loading = false
          })
 ```
+### axios 拦截器
+> 对所有axios的请求都带上token字段，要实现这个功能可在axios进行拦截器处理,打上`token`信息 我们也需要对返回的报错信息进行 统一处理 
+- 请求拦截器对所有的api请求都打上token信息
+- 响应拦截器是对返回状态码进行统一处理，`非200`都抛出错误
+
+```js
+// request拦截器
+service.interceptors.request.use(config => {
+  if (store.getters.token) {
+    config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  }
+  return config
+}, error => {
+  // Do something with request error
+  console.log(error) // for debug
+  Promise.reject(error)
+})
+
+// respone拦截器
+service.interceptors.response.use(
+  response => {
+  /**
+  * code为非200是抛错 可结合自己业务进行修改
+  */
+    const res = response.data
+    if (res.code !== 200) {
+      Message({
+        message: res.message,
+        type: 'error',
+        duration: 3 * 1000
+      })
+
+      // 401:未登录;
+      if (res.code === 401) {
+        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          store.dispatch('FedLogOut').then(() => {
+            location.reload()// 为了重新实例化vue-router对象 避免bug
+          })
+        })
+      }
+      return Promise.reject('error')
+    } else {
+      return response.data
+    }
+  },
+  error => {
+    console.log('err' + error)// for debug
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 3 * 1000
+    })
+    return Promise.reject(error)
+  }
+)
+```
+
+
+
 ### Vue:router的beforeEach与afterEach钩子函数
 > `beforeEach`钩子函数会在路由组件匹配之前运行，`afterEach`在路由组件匹配之后处理，类似filter，每次进入vue-router处理流程都会调用这个方法，
 往往用来做一些特殊处理
