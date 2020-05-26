@@ -734,13 +734,13 @@ service.interceptors.response.use(
   */
     const res = response.data
     if (res.code !== 200) {
-      Message({
+      Message({                   //这里使用element ui的message组件提示报错信息
         message: res.message,
         type: 'error',
         duration: 3 * 1000
       })
 
-      // 401:未登录;
+      // 401:未登录;   //这里使用element ui的MessageBox组件提示报错信息
       if (res.code === 401) {
         MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
           confirmButtonText: '重新登录',
@@ -798,6 +798,11 @@ router.beforeEach((to, from, next) => {
 ```
 2. 根据用户信息生成动态路由
 
+
+
+### element-ui组件
+> 该项目中用到的ui组件
+#### Message MessageBox 用来做消息的提示信息
 
 
 
