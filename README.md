@@ -65,6 +65,7 @@
 ### 数据库
 #### redis
 1. [Redis与数据库一致性问题](docs/db/redis_consistency.md)
+2. [mysql](http://www.macrozheng.com/#/reference/mysql)
 
 ### 设计模式
 * [常用设计模式](docs/design/design.md)
