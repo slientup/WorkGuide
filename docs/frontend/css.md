@@ -1,4 +1,70 @@
 # 记录css中常用的一些样式
+- [常用命令](#常用命令)
+  
+
+- [基础知识](#基础知识)
+
+## 常用命令
+```css 
+  width: 450px;   
+  height: 360px;
+  background-color: #fff;
+  border-radius: 3px;   //边角的长度
+  position: absolute;   
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);  //对元素进行平移
+  transform: translate(-50%, -50%);  //对元素进行平移
+  background-color: #fff;
+  bottom: 60px;   // 底部距离
+  padding: 0 20px;  
+  cursor: pointer;    //鼠标变成小手
+  
+  // 字体相关的配置
+  font-size: 10px;
+  line-height: 24px;  
+  color: #fff;    // 字体颜色
+  text-align: center;  //居中
+  letter-spacing: 0.2em;  //间隔 
+```
+
+css层级配置样式 **针对元素**
+```css      
+.el-header {
+  background-color: #373f41;
+  > div {   
+    display: flex;
+    img {
+      height: 40px;
+    }
+    span {
+      margin-left: 15px;
+    }
+  }
+}
+```
+css层级配置样式 **针对class自定义**
+```css
+.login_box {
+  background-color: #fff;
+  .avatar_box {
+    width: 200px;
+    img {
+      width: 100%;
+    }
+  }
+}
+```
+```
+<style lang="less" scoped>
+/* // lang="less" 支持less格式
+// scoped vue的指令，只在当前组件生效 */
+```
+
+**建议**：前端组件css样式修饰的时候：优先使用`ui组件`提供的样式，如果没有相应的样式再利用上面的自定义.
+
+
+## 基础知识
 
 ## 块级元素和行内元素
 ### 分类
