@@ -14,8 +14,7 @@
   position: absolute;   
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);  //对元素进行平移
-  transform: translate(-50%, -50%);  //对元素进行平移
+  transform: translate(-50%, -50%);  //对元素进行平移  
   background-color: #fff;
   bottom: 60px;   // 底部距离
   padding: 0 20px;  
