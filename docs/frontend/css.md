@@ -95,6 +95,28 @@ div {
 ```
 实际宽度：300px (宽)+ 50px (左 + 右填充)+ 50px (左 + 右边框)+ 50px (左 + 右边距)= 450px 
 
+## flex模型
+> 盒状模型布局是传统的布局方案，它对于那些特殊布局非常不方便，比如，垂直居中就不容易实现，而`flex`就是解决这类问题，默认ui组件的容器模型就是`flex`
+任何一个容器都可以指定为 Flex 布局
+```css
+.box{
+  display: flex;
+}
+// 行内元素的实现方式
+.box{
+  display: inline-flex;
+}
+```
+### 容器属性
+- flex-direction  决定项目的排列方向,默认主轴`水平`方向，起点在左端
+- flex-wrap  默认情况下，项目都排在一条线（又称"轴线"）上。`flex-wrap`属性定义，如果一条轴线排不下，如何换行
+- flex-flow  `flex-direction`属性和`flex-wrap`属性的简写
+- justify-content  定义项目在主轴上的**对齐方式**
+- align-items  定义项目在交叉轴上(**垂直方向**)如何对齐
+- align-content  多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用
+
+更详细全面的信息参考：[Flex布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+
 ## 网页布局
 ### 相对定位
 > 生成相对定位的元素，相对于其**正常位置（普通流）**进行定位
