@@ -6,6 +6,7 @@
 
 ## 常用命令
 ```css 
+  // 盒子位置相关的配置
   width: 450px;   
   height: 360px;
   background-color: #fff;
