@@ -6,7 +6,7 @@
 当前类与注解之间的关系，是通过**反射**来关联起来的，只是这些繁琐的代码被对应的框架来实现了，如spring框架
 
 #### 注解本质
-```
+```java
 #MyAnno.java
 public @interface MyAnno{
    int age();  //定义age属性
@@ -41,7 +41,7 @@ public @interface MyAnno{
 3. 数组赋值时，值使用{}包裹。如果数组中只有一个值，则{}可以省略
 ```
 #### 元注解
-```
+```java
 * 元注解：用于描述注解的注解
 		* @Target：描述注解能够作用的位置
 			* ElementType取值：
@@ -80,7 +80,7 @@ public @interface MyAnno{
 
 @注解是如何跟当前`class或者method或者var`绑定在一起的啦？当前类必须通过反射的方式先获取到对应的注解对象，再获取对应的值赋给当前作用目标
 
-```
+```java
 * 在程序使用(解析)注解：获取注解中定义的属性值
 		1. 获取注解定义的位置的对象  （Class，Method,Field）
 		2. 获取指定的注解
