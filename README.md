@@ -100,6 +100,7 @@
 * [vue](docs/frontend/vue.md)
 * [es6](docs/frontend/es6.md)
 * [css](docs/frontend/css.md)
+* [vue和element-ui实战视频](https://www.bilibili.com/video/BV1EE411B7SU?from=search&seid=17791471872295886821)
 
 #### 开源项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
