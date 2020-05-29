@@ -1,8 +1,5 @@
 ##  WorkGuide 记录与工作相关知识点
-## 目录
-- [基础](#基础)
-  - [日志](#日志)
-  
+## 目录 
 - [java](#java)  
     - [java高并发](#java高并发)
     - [高并发内存模型](#高并发内存模型)  
@@ -39,10 +36,8 @@
    - [python异步编程的演进之路](#python异步编程的演进之路)
 - [读书笔记](#读书笔记)
    
-### 基础
-#### [日志](docs/basic/log.md)  
-
 ### java
+#### [日志](docs/basic/log.md)  
 #### [java注解](docs/java/annotation.md) 
 #### [java高并发](docs/java/high_concurrency.md)
 #### [高并发内存模型](docs/java/java_memory_model.md)     
