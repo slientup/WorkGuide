@@ -6,6 +6,9 @@
 - 后端代码:https://gitee.com/wBekvam/vueShop-api-server.git
 - 页面预览:http://shop.liulongbin.top/
 
+### 安装vue3.0版本
+https://www.cnblogs.com/ldw-blogs/p/10689252.html
+
 ### img src
 > ../ 代表一层
 ```
