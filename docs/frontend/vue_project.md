@@ -6,6 +6,19 @@
 - 后端代码:https://gitee.com/wBekvam/vueShop-api-server.git
 - 页面预览:http://shop.liulongbin.top/
 
+### img src
+> ../ 代表一层
+```
+--assets
+--views
+  --home
+    -- home.vue
+```
+在home.vue中如果要加载图片，要写两个`../` 如<img src="../../assets/logo.png" alt />
+参考资料：https://blog.csdn.net/u014133119/article/details/81450529
+  
+  
+
 ### `slot-scope`
 在table中常用`slot-scope`来获取当前行的信息
 
