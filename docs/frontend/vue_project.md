@@ -6,6 +6,18 @@
 - 后端代码:https://gitee.com/wBekvam/vueShop-api-server.git
 - 页面预览:http://shop.liulongbin.top/
 
+### No "exports" main resolved in @babel/helper-compilation-targets/package.json
+cause : version mismatch
+```
+Solution
+This is a regression in Node.js. If you hit this issue from search engines, please choose one of the following solutions
+update @babel deps to v7.8.7
+use Node < 13.9
+wait until nodejs/node#32107 is fixed! (Probably in the next Node.js patch release).
+```
+解决方法：https://github.com/babel/babel/issues/11216
+
+
 ### 安装vue3.0版本
 https://www.cnblogs.com/ldw-blogs/p/10689252.html
 
