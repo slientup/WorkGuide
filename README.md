@@ -120,6 +120,7 @@
 
 ### 优质文章收藏
 * [优质技术分享文章](docs/article/article.md)
+* [架构图和流程图收藏](docs/article/arch.md)
 
 
 ### 其他
