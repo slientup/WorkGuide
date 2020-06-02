@@ -26,6 +26,8 @@ A collective list of free APIs for use in software and web development
   QMQ是去哪儿网内部广泛使用的消息中间件，自2012年诞生以来在去哪儿网所有业务场景中广泛的应用，包括跟交易息息相关的订单场景
 - [apollo](https://github.com/ctripcorp/apollo) stars `20k`   
   Apollo（阿波罗）是携程框架部门研发的分布式配置中心，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性，适用于微服务配置管理场景
+- [miaosha](https://github.com/qiurunze123/miaosha) star `16K`
+  
 
 #### Python
 - [Python-100-Days](https://github.com/jackfrued/Python-100-Days) star `82k`
