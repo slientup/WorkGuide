@@ -1,41 +1,5 @@
-##  WorkGuide 记录与工作相关知识点
-## 目录 
-- [java](#java)  
-    - [java高并发](#java高并发)
-    - [高并发内存模型](#高并发内存模型)  
-    
-- [其他](#其他) 
-  - [代码规范](#代码规范)
-  - [学习资料](#学习资料)
-- [spring](#spring)  
-    - [springboot常用功能](#springboot常用功能)  
-- [数据库](#数据库)  
-    - [redis](#redis)  
-- [设计模式](#设计模式)  
-    - [常用设计模式](#常用设计模式)  
-- [工具](#工具)  
-    - [Git](#Git)
-    - [Markdown](https://github.com/slientup/README)
-    - [docker](#docker)
-    - [k8s](#k8s)
-- [分布式](#分布式)  
-    - [消息队列RabbitMQ和Kafka](#消息队列)
-    - [zookeeper](#zookeeper)
-    - [配置管理中心](#配置管理中心)
-- [系统设计](#系统设计)
-    - [缓存](#缓存)
-- [微服务](#微服务)
-    - [springcloud](#springcloud)
-- [前端](#前端) 
-   - [angularJs](#angularJs)
-- [开源项目](#开源项目) 
-   - [github不错的开源项目](#github不错的开源项目)   
-- [面试](#面试) 
-   - [大厂面试题](#大厂面试题)   
-- [python](#python)
-   - [python异步编程的演进之路](#python异步编程的演进之路)
-- [读书笔记](#读书笔记)
-   
+##  WorkGuide 记录一些知识点
+
 ### java
 * [日志](docs/basic/log.md)  
 * [java注解](docs/java/annotation.md) 
