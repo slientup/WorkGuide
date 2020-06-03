@@ -18,7 +18,7 @@
 
 #### 相关案例  
 1. dockerfile文件的大体命令：  
-```
+```linux
   FROM docker.io/ubuntu:latest
   LABEL version="1.0" maintainer="Allen <zxzeng@foxmail.com>"
   # essential python  packages list
@@ -33,7 +33,7 @@
 
 #### 测试环境模拟记录  
 基于dockerfile创建镜像并基于该镜像再次构造
-
+```linux
     [root@localhost docker]# cat Dockerfile  》》》 创建dockerfile文件
     FROM nginx         # 基于nginx基础
     RUN mkdir -p /opt/django/    # 在这个基础上在镜像文件中添加目录
@@ -55,7 +55,7 @@
     [root@localhost docker]# docker images   》》》查看最新的镜像文件 
     REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
     nginx_test          0.1                 97666d6131e2        17 minutes ago      127 MB
-
+```
 
 
 
