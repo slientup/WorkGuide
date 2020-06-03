@@ -37,11 +37,11 @@
 - [读书笔记](#读书笔记)
    
 ### java
-#### [日志](docs/basic/log.md)  
-#### [java注解](docs/java/annotation.md) 
-#### [java高并发](docs/java/high_concurrency.md)
-#### [高并发内存模型](docs/java/java_memory_model.md)     
-#### [AQS](docs/java/AQS.md) 
+* [日志](docs/basic/log.md)  
+* [java注解](docs/java/annotation.md) 
+* [java高并发](docs/java/high_concurrency.md)
+* [高并发内存模型](docs/java/java_memory_model.md)     
+* [AQS](docs/java/AQS.md) 
 
 ### linux
 * [shell编程入门](https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
@@ -79,9 +79,6 @@
 
 ### 系统设计
 * [缓存](docs/system_desgin/cache.md)
-
-
-
 
 ### 微服务
 * [大白话入门 Spring Cloud](https://snailclimb.gitee.io/javaguide/#/docs/system-design/micro-service/spring-cloud)
