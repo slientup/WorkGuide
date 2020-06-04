@@ -1,6 +1,7 @@
 # 极客时间 从0开始学大数据
 
 ### 大数据生态
+
 ![大数据生态](https://static001.geekbang.org/resource/image/ca/73/ca6efc15ead7fb974caaa2478700f873.png)
 
 ### 大数据应用的发展 
