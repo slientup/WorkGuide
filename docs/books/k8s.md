@@ -191,9 +191,113 @@ $ cat /sys/fs/aufs/si_972c6d361e6b32ba/br[0-9]*
 ```
 这种分层增量的思想与`git`非常像
 
+### 重新认识docker容器
+```linux
+# 使用官方提供的Python开发镜像作为基础镜像
+FROM python:2.7-slim
+
+# 将工作目录切换为/app
+WORKDIR /app
+
+# 将当前目录下的所有内容复制到/app下
+ADD . /app
+
+# 使用pip命令安装这个应用所需要的依赖
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# 允许外界访问容器的80端口
+EXPOSE 80
+
+# 设置环境变量
+ENV NAME World
+
+# 设置容器进程为：python app.py，即：这个Python应用的启动命令
+CMD ["python", "app.py"]
+```
+**Dockerfile 的设计思想，是使用一些标准的原语（即大写高亮的词语），描述我们所要构建的 Docker 镜像。并且这些原语，都是按顺序处理的**
+
+**Dockerfile 中的每个原语执行后，都会生成一个对应的镜像层**
+
+容器镜像上传
+``` 
+$ docker tag helloworld geektime/helloworld:v1
+
+$ docker push geektime/helloworld:v1
+```
+还可以使用` docker commit `指令，把一个正在运行的容器，直接提交为一个镜像
+```
+$ docker exec -it 4ddf4638572d /bin/sh
+# 在容器内部新建了一个文件
+root@4ddf4638572d:/app# touch test.txt
+root@4ddf4638572d:/app# exit
+
+#将这个新建的文件提交到镜像中保存
+$ docker commit 4ddf4638572d geektime/helloworld:v2
+```
+查看容器的进程ID
+```
+$ docker inspect --format '{{ .State.Pid }}'  4ddf4638572d
+25686
+```
+你可以通过查看宿主机的 proc 文件，看到这个 `25686`进程的所有 Namespace 对应的文件
+```
+$ ls -l  /proc/25686/ns
+total 0
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 cgroup -> cgroup:[4026531835]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 ipc -> ipc:[4026532278]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 mnt -> mnt:[4026532276]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 net -> net:[4026532281]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 pid -> pid:[4026532279]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 pid_for_children -> pid:[4026532279]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 user -> user:[4026531837]
+lrwxrwxrwx 1 root root 0 Aug 13 14:05 uts -> uts:[4026532277]
+```
+一个进程，可以选择加入到某个进程已有的 Namespace 当中，从而达到“进入”这个进程所在容器的目的，这正是 `docker exec`的实现原理
 
 
+`docker commit`的原理：
+实际上就是在容器运行起来后，把最上层的“可读写层”，加上原先容器镜像的只读层，打包组成了一个新的镜像。当然，下面这些只读层在宿主机上是共享的，不会占用额外的空间。
 
+而由于使用了联合文件系统，你在容器里对镜像 rootfs 所做的任何修改，都会被操作系统先复制到这个可读写层，然后再修改。这就是所谓的：`Copy-on-Write`
+
+而正如前所说，`Init`层的存在，就是为了避免你执行`docker commit` 时，把 Docker 自己对 `/etc/hosts`等文件做的修改，也一起提交掉，init层存放的具有本地属性的信息。
+
+我们需要考虑这样两个问题
+- 容器里进程新建的文件，怎么才能让宿主机获取到？
+- 宿主机上的文件和目录，怎么才能让容器里的进程访问到？
+这正是`Docker Volume`要解决的问题：Volume 机制，允许你将宿主机上指定的目录或者文件，挂载到容器里面进行读取和修改操作
+
+**容器进程概念**
+
+是 Docker 创建的一个容器初始化进程 (dockerinit)，而不是应用进程 (ENTRYPOINT + CMD)。dockerinit 会负责完成**根目录的准备、挂载设备和目录、配置 hostname 等一系列需要在容器内进行的初始化操作**。最后，它通过 execv() 系统调用，让应用进程取代自己，成为容器里的 PID=1 的进程。
+
+挂载技术：就是Linux的`绑定挂载（bind mount）机制`。它的主要作用就是，允许你将一个目录或者文件，而不是整个设备，挂载到一个指定的目录上.
+
+绑定挂载实际上是一个`inode`替换的过程。在 Linux 操作系统中，`inode`可以理解为存放文件内容的“对象”，而 `dentry`，也叫目录项，就是访问这个`inode`
+所使用的“指针”
+![](https://static001.geekbang.org/resource/image/95/c6/95c957b3c2813bb70eb784b8d1daedc6.png)
+正如上图所示，`mount --bind /home /test`，会将 `/home` 挂载到 `/test` 上。其实相当于将 `/test` 的 dentry，重定向到了 `/home` 的 `inode`。这样当我们修改 `/test` 目录时，实际修改的是 `/home` 目录的 `inode`。这也就是为何，一旦执行 `umount` 命令，`/test` 目录原先的内容就会恢复：因为修改真正发生在的，是 /home 目录里
+
+这个 /test 目录里的内容，既然挂载在容器 rootfs 的可读写层，它会不会被 docker commit 提交掉呢？
+
+这个原因其实我们前面已经提到过。容器的镜像操作，比如 docker commit，都是发生在宿主机空间的。而由于 Mount Namespace 的隔离作用，宿主机并不知道这个绑定挂载的存在。所以，在宿主机看来，容器中可读写层的 /test 目录（/var/lib/docker/aufs/mnt/[可读写层 ID]/test），始终是空的
+
+![docker容器全景图](https://static001.geekbang.org/resource/image/31/e5/3116751445d182687ce496f2825117e5.jpg)
+这个容器进程“python app.py”，运行在由`Linux Namespace`和 `Cgroups`构成的**隔离环境**里；而它运行所需要的各种文件，比如 python，app.py，以及整个操作系统文件，则由多个联合挂载在一起的`rootfs`层提供.
+
+**k8s**
+
+作为一名开发者，我并不关心容器运行时的差异。因为，在整个“开发 - 测试 - 发布”的流程中，真正承载着容器信息进行传递的，是**容器镜像**，而不是容器运行时
+
+**首先，Kubernetes 项目要解决的问题是什么？**
+编排？调度？容器云？还是集群管理？
+![k8s架构](https://static001.geekbang.org/resource/image/8e/67/8ee9f2fa987eccb490cfaa91c6484f67.png)
+`kubelet`主要负责同容器运行时（比如 Docker 项目）打交道,而这个交互所依赖的，是一个称作 CRI（Container Runtime Interface）的远程调用接口，这个接口定义了容器运行时的各项核心操作.
+另一个重要功能，则是调用网络插件和存储插件为容器配置网络和持久化存储。这两个插件与 kubelet 进行交互的接口，分别是 `CNI`（Container Networking Interface）和 `CSI`（Container Storage Interface）
+
+解决**思路的不一样的**地方：
+从一开始，Kubernetes 项目就没有像同时期的各种“容器云”项目那样，把 Docker 作为整个架构的核心，而**仅仅把它作为最底层的一个容器运行时实现**
+它的核心解决的问题：**各种任务的关系**，运行在大规模集群中的各种任务之间，实际上存在着各种各样的关系。这些关系的处理，才是作业编排和管理系统最困难的地方
 
 
 
