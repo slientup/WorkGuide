@@ -292,12 +292,214 @@ lrwxrwxrwx 1 root root 0 Aug 13 14:05 uts -> uts:[4026532277]
 **首先，Kubernetes 项目要解决的问题是什么？**
 编排？调度？容器云？还是集群管理？
 ![k8s架构](https://static001.geekbang.org/resource/image/8e/67/8ee9f2fa987eccb490cfaa91c6484f67.png)
+
 `kubelet`主要负责同容器运行时（比如 Docker 项目）打交道,而这个交互所依赖的，是一个称作 CRI（Container Runtime Interface）的远程调用接口，这个接口定义了容器运行时的各项核心操作.
+
 另一个重要功能，则是调用网络插件和存储插件为容器配置网络和持久化存储。这两个插件与 kubelet 进行交互的接口，分别是 `CNI`（Container Networking Interface）和 `CSI`（Container Storage Interface）
 
+
 解决**思路的不一样的**地方：
+
 从一开始，Kubernetes 项目就没有像同时期的各种“容器云”项目那样，把 Docker 作为整个架构的核心，而**仅仅把它作为最底层的一个容器运行时实现**
 它的核心解决的问题：**各种任务的关系**，运行在大规模集群中的各种任务之间，实际上存在着各种各样的关系。这些关系的处理，才是作业编排和管理系统最困难的地方
+
+这种任务与任务之间的关系，在我们平常的各种技术场景中随处可见。比如，**一个 Web 应用与数据库之间的访问关系，一个负载均衡器和它的后端服务之间的代理关系，一个门户应用与授权组件之间的调用关系**
+
+Kubernetes 项目**最主要的设计思想是，从更**宏观的角度，以统一的方式**来定义任务之间的各种关系，并且为将来支持更多种类的关系留有余地
+
+Kubernetes 项目对容器间的“访问”进行了分类，首先总结出了一类**非常常见的“紧密交互”的关系，这些应用之间需要非常频繁的交互和访问；又或者，它们会直接通过本地文件进行信息交互。**
+
+在常规环境下，这些应用往往会被直接部署在同一台机器上，通过 Localhost 通信，通过本地磁盘目录交换文件
+而在`Kubernetes`项目中，这些容器则会被划分为一个"Pod"，Pod 里的容器共享同一个`Network Namespace`、同一组数据卷，从而达到高效率交换信息的目的
+
+Pod：需要**紧密交互的**都放到一个pod里面 在是基本单元
+
+
+另外一种更为常见的需求，访问关系的定义，service出现提供一个固定的网络地址，对于client端不用感知内部ip地址的变化
+
+比如 Web 应用与数据库之间的访问关系，Kubernetes 项目则提供了一种叫作“Service”的服务。像这样的两个应用，往往故意不部署在同一台机器上，这样即使 Web 应用所在的机器宕机了，数据库也完全不受影响。可是，我们知道，对于一个容器来说，它的 IP 地址等信息不是固定的，那么 Web 应用又怎么找到数据库容器的 Pod 呢？所以，Kubernetes 项目的做法是给 Pod 绑定一个 Service 服务，而 Service 服务声明的 IP 地址等信息是“终生不变”的。这个 Service 服务的主要作用，就是作为 Pod 的代理入口（Portal），从而代替 Pod 对外暴露一个固定的网络地址
+
+![](https://static001.geekbang.org/resource/image/16/06/16c095d6efb8d8c226ad9b098689f306.png)
+
+从容器这个最基础的概念出发，首先遇到了容器间**紧密协作**关系的难题，于是就扩展到了`Pod`；有了 Pod 之后，我们希望能一次启动多个应用的实例，这样就需要`Deployment`这个`Pod`的多实例管理器；而有了这样一组相同的`Pod`后，我们又需要通过一个`固定的IP地址`和端口以负载均衡的方式访问它，于是就有了 Service  这是三个基础概念
+
+除了应用与应用之间的关系外，**应用运行的形态**是影响“如何容器化这个应用”的第二个重要因素。
+
+Kubernetes 定义了新的、基于 Pod 改进后的对象。比如 `Job`，用来描述一次性运行的 `Pod`（比如，大数据任务）；再比如 `DaemonSet`，用来描述每个宿主机上必须且只能运行一个副本的守护进程服务；又比如 `CronJob`，则用于描述定时任务等等
+
+这种定义关系更像是`spring boot`中的组件 有特殊形式的组件，有统一组件的定义方式
+
+k8s项目推崇的方式：
+
+- 首先，通过一个“编排对象”，比如 `Pod、Job、CronJob` 等，来描述你试图管理的应用
+- 然后，再为它定义一些“服务对象”，比如` Service、Secret、Horizontal Pod Autoscaler`（自动水平扩展器）等。这些对象，会负责具体的平台级功能
+
+K8s yaml文件
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+
+$ kubectl create -f nginx-deployment.yaml
+
+```
+
+从微服务架构来讲，多个独立功能内聚的服务带来了整体的灵活性，但是同时也带来了部署运维的复杂度提升，这时Docker配合Devops带来了不少的便利(轻量、隔离、一致性、CI、CD等)解决了不少问题，再配合compose，看起来一切都很美了，为什么还需要K8s？可以试着这样理解么？把微服务理解为人，那么服务治理其实就是人之间的沟通而已，人太多了就需要生存空间和沟通方式的优化，这就需要集群和编排了。Docker Compose，swarm，可以解决少数人之间的关系，比如把手机号给你，你就可以方便的找到我，但是如果手机号变更的时候就会麻烦，人多了也会麻烦。而k8s是站在上帝视角俯视芸芸众生后的高度抽象，他看到了大概有哪些类人(组织）以及不同组织有什么样的特点（Job、CornJob、Autoscaler、StatefulSet、DaemonSet...），不同组织之间交流可能需要什么（ConfigMap,Secret...）,这样比价紧密的人们在相同pod中，通过Service-不会变更的手机号，来和不同的组织进行沟通，Deployment、RC则可以帮组人们快速构建组织。Dokcer 后出的swarm mode，有类似的视角抽象（比如Service），不过相对来说并不完善。
+
+
+
+### 编排器很简单，简单谈谈控制器模型
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+```
+这个 `Deployment` 定义的编排动作非常简单，即：确保携带了` app=nginx `标签的 Pod 的个数，永远等于 `spec.replicas` 指定的个数，即 `2` 个
+
+运行逻辑：
+- Deployment 控制器从 Etcd 中获取到所有携带了“app: nginx”标签的 Pod，然后统计它们的数量，这就是实际状态；
+- Deployment 对象的 Replicas 字段的值就是期望状态；
+- Deployment 控制器将两个状态做比较，然后根据比较结果，确定是创建 Pod，还是删除已有的 Pod
+
+ `Deployment`这样的一个控制器，实际上都是由上半部分的控制器定义（包括期望状态），加上下半部分的被控制对象的模板组成的
+![](https://static001.geekbang.org/resource/image/72/26/72cc68d82237071898a1d149c8354b26.png)
+
+
+### 作业副本和滚动更新
+
+
+
+`Deployment` 控制器实际操纵的，正是这样的 `ReplicaSet` 对象，而不是 `Pod` 对象
+
+![](https://static001.geekbang.org/resource/image/71/58/711c07208358208e91fa7803ebc73058.jpg)
+
+通过这张图，我们就很清楚地看到，一个定义了 replicas=3 的 Deployment，与它的 ReplicaSet，以及 Pod 的关系，实际上是一种“层层控制”的关系
+
+
+
+修改yaml文件后会触发滚动更新，如下是滚动更新的过程：
+
+```
+$ kubectl describe deployment nginx-deployment
+...
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+...
+  Normal  ScalingReplicaSet  24s   deployment-controller  Scaled up replica set nginx-deployment-1764197365 to 1
+  Normal  ScalingReplicaSet  22s   deployment-controller  Scaled down replica set nginx-deployment-3167673210 to 2
+  Normal  ScalingReplicaSet  22s   deployment-controller  Scaled up replica set nginx-deployment-1764197365 to 2
+  Normal  ScalingReplicaSet  19s   deployment-controller  Scaled down replica set nginx-deployment-3167673210 to 1
+  Normal  ScalingReplicaSet  19s   deployment-controller  Scaled up replica set nginx-deployment-1764197365 to 3
+  Normal  ScalingReplicaSet  14s   deployment-controller  Scaled down replica set nginx-deployment-3167673210 to 0
+```
+- - 首先，当你修改了 Deployment 里的 Pod 定义之后，Deployment Controller 会使用这个修改后的 Pod 模板，
+创建**一个新的 ReplicaSet（hash=1764197365）**，这个新的 ReplicaSet 的初始 Pod 副本数是：0
+- 然后，在 Age=24 s 的位置，Deployment Controller 开始将这个新的 ReplicaSet 所控制的 Pod 副本数从 0 个变成 1 个，即：“水平扩展”出一个副本。
+- 紧接着，在 Age=22 s 的位置，Deployment Controller 又将旧的 ReplicaSet（hash=3167673210）所控制的旧 Pod 副本数减少一个，即：“水平收缩”成两个副本
+- 如此交替进行，新 ReplicaSet 管理的 Pod 副本数，从 0 个变成 1 个，再变成 2 个，最后变成 3 个。而旧的 ReplicaSet 管理的 Pod 副本数则从 3 个变成 2 个，再变成 1 个，最后变成 0 个。这样，就完成了这一组 Pod 的版本升级过程
+
+**将一个集群中正在运行的多个 Pod 版本，交替地逐一升级的过程，就是“滚动更新”**
+```
+$ kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-1764197365   3         3         3       6s
+nginx-deployment-3167673210   0         0         0       30s
+
+```
+在返回结果中，我们可以看到四个状态字段，它们的含义如下所示。
+- DESIRED：用户期望的 Pod 副本个数（spec.replicas 的值）；  
+- CURRENT：当前处于 Running 状态的 Pod 的个数；  
+- UP-TO-DATE：当前处于最新版本的 Pod 的个数，所谓最新版本指的是 Pod 的 Spec 部分与 Deployment 里 Pod 模板里定义的完全一致；  
+- AVAILABLE：当前已经可用的 Pod 的个数，即：既是 Running 状态，又是最新版本，并且已经处于 Ready（健康检查正确）状态的 Pod 的个数。  
+
+滚动更新的好处非常明显：**保证服务的连续性**
+
+在升级刚开始的时候，集群里只有 1 个新版本的 Pod。如果这时，新版本 Pod 有问题启动不起来，那么“滚动更新”就会停止，从而允许开发和运维人员介入。而在这个过程中，由于应用本身还有两个旧版本的 Pod 在线，所以服务并不会受到太大的影响
+
+Deployment Controller 还会确保，在任何时间窗口内，`只有指定比例的 Pod `处于`离线状态`。同时，它也会确保，在任何时间窗口内，只有`指定比例的新Pod`被创建出来。这两个比例的值都是可以配置的，默认都是 DESIRED 值的 25%
+
+在一次新的更新后，应用对象关系图如下：
+![](https://static001.geekbang.org/resource/image/bb/5d/bbc4560a053dee904e45ad66aac7145d.jpg)
+
+而**一个应用的版本**，对应的正是**一个ReplicaSet**；这个版本应用的 Pod 数量，则由 ReplicaSet 通过它自己的控制器（ReplicaSet Controller）来保证
+
+`ReplicaSet`可以说就是应用版本管理对象 版本控制  版本回退 只需要回退到上一个状态就行
+
+当我们把这个镜像名字修改成为了一个错误的名字，比如：`nginx:1.91`。这样，这个 Deployment 就会出现一个升级失败的版本
+
+ReplicaSet 的状态
+```
+$ kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-1764197365   2         2         2       24s
+nginx-deployment-3167673210   0         0         0       35s
+nginx-deployment-2156724341   2         2         0       7s
+```
+新版本的 ReplicaSet（hash=2156724341）的“水平扩展”已经停止。而且此时，它已经创建了两个 Pod，但是它们都没有进入 READY 状态。这当然是因为这两个 Pod 都拉取不到有效的镜像。
+
+与此同时，旧版本的 ReplicaSet（hash=1764197365）的“水平收缩”，也自动停止了。此时，已经有一个旧 Pod 被删除，还剩下两个旧 Pod.
+
+那我们如何回退到旧的状态啦？
+
+``` 
+$ kubectl rollout undo deployment/nginx-deployment  回退命令
+deployment.extensions/nginx-deployment
+```
+那如何回退到更早的版本啦？
+
+`kubectl rollout history` 命令，查看每次 Deployment 变更对应的版本
+```
+$ kubectl rollout history deployment/nginx-deployment
+deployments "nginx-deployment"
+REVISION    CHANGE-CAUSE
+1           kubectl create -f nginx-deployment.yaml --record
+2           kubectl edit deployment/nginx-deployment
+3           kubectl set image deployment/nginx-deployment nginx=nginx:1.91
+```
+在`kubectl rollout undo`命令行最后，加上要回滚到的指定版本的版本号，就可以回滚到指定版本了
+```
+$ kubectl rollout undo deployment/nginx-deployment --to-revision=2
+deployment.extensions/nginx-deployment
+```
+
+如何控制这些“历史”ReplicaSet 的数量呢？
+`
+`Deployment`对象有一个字段，叫作 `spec.revisionHistoryLimit`，就是 `Kubernetes`为`Deployment`保留的“历史版本”个数。所以，如果把它设置为 0，你就再也不能做回滚操作了
 
 
 
