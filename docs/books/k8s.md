@@ -612,14 +612,144 @@ spec:
 StatefulSet 其实是一种特殊的 Deployment，只不过这个“Deployment”的每个 Pod 实例的名字里，都携带了一个唯一并且固定的编号。这个编号的顺序，固定了 Pod 的拓扑关系；这个编号对应的 DNS 记录，固定了 Pod 的访问方式；这个编号对应的 PV，绑定了 Pod 与持久化存储的关系。所以，当 Pod 被删除重建时，这些“状态”都会保持不变
 
 
+### 容器守护进程DaemonSet的意义
+DaemonSet 的主要作用，是让你在 Kubernetes 集群里，运行一个 Daemon Pod。 所以，这个 Pod 有如下三个特征：
+- 这个 Pod 运行在 Kubernetes 集群里的每一个节点（Node）上；
+- 每个节点上只有一个这样的 Pod 实例；
+- 当有新的节点加入 Kubernetes 集群后，该 Pod 会自动地在新节点上被创建出来；而当旧节点被删除后，它上面的 Pod 也相应地会被回收掉。
+根据它的特征就知道，它类似单例模式，用在处理一些公共的功能特性的应用 如日志 监控 网络 存储等
+
+- 各种网络插件的 Agent 组件，都必须运行在每一个节点上，用来处理这个节点上的容器网络；
+- 各种存储插件的 Agent 组件，也必须运行在每一个节点上，用来在这个节点上挂载远程存储目录，操作容器的 Volume 目录；
+- 各种监控组件和日志组件，也必须运行在每一个节点上，负责这个节点上的监控信息和日志搜集。
+
+跟其他编排对象不一样，`DaemonSet` 开始运行的时机，很多时候比整个 `Kubernetes` 集群出现的时机都要早
+
+DaemonSet 又是如何保证每个 Node 上有且只有一个被管理的 Pod 呢？
+
+- 没有这种 Pod，那么就意味着要在这个 Node 上创建这样一个 Pod；
+- 有这种 Pod，但是数量大于 1，那就说明要把多余的 Pod 从这个 Node 上删除掉；
+- 正好只有一个这种 Pod，那说明这个节点是正常的。
+
+DaemonSet 只管理 Pod 对象，然后通过 nodeAffinity 和 Toleration 这两个调度器的小功能，保证了每个节点上有且只有一个 Pod。
 
 
+### 撬动离线业务：Job与CronJob
+
+Deployment、StatefulSet，以及 DaemonSet 这三个编排概念。你有没有发现它们的共同之处呢？
+
+它们主要编排的对象，都是“在线业务”，即：Long Running Task（长作业） **需要一直运行的**
+
+但是，有一类作业显然不满足这样的条件，这就是“离线业务”，或者叫作 Batch Job（计算业务）
+
+JOb api的方式定义
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: resouer/ubuntu-bc 
+        command: ["sh", "-c", "echo 'scale=10000; 4*a(1)' | bc -l "]
+      restartPolicy: Never   》》》》 注意这一行信息
+  backoffLimit: 4
+  ```
+ Job状态的变化
+ 
+  ```linux
+$ kubectl get pods
+NAME                                READY     STATUS    RESTARTS   AGE
+pi-rq5rl                            1/1       Running   0          10s
+$ kubectl get pods
+NAME                                READY     STATUS      RESTARTS   AGE
+
+pi-rq5rl                            0/1       Completed   0          4m
+  ```
+  
+我们需要在 Pod 模板中定义 `restartPolicy=Neve`r 的原因：离线计算的 `Pod` 永远都不应该被重启，否则它们会再重新计算一遍
+
+事实上，restartPolicy 在 Job 对象里只允许被设置为 Never 和 OnFailure；而在 `Deployment` 对象里，restartPolicy 则只允许被设置为`Always`
 
 
+**如果这个离线作业失败了要怎么办？**
 
+定义了 restartPolicy=Never，那么离线作业失败后 Job Controller 就会不断地尝试创建一个新 Pod
+```linux
+$ kubectl get pods
+NAME                                READY     STATUS              RESTARTS   AGE
+pi-55h89                            0/1       ContainerCreating   0          2s
+pi-tqbcz                            0/1       Error               0          5s
+```
+当然，这个尝试肯定不能无限进行下去。所以，我们就在 Job 对象的 spec.backoffLimit 字段里定义了重试次数为 4（即，backoffLimit=4），而这个字段的默认值是 6
 
+**定义的 restartPolicy=OnFailure，那么离线作业失败后，Job Controller 就不会去尝试创建新的 Pod。但是，它会不断地尝试重启 Pod 里的容器**
 
+当一个 Job 的 Pod 运行结束后，它会进入 Completed 状态。但是，如果这个 Pod 因为某种原因一直不肯结束呢？
 
+在 Job 的 API 对象里，有一个 spec.activeDeadlineSeconds 字段可以设置最长运行时间
+```
+spec:
+ backoffLimit: 5
+ activeDeadlineSeconds: 100
+```
+一旦运行超过了 100 s，这个 Job 的所有 Pod 都会被终止。并且，你可以在 Pod 的状态里看到终止的原因是 reason: DeadlineExceeded
+
+**Job Controller 对并行作业的控制方法**
+- spec.parallelism，它定义的是一个 Job 在任意时间最多可以启动多少个 Pod 同时运行；
+- spec.completions，它定义的是 Job 至少要完成的 Pod 数目，即 Job 的最小完成数
+
+**Job Controller 的工作原理**
+
+首先，Job Controller 控制的对象，直接就是 Pod。
+
+其次，Job Controller 在控制循环中进行的调谐（Reconcile）操作，是根据实际在 Running 状态 Pod 的数目、已经成功退出的 Pod 的数目，以及 parallelism、completions 参数的值共同计算出在这个周期里，应该创建或者删除的 Pod 数目，然后调用 Kubernetes API 来执行这个操作
+
+以创建 Pod 为例。在上面计算 Pi 值的这个例子中，当 Job 一开始创建出来时，实际处于 Running 状态的 Pod 数目 =0，已经成功退出的 Pod 数目 =0，而用户定义的 completions，也就是最终用户需要的 Pod 数目 =4。
+
+所以，在这个时刻，需要创建的 Pod 数目 = 最终需要的 Pod 数目 - 实际在 Running 状态 Pod 数目 - 已经成功退出的 Pod 数目 = 4 - 0 - 0= 4。也就是说，Job Controller 需要创建 4 个 Pod 来纠正这个不一致状态。
+
+可是，我们又定义了这个 Job 的 parallelism=2。也就是说，我们规定了每次并发创建的 Pod 个数不能超过 2 个。所以，Job Controller 会对前面的计算结果做一个修正，修正后的期望创建的 Pod 数目应该是：2 个。
+
+这时候，Job Controller 就会并发地向 kube-apiserver 发起两个创建 Pod 的请求。
+
+类似地，如果在这次调谐周期里，Job Controller 发现实际在 Running 状态的 Pod 数目，比 parallelism 还大，那么它就会删除一些 Pod，使两者相等。
+
+综上所述，Job Controller 实际上控制了，作业执行的并行度，以及总共需要完成的任务数这两个重要参数。而在实际使用时，你需要根据作业的特性，来决定并行度（parallelism）和任务数（completions）的合理取值。
+
+**CronJob**
+
+```
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+```
+
+在这个 YAML 文件中，最重要的关键词就是**jobTemplate**
+
+需要注意的是，由于定时任务的特殊性，很可能某个 Job 还没有执行完，另外一个新 Job 就产生了。这时候，你可以通过 spec.concurrencyPolicy 字段来定义具体的处理策略。比如
+
+- concurrencyPolicy=Allow，这也是默认情况，这意味着这些 Job 可以同时存在；
+- concurrencyPolicy=Forbid，这意味着不会创建新的 Pod，该创建周期被跳过；
+- concurrencyPolicy=Replace，这意味着新产生的 Job 会替换旧的、没有执行完的 Job。
 
 
 
