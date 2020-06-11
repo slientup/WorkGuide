@@ -101,6 +101,167 @@ namenode是整个机器的核心，一定不能故障 主备机制 用zookeeper�
 
 当大量的用户请求或者数据处理请求到达的时候，由于计算资源有限，可能无法处理如此大量的请求，进而导致资源耗尽，系统崩溃。这种情况下，可以拒绝部分请求，即进行限流；也可以关闭部分功能，降低资源消耗，即进行降级
 
+### 为什么说MapReduce既是编程模型又是计算框架？
+
+MapReduce 既是一个`编程模型`，又是一个`计算框架` 开发人员必须基于 MapReduce 编程模型进行编程开发，然后将程序通过 MapReduce 计算框架分发到 Hadoop 集群中运行
+
+
+假如计算单词出现的频率 对应的MapReduce程序如下：
+```java
+public class WordCount {
+
+  public static class TokenizerMapper
+       extends Mapper<Object, Text, Text, IntWritable>{
+
+    private final static IntWritable one = new IntWritable(1);
+    private Text word = new Text();
+
+    public void map(Object key, Text value, Context context
+                    ) throws IOException, InterruptedException {
+      StringTokenizer itr = new StringTokenizer(value.toString());
+      while (itr.hasMoreTokens()) {
+        word.set(itr.nextToken());
+        context.write(word, one);
+      }
+    }
+  }
+
+  public static class IntSumReducer
+       extends Reducer<Text,IntWritable,Text,IntWritable> {
+    private IntWritable result = new IntWritable();
+
+    public void reduce(Text key, Iterable<IntWritable> values,
+                       Context context
+                       ) throws IOException, InterruptedException {
+      int sum = 0;
+      for (IntWritable val : values) {
+        sum += val.get();
+      }
+      result.set(sum);
+      context.write(key, result);
+    }
+  }
+}
+```
+mapreduce的计算过程大概如下：
+![](https://static001.geekbang.org/resource/image/55/ba/5571ed29c5c2254520052adceadf9cba.png)
+还需要一个计算框架，能够调度执行这个 MapReduce 程序，使它在分布式的集群中并行运行，而这个计算框架也叫 `MapReduce`
+
+模型是人们对一类事物的概括与抽象，可以帮助我们更好地理解事物的本质，更方便地解决问题。比如，数学公式是我们对物理与数学规律的抽象，地图和沙盘是我们对地理空间的抽象，软件架构图是软件工程师对软件系统的抽象
+
+### MapReduce如何让数据完成一次旅行？
+上面的MapReduce程序如何在分布式集群中运行起来啦？MapReduce程序如何找到对应的数据并进行计算的啦？这个就需要MapReduce计算框架来实现了
+
+框架处理位置
+![](https://static001.geekbang.org/resource/image/f3/9c/f3a2faf9327fe3f086ec2c7eb4cd229c.png)
+
+**MapReduce 的启动和运行机制**
+![](https://static001.geekbang.org/resource/image/2d/27/2df4e1976fd8a6ac4a46047d85261027.png)
+
+如果我们把这个计算过程看作一次小小的旅行，这个旅程可以概括如下:
+
+1. 应用进程 JobClient 将用户作业 JAR 包存储在 HDFS 中，将来这些 JAR 包会分发给 Hadoop 集群中的服务器执行 MapReduce 计算。
+
+2. 应用程序提交 job 作业给 JobTracker。
+
+3.JobTracker 根据作业调度策略创建 JobInProcess 树，每个作业都会有一个自己的 JobInProcess 树。
+
+4.JobInProcess 根据输入数据分片数目（通常情况就是数据块的数目）和设置的 Reduce 数目创建相应数量的 TaskInProcess。
+
+5.TaskTracker 进程和 JobTracker 进程进行定时通信。
+
+6. 如果 TaskTracker 有空闲的计算资源（有空闲 CPU 核心），JobTracker 就会给它分配任务。分配任务的时候会根据 TaskTracker 的服务器名字匹配在同一台机器上的数据块计算任务给它，使启动的计算任务正好处理本机上的数据，以实现我们一开始就提到的“移动计算比移动数据更划算”。
+
+7.TaskTracker 收到任务后根据任务类型（是 Map 还是 Reduce）和任务参数（作业 JAR 包路径、输入数据文件路径、要处理的数据在文件中的起始位置和偏移量、数据块多个备份的 DataNode 主机名等），启动相应的 Map 或者 Reduce 进程。
+
+8.Map 或者 Reduce 进程启动后，检查本地是否有要执行任务的 JAR 包文件，如果没有，就去 HDFS 上下载，然后加载 Map 或者 Reduce 代码开始执行。
+
+9. 如果是 Map 进程，从 HDFS 读取数据（通常要读取的数据块正好存储在本机）；如果是 Reduce 进程，将结果数据写出到 HDFS。
+
+**MapReduce 计算真正产生奇迹的地方是数据的合并与连接**
+
+MapReduce 是如何让相同的`key`发送到同一个reduce进程处理的啦？ 
+在`Map`计算结束后，`MapReduce`通过hash的方式调用map结果，然后保证同一个key的信息是同一个`reduce`处理 如下是处理图：
+![](https://static001.geekbang.org/resource/image/d6/c7/d64daa9a621c1d423d4a1c13054396c7.png)
+
+每个 Map 任务的计算结果都会写入到**本地文件系统**，等`Map`任务快要计算完成的时候，MapReduce 计算框架会启动 `shuffle` 过程，在 Map 任务进程调用一个 Partitioner 接口，对 Map 产生的每个 <Key, Value> 进行 Reduce 分区选择，然后通过 `HTTP`通信发送给对应的`Reduce`进程。这样不管 Map 位于哪个服务器节点，相同的 Key 一定会被发送给相同的 Reduce 进程。Reduce 任务进程对收到的 <Key, Value> 进行排序和合并，相同的 Key 放在一起，组成一个 <Key, Value 集合 > 传递给 Reduce 执行
+
+**分布式计算需要将不同服务器上的相关数据合并到一起进行下一步计算，这就是 shuffle**
+
+为什么mapper计算完的结果要放到硬盘呢？那再发送到reducer不是还有个读取再发送的过程吗？这中间不就有一个重复的写和读的过程吗？
+
+**是的，主要为了可靠性，spark就不写硬盘，所以快**
+
+当某个key聚集了大量数据，shuffle到同一个reduce来汇总，考虑数据量很大的情况，这个会不会把reduce所在机器节点撑爆？这样任务是不是就失败了？
+
+会的，数据倾斜，会导致任务失败。严重的数据倾斜可能是数据本身的问题，需要做好预处理
+
+移动计算主要是map阶段，reduce阶段数据还是要移动数据合并关联，不然很多计算无法完成
+
+### 为什么我们管Yarn叫作资源调度框架？
+资源调度框架，它会根据每台机器此刻的运行指标来对任务进行调度，将任务分发到最合适的机器上
+
+MapReduce架构存在一个问题：服务器集群资源调度管理和 MapReduce 执行过程耦合在一起，如果想在当前集群中运行其他计算任务，比如 Spark 或者 Storm，就无法统一使用集群中的资源了，但随着大数据技术的发展，各种新的计算框架不断出现，越是我们就需要解耦，将Yarn从MapReduce中分离出来，这就是Hadoop 2 最主要的变化
+
+**Yarn架构**
+![](https://static001.geekbang.org/resource/image/af/b1/af90905013e5869f598c163c09d718b1.jpg)
+Yarn由两部分组成 1.资源管理器 2.节点管理器 ,`ResourceManager` 进程负责整个集群的资源调度管理，通常部署在独立的服务器上；`NodeManager` 进程负责具体服务器上的资源和任务管理，在集群的每一台计算服务器上都会启动，基本上跟 HDFS 的 DataNode 进程一起出现
+
+资源管理器又包括两个主要组件：调度器和应用程序管理器
+
+调度器其实就是一个资源分配算法，根据应用程序（Client）提交的资源申请和当前服务器集群的资源状况进行资源分配
+
+应用程序管理器负责应用程序的提交、监控应用程序运行状态等 应用程序启动后需要在集群中运行一个`ApplicationMaster`，`ApplicationMaster`也需要运行在容器里面
+
+以一个 `MapReduce`程序为例，来看一下 `Yarn` 的整个工作流程。
+1. 我们向 Yarn 提交应用程序，包括 MapReduce ApplicationMaster、我们的 MapReduce 程序，以及 MapReduce Application 启动命令。
+
+2.ResourceManager 进程和 NodeManager 进程通信，根据集群资源，为用户程序分配第一个容器，并将 MapReduce ApplicationMaster 分发到这个容器上面，并在容器里面启动 MapReduce ApplicationMaster。
+
+3.MapReduce ApplicationMaster 启动后立即向 ResourceManager 进程注册，并为自己的应用程序申请容器资源。
+
+4.MapReduce ApplicationMaster 申请到需要的容器后，立即和相应的 NodeManager 进程通信，将用户 MapReduce 程序分发到 NodeManager 进程所在服务器，并在容器中运行，运行的就是 Map 或者 Reduce 任务。
+
+5.Map 或者 Reduce 任务在运行期和 MapReduce ApplicationMaster 通信，汇报自己的运行状态，如果运行结束，MapReduce ApplicationMaster 向 ResourceManager 进程注销并释放所有的容器资源。
+
+为什么 HDFS 是系统，而 MapReduce 和 Yarn 则是框架？
+
+框架在设计的时候有一个重要思想："依赖倒转原则" 即高层模块不能依赖底层模块，他们应该共同依赖一个抽象，这个抽象由**高层模块**定义，由底层模块实现
+
+所谓高层模块和低层模块的划分，简单说来就是在调用链上，处于前面的是高层，后面的是低层
+
+HDFS 就不是框架，使用 HDFS 就是直接调用 HDFS 提供的 API 接口，HDFS 作为底层模块被直接依赖
+
+是的，但是更重要的是接口是高层需求的抽象，还是底层实现的抽象。这是依赖倒置的关键，面向接口本身并不能保证依赖倒置原则，否则和接口隔离原则没有区别
+
+### 我们能从Hadoop学到什么？
+
+大数据因为要对数据和计算任务进行统一管理，所以和互联网在线应用不同，需要一个全局管理者。而在线应用因为每个用户请求都是独立的，而且为了高性能和便于集群伸缩，会尽量避免有全局管理者 
+
+学习新知识:遵循一个**5-20-2 法则** 用 5 分钟的时间了解这个新知识的特点、应用场景、要解决的问题；用 20 分钟理解它的主要设计原理、核心思想和思路；再花 2 个小时看关键的设计细节，尝试使用或者做一个 demo 
+
+如果 5 分钟不能搞懂它要解决的问题，我就会放弃；20 分钟没有理解它的设计思路，我也会放弃；2 个小时还上不了手，我也会放一放。你相信我，一种真正有价值的好技术，你这次放弃了，它过一阵子还会换一种方式继续出现在你面前。这个时候，你再尝试用 5-20-2 法则去学习它，也许就会能理解了。我学 Hadoop 实际上就是经历了好几次这样的过程，才终于入门。而有些技术，当时我放弃了，它们再也没有出现在我面前，后来它们被历史淘汰了，我也没有浪费自己的时间.
+
+大数据的思考：
+
+我认为，学习一个新的东西，首先要弄清楚三件事：这是什么东西（干什么的）？为什么需要它（怎么来的）？它是如何运作的？
+
+随着互联网信息产业的发展，网络上时刻产生的数据以及沉淀的历史数据量规模呈爆炸式增长，而计算机硬件诸如CPU、内存等性能的增长速度远远跟不上数据的增长速度，因此传统的单机处理程序已经无法满足数据的处理需求。分布式处理系统应运而生，这是大数据系统的前身。
+
+大数据系统主要处理大规模（一般指PB级别的数据量）的动态和存量数据，通过大量数据的读取和分析，能够从中找出人们从未关注到的甚至没有想到的 事物之间的关联关系，并以此为人们日常生活以及各种生产活动提供必需的决策支持。
+
+对于大数据系统的运作原理，我想从一个设计者的角度来思考：
+要清晰的知道，不论大数据系统功能多么强大，性能多么NB，体系如何庞杂，它本质上依然和传统软件的运作模型是一样的：I-P-O，没错，就是输入-计算-输出。以MapReduce为例，输入就是各taskStracker在本地各自读取数据分片；而计算过程有2大的步骤：1是map进程阶段将原始数据进行初步合并计算，并将得出的结果发给reduce进程，我把这个过程称为预处理，预处理后的数据量会降低到网络可以承受的地步；2是reduce收到map传来的预处理数据，并进行最终合并计算；输出部分:reduce进程将最终计算的结果保存到HDFS（本地数据块），并由HDFS将所有reduce保存的数据块合并成一个HDFS文件。你看，这个过程是不是就是一个IPO过程？只不过每个具体过程的执行者以及数量发生了改变。
+
+OK，弄清楚了基本运作模型，接下来就是考虑：针对大规模数据分散存储（先不考虑实时数据哈）在大量服务器上的数据存储背景，如何设计一款软件，能够高效读取、处理这些数据，并有效输出呢？
+
+首先是数据读写。现在大家都清楚，在数据规模达到PB级别的情况下，如果使用集中读取，集中处理的方式，单机的硬件和网络根本承载不了。所以最好的办法就是让数据所在的服务器自行读取本地数据并进行计算，然后将每个服务器计算结果汇总后在写入本地，当然所有服务器写入本地的数据最终又会汇总成为一个可以被识别的输出文件。那么如何让每台服务都知道自己应该读哪个数据，输出时又该如何写入呢，写入之后又如何能够合并成一个可以识别的输出文件呢？分布式文件系统就是一个很好的解决方案。（这就是HDFS的由来）
+
+其次是数据计算。前面说过，我们要让数据所在的服务器自行读取文件在本地的数据块，并进行计算。首先是本地读取完数据块后，执行的初步计算并得出结果；然而问题来了，在所有本地服务计算完成后，他们的计算结果中一般都存在维度重叠的问题（即服务器1计算结果中有A B C三个维度统计数据，而服务器2中有A C D E4个维度的数据，此时不能直接将各服务器的结果写入输出文件），因此还必须将这些计算结果进一步合并，以保证每个维度的key是唯一的。因此计算过程应该有两部分任务组成：一是本地服务器计算统计后得出初步结果（也叫中间数据）；二是对这些中间数据进行最终合并计算。Hadoop的大部分计算框架基本都是这两部走的，只是具体执行方式不太一样罢了（比如spark会把中间数据放在内存中而不是HDFS从而提高运行速度等）
+
+
+
+
 
 
 
