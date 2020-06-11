@@ -101,6 +101,7 @@
 * [我常用的IDEA插件大公开，个个是精品！](https://juejin.im/post/5eba9a5bf265da7bca50010c)
 * [Precesson制图模板](docs/other/precesson.md)
 * [如何在5天内学会Vue？聊聊我的学习方法！](https://mp.weixin.qq.com/s/R--Qh4Lp5nhhO0eNWNDmIw)
+* [我们能从Hadoop学到什么？](https://time.geekbang.org/column/article/69029)
   
 
 
