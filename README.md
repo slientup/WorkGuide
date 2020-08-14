@@ -56,6 +56,8 @@
 * [es6](docs/frontend/es6.md)
 * [css](docs/frontend/css.md)
 * [vue+element-ui实战视频](docs/frontend/vue_project.md)
+* [vue-admin-web](docs/frontend/vue-admin-web.md)
+
 
 ### 开源项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
