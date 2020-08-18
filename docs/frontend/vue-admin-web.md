@@ -146,6 +146,11 @@ service.interceptors.response.use(
 export default service
 ```
 
+### vue路由动态权限认证
+这一步用来实现动态路由的加载
+![vue路由动态权限认证](https://jack-cool.github.io/2019/08/04/vue%E8%B7%AF%E7%94%B1%E5%8A%A8%E6%80%81%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/)
+
+
 
 
 
