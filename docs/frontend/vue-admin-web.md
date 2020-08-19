@@ -165,5 +165,7 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 ```js
     GenerateRoutes({ commit }, data) {
 ```
+4.定时获取数据`setTimeout`
+
 
 
