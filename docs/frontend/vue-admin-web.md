@@ -150,7 +150,20 @@ export default service
 这一步用来实现动态路由的加载  通过`addRoutes`来实现
 ![vue路由动态权限认证](https://jack-cool.github.io/2019/08/04/vue%E8%B7%AF%E7%94%B1%E5%8A%A8%E6%80%81%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/)
 
-
-
+### es6常用语法
+1. const{} 实现右侧属性的对等赋值
+        const { menus } = data;  等价于将`data.menus`赋值给`menus`
+        const { username } = data;
+2.数组的filter方法 过滤元素
+```js
+const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
+          //admin帐号直接返回所有菜单
+          // if(username==='admin') return true;
+          if (hasPermission(menus, v)) {
+```
+3.store中action方法必须要有`{commit}`,通过该方法调用`mutation`
+```js
+    GenerateRoutes({ commit }, data) {
+```
 
 
