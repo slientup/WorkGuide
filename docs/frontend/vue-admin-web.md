@@ -167,5 +167,14 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 ```
 4.定时获取数据`setTimeout`
 
+5.`$route.matched` 一个数组，包含当前路由的所有**嵌套路径**片段的路由记录
+
+6. `$refs`通过这个对象访问`dom`元素
+
+7. 传递路由参数信息和表单对象信息`$route`有哪些字段 可以用vue谷歌插件来看 非常智能
+```js
+ updateProductCate(this.$route.query.id, this.productCate).then(response => {  // 传递对象信息和id信息
+```
+
 
 
