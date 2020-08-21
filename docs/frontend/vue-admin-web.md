@@ -195,6 +195,13 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 含义是父组件向子组件传递给`isEdit`=true的值
 ```
 
+10. data数据指定默认的值 
+`productCate: Object.assign({}, defaultProductCate)`
+
+
+
+
+
 
 
 
