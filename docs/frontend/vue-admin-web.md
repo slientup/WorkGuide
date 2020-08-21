@@ -195,10 +195,20 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 含义是父组件向子组件传递给`isEdit`=true的值
 ```
 
-10. data数据指定默认的值 
+10. data数据指定默认的值，同时还可以随时覆盖
 `productCate: Object.assign({}, defaultProductCate)`
+Object.assign()方法用于将所有可枚举的属性的值从一个或多个源对象复制到目标对象，它将返回目标对象
 
-
+11. list字典循环操作
+```
+            for (let i = 0; i < response.data.length; i++) {
+              this.filterProductAttrList.push({
+                key: Date.now() + i,
+                value: [response.data[i].attributeCategoryId, response.data[i].attributeId]
+              })
+            }
+          }
+```
 
 
 
