@@ -171,10 +171,41 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 
 6. `$refs`通过这个对象访问`dom`元素
 
-7. 传递路由参数信息和表单对象信息`$route`有哪些字段 可以用vue谷歌插件来看 非常智能
+7. 传递路由参数信息和表单对象信息`$route`有哪些字段 **这个全局是共享的** 可以用vue谷歌插件来看 非常智能  
 ```js
  updateProductCate(this.$route.query.id, this.productCate).then(response => {  // 传递对象信息和id信息
 ```
+8.前端组成展示
+ ```this.$router.push({path:'/pms/updateProductCate',query:{id:row.id}});``` 
+ url的样式：`http://localhost:8090/#/pms/updateProductCate?id=1`  这里会携带`id`信息
+
+9.编辑按钮没有使用单独的模态框的模式，而是直接给了一个页面 默认情况下页面是hidden 这还是一个新的思路 平时习惯模态框
+```   这个:is-edit 是props属性
+父组件的配置
+<template>
+  <product-attr-detail :is-edit='true'></product-attr-detail>  //通过在调用子组件的时候传递该属性
+</template>
+子组件的配置  子组件接收props属性  
+    props: {    // 代表里面的值可以通过父组件传递过来
+      isEdit: {
+        type: Boolean,
+        default: false  这是该属性默认的值
+      }
+    }
+含义是父组件向子组件传递给`isEdit`=true的值
+```
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
 
 
 
