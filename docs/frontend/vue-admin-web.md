@@ -199,8 +199,8 @@ const accessedRouters = asyncRouterMap.filter(v => {    // es6中的数组过滤
 `productCate: Object.assign({}, defaultProductCate)`
 Object.assign()方法用于将所有可枚举的属性的值从一个或多个源对象复制到目标对象，它将返回目标对象
 
-11. list字典循环操作
-```
+11.字典list操作
+```js
             for (let i = 0; i < response.data.length; i++) {
               this.filterProductAttrList.push({
                 key: Date.now() + i,
@@ -209,6 +209,8 @@ Object.assign()方法用于将所有可枚举的属性的值从一个或多个�
             }
           }
 ```
+
+
 
 
 
