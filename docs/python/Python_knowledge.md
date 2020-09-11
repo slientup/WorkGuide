@@ -23,6 +23,7 @@
   * [21 MRO顺序](#21-MRO顺序)
   * [22 装饰器wraps的作用](#22-装饰器wraps的作用)
   * [23 双层装饰器](#23-双层装饰器)
+  * [24 logging打印堆栈信息](#24-logging打印堆栈信息)
   
   
 一 基础
@@ -358,6 +359,16 @@ def log(param='log'):
  def remove_trunk_vlan(self, port, vlan, native=False):
  ```
  
+ #### 24 logging打印堆栈信息
+ 通过`log.exception`打印堆栈信息
+ ```
+ try:
+    raise ValueError('A error happend !')
+except ValueError as e:
+    log.exception(str(e)+"other message") 
+ ```
+ 
 #### 分布式celery
 参考链接 https://segmentfault.com/a/1190000016082551
+
 
