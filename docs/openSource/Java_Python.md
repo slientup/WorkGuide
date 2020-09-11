@@ -2,6 +2,11 @@
 - [Python](#Python)
 - [Frontend](#Frontend)
 
+#### 开源技术类书籍汇总
+- [free-programming-books](https://github.com/EbookFoundation/free-programming-books/blob/master/free-programming-books-zh.md)  stars `154k`
+  包含了所有开源技术类的书籍汇总
+
+
 #### 优秀项目集合
 - [GitHub-Chinese-Top-Charts](https://github.com/kon9chunkit/GitHub-Chinese-Top-Charts#Python)   
 - [advanced-java](https://github.com/doocs/advanced-java)    
