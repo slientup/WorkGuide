@@ -78,6 +78,7 @@
 * [极客时间spring全家桶](docs/books/spring_family.md)
 * [极客时间从零开始学大数据](docs/books/big_data.md)
 * [极客时间深入剖析Kubernetes](docs/books/k8s.md)
+* [极客时间从0开始学架构](docs/books/architecture.md)
 
 ### 源码分析
 * [mall源码分析](docs/books/mall.md)
