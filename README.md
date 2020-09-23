@@ -106,6 +106,5 @@
 * [如何在5天内学会Vue？聊聊我的学习方法！](https://mp.weixin.qq.com/s/R--Qh4Lp5nhhO0eNWNDmIw)
 * [我们能从Hadoop学到什么？](https://time.geekbang.org/column/article/69029)
 * [Github上10个超好看可视化面板](https://mp.weixin.qq.com/s/goACf3DfkpebE4fHow4PZg)  
-
-
+* [如何高效地学习开源项目](https://time.geekbang.org/column/article/10022)
     
