@@ -22,17 +22,16 @@ export const constantRouterMap = [
   }
 ]
 ```
-`home`页面就是通过父组件`Layout`和子组件`/views/home/index`构成
-
-这里解决了动态路由的生成问题，实现思路：
-- 首次访问页面时，获取用户的访问页面访问权限,然后保存到`store`共享变量`routers`中
+`home`页面就是通过父组件`Layout`和子组件`/views/home/index`构成  这里解决了动态路由的生成问题
+**实现思路：**  存储一个共享变量 `layout`调用这个共享变量 加载每个页面都包含`layout`
+1. 首次访问页面时，获取用户的访问页面访问权限,然后保存到`store`共享变量`routers`中  
 ```
 state: {
     routers: constantRouterMap,   // 存储路由信息 默认是常量
     addRouters: []   //存储动态的路由信息
   }
 ```
-- 其次每个页面默认加载的时候都会渲染`Layout`组件，这个组件在加载的时候默认会加载'routers'字段
+2. 其次每个页面默认加载的时候都会渲染`Layout`组件，这个组件在加载的时候默认会加载'routers'字段
 
 ```js
 export const asyncRouterMap = [
