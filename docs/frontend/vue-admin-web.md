@@ -26,7 +26,7 @@ export const constantRouterMap = [
 
 #### 权限验证(是否登录)
 这段代码存放在`permission.js` 通过`router.beforeEach`来判断用户登录,这段代码运行在路由`router`之前，通过`router.afterEach`结束进度条,运行在路由之后
-```
+```js
 import router from './router'
 import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
@@ -77,7 +77,7 @@ router.afterEach(() => {
 ```
 #### 对axios请求进行封装
 请求封装代码存放在`src/utils/requests`中,会使用到拦截器，即对请求和响应做一些处理
-```
+```js
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
