@@ -4,7 +4,7 @@
 基础框架，是**任何项目**都会使用到的架构代码，包括`结构`和`aop`的抽象
 #### 整体流程
 
-路由控制着整个流程，也控制着整个页面的组件渲染，所有页面都父组件`Layout`(页面布局)，然后包含子组件
+**非常非常重要**   路由控制着整个流程，也控制着整个页面的组件渲染，所有页面都父组件`Layout`(页面布局)，然后包含子组件
 ```js
 export const constantRouterMap = [
   {path: '/login', component: () => import('@/views/login/index'), hidden: true},
@@ -23,6 +23,38 @@ export const constantRouterMap = [
 ]
 ```
 `home`页面就是通过父组件`Layout`和子组件`/views/home/index`构成
+
+这里解决了动态路由的生成问题，实现思路：
+- 首次访问页面时，获取用户的访问页面访问权限,然后保存到`store`共享变量`routers`中
+```
+state: {
+    routers: constantRouterMap,   // 存储路由信息 默认是常量
+    addRouters: []   //存储动态的路由信息
+  }
+```
+- 其次每个页面默认加载的时候都会渲染`Layout`组件，这个组件在加载的时候默认会加载'routers'字段
+
+```js
+export const asyncRouterMap = [
+  {
+    path: '/pms',
+    component: Layout,     // 这个Layout组件非常重要
+    redirect: '/pms/product',
+    name: 'pms',
+    meta: {title: '商品', icon: 'product'},
+    children: [{
+      path: 'product',
+      name: 'product',
+      component: () => import('@/views/pms/product/index'),
+      meta: {title: '商品列表', icon: 'product-list'}
+    },
+      {
+        path: 'addProduct',
+        name: 'addProduct',
+        component: () => import('@/views/pms/product/add'),
+        meta: {title: '添加商品', icon: 'product-add'}
+      },   
+```
 
 #### 权限验证(是否登录)
 这段代码存放在`permission.js` 通过`router.beforeEach`来判断用户登录,这段代码运行在路由`router`之前，通过`router.afterEach`结束进度条,运行在路由之后
