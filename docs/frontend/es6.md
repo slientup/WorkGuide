@@ -1,5 +1,7 @@
 # es6特性
 > 记录一些es特性的用法
+## 学习资料
+[ECMAScript 6 入门](https://es6.ruanyifeng.com/?search=isNaN&x=0&y=0#docs/set-map)
 
 ## 几乎与对象.方式访问属性
 
