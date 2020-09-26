@@ -2,7 +2,7 @@
 > 记录一些es特性的用法
 ## 学习资料
 [ECMAScript 6 入门](https://es6.ruanyifeng.com/?search=isNaN&x=0&y=0#docs/set-map)
-
+[30分钟，让你彻底明白Promise原理](https://www.cnblogs.com/163yun/p/9505378.html)
 ## 几乎与对象.方式访问属性
 
 ## =>箭头函数语法
