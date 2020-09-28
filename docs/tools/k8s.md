@@ -1,7 +1,12 @@
-#### 这是目前见过最好的k8s入门文章：
-[写给大家看的“不负责任” K8s 入门文档](https://mp.weixin.qq.com/s/9NAUvPbxqR9qlL9_Gd6YIA)
+
+
+
+#### 入门资料
+[Kubernetes 中文指南/云原生应用架构实践手册](https://jimmysong.io/kubernetes-handbook/)
 
 #### 各个组件的产生背景
+参考
+[写给大家看的“不负责任” K8s 入门文档](https://mp.weixin.qq.com/s/9NAUvPbxqR9qlL9_Gd6YIA)
 
 容器编排系统的实现:我们的服务器就应该有一部分实现编排系统，有一部分实现业务容器，我们把运行编排系统的容器称作为master节点，运行业务的称作为worker节点
 
