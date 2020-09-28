@@ -4,3 +4,4 @@
 - [gobyexample](https://gobyexample.com/)
 - [the-way-to-go_ZH_CN](https://github.com/unknwon/the-way-to-go_ZH_CN)
 - [awesome-go](https://github.com/avelino/awesome-go)
+- [effective-go](https://golang.org/doc/effective_go.html)
