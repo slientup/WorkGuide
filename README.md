@@ -94,6 +94,7 @@
 * [docker](docs/fault/docker.md)
 
 ### 优质文章收藏
+* [优质博客](docs/article/blogs.md)
 * [优质技术分享文章](docs/article/article.md)
 * [架构图和流程图收藏](docs/article/arch.md)
 
