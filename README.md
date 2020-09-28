@@ -73,6 +73,9 @@
 * [python知识点](docs/python/Python_knowledge.md)
 * [python sdn项目结构](docs/python/sdn.md)
 
+### go
+* [go语言学习笔记](docs/go/note.md)
+
 ### 读书笔记
 * [spring cloud微服务实战](docs/books/spring_cloud.md)
 * [极客时间spring全家桶](docs/books/spring_family.md)
