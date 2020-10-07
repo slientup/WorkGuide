@@ -2761,11 +2761,117 @@ defer func() {
 }()
 ```
 
+### 出于性能考虑的实用代码片段
+#### 字符串操作
+1. 获取子串
+```
+substr := str[n:m]
+```
+2. 使用for range 遍历
+```
+// gives the Unicode characters:
+for ix, ch := range str {
+…
+}
+```
+3. 获取字符串的字符数
+```
+utf8.RuneCountInString(str)
+```
+4. 字符串拼接
+```
+最快速： `with a bytes.Buffer`
+
+`Strings.Join()`
+
+使用`+=`
+```
+#### 数组切片map
+1. 创建
+```
+arr1 := new([len]type)
+slice1 := make([]type, len)
+map1 := make(map[keytype]valuetype)
+```
+2. 初始化
+```
+arr1 := [...]type{i1, i2, i3, i4, i5}
+slice1 := []type{i1, i2, i3, i4, i5}
+map1 := map[string]int{"one": 1, "two": 2}
+```
+3. 检查key是否存在
+```
+val1, isPresent = map1[key1]
+```
+
+4. 删除key
+```
+delete(map1, key1)
+```
+
+#### 结构体
+1. 创建
+```
+type struct1 struct {
+    field1 type1
+    field2 type2
+    …
+}
+ms := new(struct1)
+```
+2. 初始化
+```
+ms := &struct1{10, 15.5, "Chris"}
+```
+
+#### 接口分类匹配
+
+```
+func classifier(items ...interface{}) {
+    for i, x := range items {
+        switch x.(type) {
+        case bool:
+            fmt.Printf("param #%d is a bool\n", i)
+        case float64:
+            fmt.Printf("param #%d is a float64\n", i)
+        case int, int64:
+            fmt.Printf("param #%d is an int\n", i)
+        case nil:
+            fmt.Printf("param #%d is nil\n", i)
+        case string:
+            fmt.Printf("param #%d is a string\n", i)
+        default:
+            fmt.Printf("param #%d’s type is unknown\n", i)
+        }
+    }
+}
+```
+
+#### 程序出错时终止程序
+```
+if err != nil {
+   fmt.Printf("Program stopping with error %v", err)
+   os.Exit(1)
+}
+```
+or
+```
+if err != nil { 
+	panic("ERROR occurred: " + err.Error())
+}
+```
+
+#### 协程和通道
+[协程与通道](https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/18.8.md)
 
 
-
-
-
+#### 其他性能建议
+1）尽可能的使用:=去初始化声明一个变量（在函数内部）；
+2）尽可能的使用字符代替字符串；
+3）尽可能的使用切片代替数组；
+4）初始化映射时指定其容量；
+5）当定义一个方法时，使用指针类型作为方法的接受者；
+6）在代码中使用常量或者标志提取常量的值；
 
 
 
