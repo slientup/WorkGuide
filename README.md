@@ -76,6 +76,7 @@
 ### go
 * [go语言学习笔记](docs/go/note.md)
 * [go基础](docs/go/base.md)
+* [go项目](docs/go/project.md)
 
 
 ### 读书笔记
