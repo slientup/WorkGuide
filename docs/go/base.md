@@ -2583,8 +2583,183 @@ func logPanics(function HandleFnc) HandleFnc {
 http.HandleFunc("/test1", logPanics(SimpleServer))
 http.HandleFunc("/test2", logPanics(FormServer))
 ```
+### 常见错误
+**1. 误用短声明：**
 
+短声明是重新声明一个变量
+```
+var remember bool = false
+if something {
+    remember := true //错误
+}
+// 使用remember
+```
+外层`remember`永远都是false，起不到修改的作用，因为内层`remember`是重新声明的变量，需要将`remember := true`替换成`remember = true`
 
+**2. 误用字符串**
+
+字符串是常用，使用`a += b`实际上是新生成一个字符串，如果频繁使用，会导致大量的开销。
+
+**应该使用一个字符数组代替字符串，将字符串内容写入一个缓存中**
+```
+var b bytes.Buffer
+...
+for condition {
+    b.WriteString(str) // 将字符串str写入缓存buffer
+}
+    return b.String()
+```
+**3. make和new的使用**
+- 切片、映射和通道，使用make
+- 数组、结构体和所有的值类型，使用new 
+
+**4. 指针的使用**
+- slice本身就是指针，不要再声明指针变量
+    正确的方式
+    ```
+    func findBiggest( listOfNumbers []int ) int {}
+    ```
+    错误的方式 注意`*`
+    ```
+     func findBiggest( listOfNumbers *[]int ) int {}
+    ```
+- 同理接口本身也是指针，不要在参数传递的声明指针变量
+    `n nexter` 是对的
+    ```
+    type nexter interface {
+        next() byte
+    }
+    func nextFew1(n nexter, num int) []byte {
+        var b []byte
+        for i:=0; i < num; i++ {
+            b[i] = n.next()
+        }
+        return b
+    }
+    ```
+    `n *nexter`是错的
+    ```
+    func nextFew2(n *nexter, num int) []byte {
+        var b []byte
+        for i:=0; i < num; i++ {
+            b[i] = n.next() // 编译错误:n.next未定义（*nexter类型没有next成员或next方法）
+        }
+        return b
+    }
+```
+
+- 使用**值类型**的时候尽量不要使用指针，因为这会给内存带来额外的开销
+
+**总结** ： 指针类型的变量在申明时不要再申明成指针`*`，值类型的变量尽量不要使用指针的功能。
+
+**5.误用协程和通道**
+
+仅在代码中并发执行非常重要的时候，才使用协程和通道。
+
+**6. 顺序和并发**
+```
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+var values = [5]int{10, 11, 12, 13, 14}
+
+func main() {
+    // 版本A:
+    for ix := range values { // ix是索引值
+        func() {
+            fmt.Print(ix, " ")
+        }() // 调用闭包打印每个索引值
+    }
+    fmt.Println()
+    // 版本B: 和A版本类似，但是通过调用闭包作为一个协程
+    for ix := range values {
+        go func() {
+            fmt.Print(ix, " ")
+        }()
+    }
+    fmt.Println()
+    time.Sleep(5e9)
+    // 版本C: 正确的处理方式
+    for ix := range values {
+        go func(ix interface{}) {
+            fmt.Print(ix, " ")
+        }(ix)
+    }
+    fmt.Println()
+    time.Sleep(5e9)
+    // 版本D: 输出值:
+    for ix := range values {
+        val := values[ix]
+        go func() {
+            fmt.Print(val, " ")
+        }()
+    }
+    time.Sleep(1e9)
+}
+```
+
+### 模式
+#### ok模式
+1. 检查`map`中是否存在某个`key`?
+```
+if value, isPresent = map1[key1]; isPresent {
+        Process(value)
+}
+// key1不存在
+…
+```
+2. 检查一个接口变量是否包含某个类型T ？
+```
+if value, ok := varI.(T); ok {
+    Process(value)
+}
+// 接口类型varI没有包含类型T
+```
+3. 检查函数返回是否存在错误？
+```
+value, err := pack1.Func1(param1)
+
+if err != nil {
+    fmt.Printf("Error %s in pack1.Func1 with parameter %v", err.Error(), param1)
+    return err
+}
+```
+4. 检查通道是否关闭？
+```
+    for {
+        if input, open := <-ch; !open {
+            break // 通道是关闭的
+        }
+        Process(input)
+    }
+```
+
+#### defer模式
+defer的应用场景有两个
+- 使用 defer 可以确保资源不再需要时，都会被恰当地关闭
+- 它可以恢复 panic
+1. 关闭文件
+```
+// 先打开一个文件 f
+defer f.Close()
+```
+2. 释放锁
+```
+mu.Lock()
+defer mu.Unlock()
+```
+3. 从panic 恢复
+```
+defer func() {
+	if err := recover(); err != nil {
+		log.Printf("run time panic: %v", err)
+	}
+}()
+```
 
 
 
