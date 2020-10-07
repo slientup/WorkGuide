@@ -2646,7 +2646,7 @@ for condition {
         }
         return b
     }
-```
+   ```
 
 - 使用**值类型**的时候尽量不要使用指针，因为这会给内存带来额外的开销
 
@@ -2659,7 +2659,6 @@ for condition {
 **6. 顺序和并发**
 ```
 package main
-
 import (
     "fmt"
     "time"
