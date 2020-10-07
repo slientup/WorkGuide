@@ -2863,6 +2863,20 @@ if err != nil {
 #### 协程和通道
 [协程与通道](https://github.com/unknwon/the-way-to-go_ZH_CN/blob/master/eBook/18.8.md)
 
+#### 注册rpc服务
+
+当前`store`注册rpc服务，
+```
+	if *rpcEnabled { // the master is the rpc server:
+		rpc.RegisterName("Store", store)
+		rpc.HandleHTTP()
+	}
+```
+call 对应的方法
+```
+if err := s.client.Call("Store.Put", url, key); err != nil
+```
+
 
 #### 其他性能建议
 1）尽可能的使用:=去初始化声明一个变量（在函数内部）；
