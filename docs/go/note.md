@@ -14,3 +14,4 @@
 
 ### 项目布局
 - [project-layout](https://github.com/golang-standards/project-layout/blob/master/README_zh.md)
+- [面向包设计](https://github.com/danceyoung/paper-code/blob/master/package-oriented-design/packageorienteddesign.md)
