@@ -2583,6 +2583,40 @@ func logPanics(function HandleFnc) HandleFnc {
 http.HandleFunc("/test1", logPanics(SimpleServer))
 http.HandleFunc("/test2", logPanics(FormServer))
 ```
+#### websocket
+`websocket`是通过客户端与服务器之间的对话，建立的基于单个持久连接的协议,主要是go语言中用来建立长连接的场景，其他与http类似，实现思路就是一直循环。
+```
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"websocket"
+)
+
+func server(ws *websocket.Conn) {
+	fmt.Printf("new connection\n")
+	buf := make([]byte, 100)
+	for {
+		if _, err := ws.Read(buf); err != nil {
+			fmt.Printf("%s", err.Error())
+			break
+		}
+	}
+	fmt.Printf(" => closing connection\n")
+	ws.Close()
+}
+
+func main() {
+	http.Handle("/websocket", websocket.Handler(server))
+	err := http.ListenAndServe(":12345", nil)
+	if err != nil {
+		panic("ListenAndServe: " + err.Error())
+	}
+}
+```
+
+
 ### 常见错误
 **1. 误用短声明：**
 
