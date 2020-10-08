@@ -7,4 +7,4 @@
   - 版本 4： 如果我们要使用 json 格式的文件该如何修改？
   - 版本 5： 用 rpc 协议实现的分布式版本。
   分布式架构：![](https://raw.githubusercontent.com/unknwon/the-way-to-go_ZH_CN/master/eBook/images/19.8_fig19.5.jpg)
- 
+- [build-web-application-with-golang](https://github.com/astaxie/build-web-application-with-golang)
