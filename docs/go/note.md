@@ -8,3 +8,6 @@
 
 ### go学习地图
 - [golang-developer-roadmap](https://github.com/Alikhll/golang-developer-roadmap/blob/master/i18n/zh-CN/ReadMe-zh-CN.md)
+
+### 项目布局
+- [project-layout](https://github.com/golang-standards/project-layout/blob/master/README_zh.md)
