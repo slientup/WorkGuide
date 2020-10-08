@@ -77,7 +77,7 @@
 * [go语言学习笔记](docs/go/note.md)
 * [go基础](docs/go/base.md)
 * [go项目](docs/go/project.md)
-
+* [go设计模式](docs/go/patterns.md)
 
 ### 读书笔记
 * [spring cloud微服务实战](docs/books/spring_cloud.md)
