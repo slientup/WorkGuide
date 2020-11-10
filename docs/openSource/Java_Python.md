@@ -25,6 +25,8 @@ A collective list of free APIs for use in software and web development
 
 
 #### Java
+- [spring-boot-demo](https://github.com/xkcoding/spring-boot-demo) 
+  spring boot demo 是一个用来深度学习并实战`spring boot`的项目，目前总共包含 `65`个集成 demo，已经完成 53 个,学习到 Spring Boot 与基本所有技术的集成.
 - [mall](https://github.com/macrozheng/mall) stars `32k`   
   mall项目致力于打造一个完整的电商系统，采用现阶段流行技术实现，准确说他已经涵盖了所有的技术，**且文档资料非常丰富 神一般的存在**
 - [微人事](https://github.com/lenve/vhr)   stars `15k`   
