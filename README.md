@@ -10,8 +10,8 @@
 ### linux
 * [shell编程入门](https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
 
-#### 数据结构与算法
-* [数据结构与算法](docs/data_structure/data_structure_algorithm.md) 
+#### 算法
+* [算法](docs/data_structure/data_structure_algorithm.md) 
 
 
 
