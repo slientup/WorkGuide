@@ -60,7 +60,7 @@ print(quick_sort(a, 0, len(a) - 1))
 4. 右边子数组排序
 5. 合并两个有序子序列
 ##### 代码
-```
+```python
 def merge_sort(nums):
     # 1. 结束条件，这里与快排不一样,这里的值跟mid的值是否越界有关系
     if len(nums) <= 1:
@@ -102,7 +102,7 @@ print(merge_sort(a))
 2. 求中间值
 3. 进行比较
 ##### 代码
-```
+```python
 def find(nums, target):
     left = 0
     right = len(nums) - 1
@@ -120,7 +120,7 @@ def find(nums, target):
 时间复杂度：`logn`
 
 #### 二叉树
-```
+```python
 def traverse(TreeNode root) {
     # 1. 递归结束条件
     if root==null:
@@ -158,7 +158,7 @@ def traverse(TreeNode root) {
 4. 递归继续选择合理的数据，直到满足递归结束条件
 5. 然后再取消刚刚的选择
 ##### 模板代码
-```
+```python
 result = []
 def backtrack(路径, 选择列表):
     if 满足结束条件:
@@ -171,7 +171,7 @@ def backtrack(路径, 选择列表):
         撤销选择
 ```
 ##### 实例代码
-```
+```python
 // 路径：记录在 track 中
 // 选择列表：nums 中不存在于 track 的那些元素
 // 结束条件：nums 中的元素全都在 track 中出现
