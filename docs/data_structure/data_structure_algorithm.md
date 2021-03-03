@@ -21,7 +21,7 @@
 3. 再对左边数组排序
 4. 再对右边数组排序
 ##### 代码
-```
+```python
 def quick_sort(nums, left, right):
     # 1.结束条件 为什么会有大于情况，因为可能分区点的值在遍历后位于最后一位
     if left >= right:
