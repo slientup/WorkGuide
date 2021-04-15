@@ -34,6 +34,8 @@
 * [Git入门](docs/tools/Git.md)
 * [maven入门](https://github.com/slientup/maven-learning-notes/blob/master/README.md)
 
+### 中间件
+* [nginx详解](https://mp.weixin.qq.com/s/4wu01hWDV9x_mNdkgmwfyw)
 ### 容器
 * [docker](docs/tools/docker.md)
 * [k8s入门](docs/tools/k8s.md)
