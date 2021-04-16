@@ -37,6 +37,9 @@
 ### 中间件
 * [nginx详解](https://mp.weixin.qq.com/s/4wu01hWDV9x_mNdkgmwfyw)
 * [nginx 可视化](https://github.com/onlyGuo/nginx-gui)
+
+### ci/cd
+* [ci/cd的思考](docs/cicd/cicd.md)
 ### 容器
 * [docker](docs/tools/docker.md)
 * [k8s入门](docs/tools/k8s.md)
