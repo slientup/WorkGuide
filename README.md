@@ -40,6 +40,8 @@
 
 ### ci/cd
 * [ci/cd的思考](docs/cicd/cicd.md)
+### 测试
+* [测试](docs/test/test.md)
 ### 容器
 * [docker](docs/tools/docker.md)
 * [k8s入门](docs/tools/k8s.md)
