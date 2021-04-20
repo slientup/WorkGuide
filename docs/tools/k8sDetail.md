@@ -7,6 +7,7 @@
 #### 概念
 k8s里面涉及到的概念很多，但真正的实体(应用承载体)只有pod，而其他概念的出现都是为如何访问到pod做设计
 
+
 应用实体pod
 
 - **pod** k8s里面最小的单元，而一个容器或者多个相关容器的集合，对标现在的微服务，也就是说pod是应用的承载体，应用都部署在pod里面。而我们的应用有很多种类型，如job，stateful，stateless，deamon等，
@@ -21,8 +22,10 @@ k8s里面涉及到的概念很多，但真正的实体(应用承载体)只有pod
 - **ingress** 将k8s集群对外发布，是外部访问k8s集群的入口
 - **volume** 容器是无状态的，通过volume的方式实现持久化
 
+层次关系： cluster----project----namespace---pod
+
 #### 链接
-* [k8s入门](docs/tools/k8s.md)
+* [k8s架构](docs/tools/k8s.md)
 * [k8s外部访问数据流](docs/tools/dataflow.md)
 
 #### 网络
