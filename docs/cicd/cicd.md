@@ -41,7 +41,8 @@
 自研产品渲染新的chart文件---->**推送到git**<-----rancher刷新git----upgrade最新版本
 
 所以自研产品**对接rancher要做的事情就变很简单**：
-生成新版本的chart文件模块-----推送到git-----`call rancher refresh chart api`----`call rancher upgrade api`
+
+自动发布流程：生成新版本的chart文件模块-----推送到git-----`call rancher refresh chart api`----`call rancher upgrade api`
 
 chart模板格式如下：
 ```
@@ -57,3 +58,16 @@ charts/<APPLICATION>/<APP_VERSION>/
 ```
 核心是`templates`模板(存放的是k8s的yaml定义文件)，如`deployment.yaml`,`service.yaml` 
 
+#### 自研产品关键流程
+> 功能支持ansible(非容器化)，容器化项目(rancher,k8s)
+
+1. appid申请(根据用户在jira中填写的信息完成初始化配置)
+   - 配置git webhook，配置`develop`和`release`分支跟踪;
+   - 配置git deploy key
+   - 根据template在jenkins中同时创建`develop`和`release`的模板
+   - 生成consult路径(服务注册，配置文件中心)
+   - 生成rancher2 chart文件并提交到git(生成helm-templates文件)
+2. 测试环境自动发布(开发提交代码到develop分支，自动触发jenkins build通过后调用接口)
+   - 接收appmodel和version信息
+   - 根据上述信息生成对应的chart文件，并提交git
+   - 通知rancher去git中refresh chart文件，并调upgrade升级接口升级
