@@ -47,6 +47,8 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 
 #### 常用命令
 
+kubectl get [pods|services|ingress] -A  -o wide
+
 [常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
 
 
