@@ -51,7 +51,7 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 
 获取所有运行的容器：kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' | sort
 
-kubectl logs 获取日志
+kubectl logs grafana-7b7bdb59b7-7hhh6 -n grafana
 
 [常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
 
