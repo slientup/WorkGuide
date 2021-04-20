@@ -45,6 +45,7 @@
 ### 容器
 * [docker](docs/tools/docker.md)
 * [k8s入门](docs/tools/k8s.md)
+* [k8s外部访问数据流](docs/tools/dataflow.md)
 * [12张图，带你轻松理解Kubernetes Service](https://mp.weixin.qq.com/s/dAujOyQLJOuzSu-tamH7zA)
 * [Kubernetes的三种外部访问方式：NodePort、LoadBalancer 和 Ingress](http://dockone.io/article/4884)
 ### 分布式
