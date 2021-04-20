@@ -53,6 +53,9 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 
 kubectl logs grafana-7b7bdb59b7-7hhh6 -n grafana
 
+查看Ingress Controller日志
+kubectl -n ingress-nginx logs -l app=ingress-nginx
+
 [常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
 
 
