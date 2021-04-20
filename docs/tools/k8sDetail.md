@@ -45,6 +45,13 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 [kubenretes中的Pod和Serivce的几种方式](https://jimmysong.io/blog/accessing-kubernetes-pods-from-outside-of-the-cluster/)
 
 
+#### 常用命令
+
+[常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
+
+
+#### 参考连接
+
 
 
 
