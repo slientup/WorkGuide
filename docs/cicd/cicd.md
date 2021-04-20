@@ -43,3 +43,17 @@
 所以自研产品**对接rancher要做的事情就变很简单**：
 生成新版本的chart文件模块-----推送到git-----`call rancher refresh chart api`----`call rancher upgrade api`
 
+chart模板格式如下：
+```
+charts/<APPLICATION>/<APP_VERSION>/
+| --charts /            # 包含依赖的 Chart 的应用商店。
+| --templates/          # 包含应用商店的模板，当与 values.yml 结合使用时，将生成 Kubernetes YAML。
+| --app-readme.md       # 文本为显示在 Rancher UI 的 Chart 标题中。*
+| --Chart.yml           # 必需的 Helm Chart 信息文件。
+| --questions.yml       # 用于生成在 Rancher UI 中显示的应答表单。它们将显示在配置选项中。*
+| --README.md           # 可选：在 Rancher UI 中显示的 Helm 自述文件。该文本显示在“详细描述”中。
+| --requirements.yml    # 可选：YAML 文件列出了 Chart 的依赖关系。
+| --values.yml          # Chart 的默认配置值。
+```
+核心是`templates`模板(存放的是k8s的yaml定义文件)，如`deployment.yaml`,`service.yaml` 
+
