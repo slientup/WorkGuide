@@ -18,10 +18,12 @@ k8s里面涉及到的概念很多，但真正的实体(应用承载体)只有pod
 - **网络插件** pod之间如何通信？k8s只定义网络规范，具体的实现交给对应的插件
 
 - **内部dns** 
-- 
 - **ingress** 将k8s集群对外发布，是外部访问k8s集群的入口
-- 
 - **volume** 容器是无状态的，通过volume的方式实现持久化
+
+#### 链接
+* [k8s入门](docs/tools/k8s.md)
+* [k8s外部访问数据流](docs/tools/dataflow.md)
 
 #### 网络
 pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，Weave，不同插件在具体实现上有一些差异，比如Flannel通过overlay的方式实现，而Calico通过bgp的方式实现
@@ -33,7 +35,7 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 #### service
 [12张图，带你轻松理解Kubernetes Service](https://mp.weixin.qq.com/s/dAujOyQLJOuzSu-tamH7zA)
 
-`hostNetwork hostport` 是直接将`pod`暴露给外部环境，`NodePort，LoadBalancer，Ingress`将`service`暴露到外部环境
+`hostNetwork hostport` 是直接将`pod`暴露给外部环境，`NodePort，LoadBalancer，Ingress`将`service`暴露到外部环境，实际使用中主要是通过ingress对外暴露(pod-cluster-ingress)
 
 [Kubernetes的三种外部访问方式](http://dockone.io/article/4884)
 
