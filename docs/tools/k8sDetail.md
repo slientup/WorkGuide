@@ -30,7 +30,16 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 
 [Kubernetes网络全解：机制、方法、实操的超强指南](https://mp.weixin.qq.com/s/YO-MPJFei6flcvQdktQRww)
 
-#### service暴露给外部集群
+#### service
+[12张图，带你轻松理解Kubernetes Service](https://mp.weixin.qq.com/s/dAujOyQLJOuzSu-tamH7zA)
+
+`hostNetwork hostport` 是直接将`pod`暴露给外部环境，`NodePort，LoadBalancer，Ingress`将`service`暴露到外部环境
+
+[Kubernetes的三种外部访问方式](http://dockone.io/article/4884)
+
+[kubenretes中的Pod和Serivce的几种方式](https://jimmysong.io/blog/accessing-kubernetes-pods-from-outside-of-the-cluster/)
+
+
 
 
 
