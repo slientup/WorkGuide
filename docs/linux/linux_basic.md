@@ -239,9 +239,9 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
 
 #### tar
 
-压缩  `tar cf rep1.tar.gz repo_bak/`
+打包压缩  `tar -czvf rep1.tar.gz repo_bak/`
 
-解压  `tar xf rep.tar.gz`
+解压  `tar -zxvf rep.tar.gz`
 
 
 #### 主机各类状态查询 /proc
