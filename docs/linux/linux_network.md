@@ -36,7 +36,7 @@ linux内核网络层收发包大概调用流程(**这是站在函数的角度**)
 ##### netfilter hook点
 我们不考虑实际的处理函数，仅仅看**netfilter**的钩子节点在网络数据流程中的位置见下图：
 
-![](https://files.mdnice.com/user/4251/9769c3ce-bc2f-43bc-bebd-afcb10e0c5cf.png)
+![](https://pic3.zhimg.com/80/v2-c6f01f03fc06527bbeaaf2430a986f32_1440w.jpg)
 
 路由决定方向，不同的方向涉及到的钩子节点就完全不一样了：
 
@@ -48,8 +48,7 @@ linux内核网络层收发包大概调用流程(**这是站在函数的角度**)
 
 iptables在用户态提供了表格和链的概念，四表五链
 
-
-![](https://files.mdnice.com/user/4251/136fc436-47ce-4d9e-ab50-3961d3097c59.png)
+![](https://img-blog.csdnimg.cn/img_convert/9364fcb50267c8599e587c6527972c13.png)
 
 iptalbes中每个表格的作用不同，以我们比较常用的filter表为例，其主要起到数据包过滤和拦截作用，包含INPUT，FORWARD 和 OUTPUT 三个链,INPUT 链是在NF_INET_LOCAL_IN节点中生效，FORWARD 链是在NF_INET_FORWARD节点，OUTPUT 链则是在NF_INET_LOCAL_OUT节点生效。
 
@@ -65,6 +64,8 @@ iptables是netfilter提供api接口，用户通过操作iptable的数据最后�
 
 当我们定义好一套合理的数据处理流程后，如果无法对其进行控制的话，那生命力会大大降低，所以我们不得不提供具体api接口给用户自定义数据表项。往往实现上可能采用钩子函数(**像AOP**)，在关键节点处挂入钩子，对报文进行处理。
 
+#### 链接
 
+[Linux 网络层收发包流程及 Netfilter 框架浅析](https://zhuanlan.zhihu.com/p/93630586)
 
 
