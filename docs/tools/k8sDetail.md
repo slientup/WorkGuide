@@ -25,8 +25,8 @@ k8s里面涉及到的概念很多，但真正的实体(应用承载体)只有pod
 层次关系： cluster----project----namespace---pod
 
 #### 链接
-* [k8s架构](docs/tools/k8s.md)
-* [k8s外部访问数据流](docs/tools/dataflow.md)
+* [k8s架构](k8s.md)
+* [k8s外部访问数据流](dataflow.md)
 
 #### 网络
 pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，Weave，不同插件在具体实现上有一些差异，比如Flannel通过overlay的方式实现，而Calico通过bgp的方式实现
@@ -45,7 +45,7 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 [kubenretes中的Pod和Serivce的几种方式](https://jimmysong.io/blog/accessing-kubernetes-pods-from-outside-of-the-cluster/)
 
 #### 存储
-* [存储类型](docs/tools/k8s_data.md)
+* [存储类型](k8s_data.md)
 
 #### 常用命令
 
