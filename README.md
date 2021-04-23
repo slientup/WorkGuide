@@ -42,6 +42,7 @@
 
 ### 日志
 * [日志治理](docs/log/log.md)
+* [kibana](docs/log/kibana.md)
 ### 测试
 * [测试](docs/test/test.md)
 ### 容器
