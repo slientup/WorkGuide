@@ -39,6 +39,9 @@
 
 ### ci/cd
 * [ci/cd的思考](docs/cicd/cicd.md)
+
+### 日志
+* [日志治理](docs/log/log.md)
 ### 测试
 * [测试](docs/test/test.md)
 ### 容器
