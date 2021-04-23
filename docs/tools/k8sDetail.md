@@ -44,6 +44,8 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 
 [kubenretes中的Pod和Serivce的几种方式](https://jimmysong.io/blog/accessing-kubernetes-pods-from-outside-of-the-cluster/)
 
+#### 存储
+* [存储类型](docs/tools/k8s_data.md)
 
 #### 常用命令
 
