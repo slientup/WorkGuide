@@ -60,6 +60,10 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
 [常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
 
+#### 排障思路
+
+* [k8s排障思路](k8s_error_guide.md)
+
 
 #### 参考连接
 
