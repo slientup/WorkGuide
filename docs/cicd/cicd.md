@@ -71,3 +71,6 @@ charts/<APPLICATION>/<APP_VERSION>/
    - 接收appmodel和version信息
    - 根据上述信息生成对应的chart文件，并提交git
    - 通知rancher去git中refresh chart文件，并调upgrade升级接口升级
+
+#### 发布流程
+1.push代码到release----2.自动触发jenkins release job-----3.自动触发jenkins sonar job-----------4.jira中创建发布申请-----ci测试通过-------5.部署到stg环境------部署成功-----6.stg测试/uat测试-----测试通过-----7.安全测试-----通过----8.将发布版本从stg拷贝到生产
