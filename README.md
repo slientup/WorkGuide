@@ -40,6 +40,9 @@
 ### ci/cd
 * [ci/cd的思考](docs/cicd/cicd.md)
 
+### 深度学习
+* [pytorch笔记](docs/deepLearn/pytorch.md)
+
 ### 日志
 * [日志治理](docs/log/log.md)
 * [kibana](docs/log/kibana.md)
