@@ -3,7 +3,7 @@
 - [一文搞懂 Docker 镜像的常用操作](https://snailclimb.gitee.io/javaguide/#/docs/tools/Docker-Image)
 - [centos安装docker-ce](https://blog.csdn.net/qq_25760623/article/details/88657491)
 - [Docker的网络通信原理](https://keyu.site/2019/08/16/dockerNet/)
-
+- [docker 文件系统](https://blog.csdn.net/netease_im/article/details/107046065)
 
 #### 工作中docker创建：(如果hub中已有的镜像就不用这么dockerfile了)  
 1. 创建一个dockerfile容器文件(自己项目的一些基础步骤)    
