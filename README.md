@@ -7,6 +7,10 @@
 * [高并发内存模型](docs/java/java_memory_model.md)     
 * [AQS](docs/java/AQS.md) 
 
+### 操作系统原理
+
+* [操作系统原理](docs/os/os.md)
+
 ### linux
 * [shell编程入门](https://snailclimb.gitee.io/javaguide/#/docs/operating-system/Shell)
 * [linux基本命令](docs/linux/linux_basic.md)
