@@ -3,3 +3,5 @@
 - ![多核cpu](https://www.google.com.hk/url?sa=i&url=http%3A%2F%2Fm.elecfans.com%2Farticle%2F1196867.html&psig=AOvVaw1G7CGvrsfg45j3Qp57GhWS&ust=1620264613401000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDhzZmysfACFQAAAAAdAAAAABAP)
 
 - [mmu内存管理单元](https://en.wikipedia.org/wiki/Memory_management_unit)
+
+- [中断处理异常](https://www.bilibili.com/video/BV1D441117ib?p=9)
