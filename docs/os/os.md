@@ -11,6 +11,8 @@
 
 - [内存中程序存放格式](https://en.wikipedia.org/wiki/Data_segment)
 
+- [Ext2文件系统彻底分析 | 读数据流程](http://www.itworld123.com/2019/05/01/linux/filesystem/ext2/ext2_read_base/)
+
 操作系统原理：
 
 - [北京大学](https://www.bilibili.com/video/BV1D441117ib?p=41)
