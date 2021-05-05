@@ -5,3 +5,7 @@
 - [mmu内存管理单元](https://en.wikipedia.org/wiki/Memory_management_unit)
 
 - [中断处理异常](https://www.bilibili.com/video/BV1D441117ib?p=9)
+
+![image](https://user-images.githubusercontent.com/30467613/117092445-d4156580-ad90-11eb-8910-4adc53de74ca.png)
+
+
