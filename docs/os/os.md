@@ -9,7 +9,7 @@
 ![image](https://user-images.githubusercontent.com/30467613/117092445-d4156580-ad90-11eb-8910-4adc53de74ca.png)
 
 
-[内存中程序存放格式](https://en.wikipedia.org/wiki/Data_segment)
+- [内存中程序存放格式](https://en.wikipedia.org/wiki/Data_segment)
 
 操作系统原理：
 
