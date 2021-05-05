@@ -14,6 +14,8 @@
 
 - [Ext2文件系统彻底分析 | 读数据流程](http://www.itworld123.com/2019/05/01/linux/filesystem/ext2/ext2_read_base/)
 
+- [调度时机](https://blog.csdn.net/qq_41684621/article/details/115773198)
+
 操作系统原理：
 
 - [北京大学](https://www.bilibili.com/video/BV1D441117ib?p=41)
