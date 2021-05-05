@@ -9,3 +9,7 @@
 ![image](https://user-images.githubusercontent.com/30467613/117092445-d4156580-ad90-11eb-8910-4adc53de74ca.png)
 
 
+操作系统原理：
+
+- [北京大学](https://www.bilibili.com/video/BV1D441117ib?p=41)
+- [清华大学](https://www.xuetangx.com/course/THU08091000267/5883104?channel=search_result)
