@@ -80,8 +80,9 @@
 * [vue-admin-web](docs/frontend/vue-admin-web.md)
 
 
-### 开源项目
+### 项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
+* [项目](docs/openSource/project.md)
 
 ### 面试
 * [大厂面试题interview_internal_reference](https://github.com/0voice/interview_internal_reference)  
