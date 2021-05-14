@@ -60,5 +60,13 @@ customName(); // 'foo'
 ## ==和===的区别
 > `==`用于一般比较，`===`用于严格比较，`==`在比较的时候可以转换数据类型，`===`严格比较，只要类型不匹配就返回flase
 
-
-
+## 正则表达式的使用
+参考连接：https://bbs.huaweicloud.com/blogs/249379
+1. 定义正则表达式对象：
+- 方法一 ：`let regex = /[abc]/`  /../ 以/开头,以/结尾 中间的内容为正则表达式
+- 方法二 ：`let regex = new RegExp("[abc]")`  new RegExp 对象
+2. 正则表达式是否匹配的方法
+- `test()` : 返回一个boolean值,代表是否匹配
+- `exec()` : 返回一个数组,数组中存放的是正则匹配的元素
+3. 举例let regex = new RegExp("[abc]") regex.test("a")
+  
