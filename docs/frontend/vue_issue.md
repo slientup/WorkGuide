@@ -1,3 +1,10 @@
+- 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
+- 问题2：vue前端axios提交数据 django post 403报错
+- 问题3： vue前端通过axios提交时间类型的参数时时区自动转换问题。
+- 问题4： vue定时更新setInterval整个页面抖动
+- 问题5：element-ui字体图标样式部署到服务器后失效
+- 问题6: vue table表中时间列格式化的问题
+- 问题7 iframe height="100%"不生效的问题
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
