@@ -90,3 +90,25 @@ cas认证本质是cookie信息
     },
 ```
 
+##### 问题7 iframe height="100%"不生效的问题
+参考连接：https://www.jianshu.com/p/ae8f417e0824
+
+有两种方案，最终选择了第二种方案，大小自适应。(第一种怎么试都不行)
+```
+<template>
+  <iframe id="main" width="100%" :height="height" frameborder="0" src="xxx" />
+</template>
+<script>
+export default {
+  name: 'Dashboard',
+  data() {
+    return {
+      height: null
+    }
+  },
+  created() {
+    this.height = document.documentElement.clientHeight + 'px'
+  }
+}
+</script>
+```
