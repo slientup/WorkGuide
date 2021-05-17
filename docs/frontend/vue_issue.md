@@ -5,6 +5,7 @@
 - 问题5：element-ui字体图标样式部署到服务器后失效
 - 问题6: vue table表中时间列格式化的问题
 - 问题7 iframe height="100%"不生效的问题
+- 问题8 element ui 自定义图标和路径
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -119,3 +120,22 @@ export default {
 }
 </script>
 ```
+##### 问题8 element ui 自定义图标和路径
+参考链接：https://segmentfault.com/a/1190000025176437
+
+1. 定义  注意这里的图标引入路径
+```
+.el-icon-custom-grafana{
+  background: url('../../icons/svg/grafana_logo.png') center no-repeat;
+  background-size: cover;
+}
+.el-icon-custom-grafana:before{
+  content: "替";
+  font-size: 18px;
+  visibility: hidden;
+}
+```
+2. 引用
+`<el-button  icon="el-icon-custom-grafana"  size="mini"`
+           
+
