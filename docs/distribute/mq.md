@@ -17,7 +17,8 @@
 - `rabbitmq-plugins enable rabbitmq_management`  开启web管理插件
 - `rabbitmqctl` 是rabbitmq的管理工具命令
 #### 集群高可用
-- 镜像模式 https://blog.nowcoder.net/n/c4141a9f96e84c0fa050a681df1a9c97
+- 镜像模式 https://blog.nowcoder.net/n/c4141a9f96e84c0fa050a681df1a9c97   
+- 镜像模式配置 https://www.cnblogs.com/caoweixiong/p/14371487.html
 #### Erlang节点和Erlang应用程序
 rabbitmq依赖于Erlang 在Erlang中节点和应用程序的区别：就好比jvm和java程序的区别 应用程序必须运行在节点之上，只有`同时都在才能运行`  
 - rabbitmqctl stop 关闭节点和应用
