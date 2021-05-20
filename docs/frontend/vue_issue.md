@@ -6,6 +6,7 @@
 - 问题6: vue table表中时间列格式化的问题
 - 问题7 iframe height="100%"不生效的问题
 - 问题8 element ui 自定义图标和路径
+- 问题9 vue 通过设置环境变量，多环境部署
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -137,5 +138,44 @@ export default {
 ```
 2. 引用
 `<el-button  icon="el-icon-custom-grafana"  size="mini"`
-           
+ 
+ 
+##### 问题9 vue 通过设置环境变量，多环境部署
+参考连接：
+- https://github.com/Charles2mx/vue-admin-template-1   
+
+未使用vue cli的多环境配置文件(.env.development等)因为这种方式修改url，就必须重新打包镜像，这在实际k8s场景不合适
+
+1. 第一步在`public`文件夹下面创建一个`config.js`,一定要这个文件夹，因为这个文件夹里面的文件`npm run build`会保留
+```
+window.config= {
+  BACKEND_BASE_API : "http://localhost:8080/",
+  WEB_LOGIN_URL: "http://localhost:9528/#/login",
+}
+```
+2. 在index.html文件中
+```
+    <link rel="icon" href="<%= BASE_URL %>test.jpg">
+    <script type="text/javascript" src="<%= BASE_URL %>config.js"></script>    // 引入这一行
+```
+
+3. 引入变量
+```
+const service = axios.create({
+  baseURL: window.config.BACKEND_BASE_API, // url = base url + request url
+  timeout: 5000, // request timeout
+  withCredentials: true
+})
+```
+4. 只需要在不同的环境重写`config.js`就可以
+
+5. 文件目录：
+   public
+       - config.js
+       - test.jpg
+       - index.html
+
+
+
+      
 
