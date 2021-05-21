@@ -78,9 +78,9 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
 #### k8s 监控部署思考
 > 对于中间件产品 如kafka rabbitmq redis等，我们在k8s上面部署后，都需要对其进行监控，监控该如何设置啦。
-对于产品本身包含promethouse 指标的产品如rabbitmq就不需要再做什么
-对于需要额外添加的，如redis-exporter 则可以以sidebar的方式启动
 
+- 对于产品本身包含promethouse 指标的产品如rabbitmq就不需要再做什么
+- 对于需要额外添加的，如redis-exporter 则可以以sidebar的方式启动，如果还支持写远端地址的方式话，则可以单独部署 redis_exporter  -redis.addr 192.168.1.120:6379  -redis.password 123456 
 
 #### 参考连接
 
