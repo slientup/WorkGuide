@@ -73,6 +73,8 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
 * [k8s排障思路](k8s_error_guide.md)
 
+#### k8s 部署
+* [k8s部署rabbitmq记录](k8s_rabbitmq.md)
 
 #### 参考连接
 
