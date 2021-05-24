@@ -84,7 +84,7 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
 
 #### k8s 日志
-*[k8s日志方案](k8s_log.md)
+[k8s日志方案](k8s_log.md)
 
 #### 参考连接
 
