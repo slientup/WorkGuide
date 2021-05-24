@@ -47,6 +47,9 @@
 ### 深度学习
 * [pytorch笔记](docs/deepLearn/pytorch.md)
 
+### 监控
+* [grafana](docs/monitor/grafana.md)
+
 ### 日志
 * [日志治理](docs/log/log.md)
 * [kibana](docs/log/kibana.md)
