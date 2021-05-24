@@ -19,6 +19,13 @@
 #### 集群高可用
 - 镜像模式 https://blog.nowcoder.net/n/c4141a9f96e84c0fa050a681df1a9c97   
 - 镜像模式配置 https://www.cnblogs.com/caoweixiong/p/14371487.html
+- 镜像模式原理：http://zhaoyh.com.cn/2018/10/16/RabbitMQ%E9%95%9C%E5%83%8F%E9%98%9F%E5%88%97%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/
+
+镜像模式的原理：
+1. queue有master节点和slave节点。 要强调的是，在RabbitMQ中master和slave是针对一个queue而言的，而不是一个node作为所有queue的master，其它node作为slave。一个queue第一次创建的node为它的master节点，其它node为slave节点。
+
+2. 无论客户端的请求打到master还是slave最终数据都是从master节点获取。当请求打到master节点时，master节点直接将消息返回给client，同时master节点会通过GM（Guaranteed Multicast）协议将queue的最新状态广播到slave节点。GM保证了广播消息的原子性，即要么都更新要么都不更新。
+
 #### Erlang节点和Erlang应用程序
 rabbitmq依赖于Erlang 在Erlang中节点和应用程序的区别：就好比jvm和java程序的区别 应用程序必须运行在节点之上，只有`同时都在才能运行`  
 - rabbitmqctl stop 关闭节点和应用
