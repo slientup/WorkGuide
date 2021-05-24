@@ -48,7 +48,45 @@ nfs卷允许将现有的`NFS`（网络文件系统）共享挂载到您的容器
 - **使用PVC** --- 在Pod中去使用PVC，如果符合PVC条件的PV不存在，而这时去使用这个PVC，则Pod这时会显示Pending（挂起）状态。
 
 
+但我们使用volume的时候，很多时候是与`stateful`的应用搭配使用，当这类应用需要做集群的时候，我们往往就需要使用动态分配存储了，因为你无法事先数量多少，而且也经常会变化。
 
+更多的是使用下面两个概念
+
+** StorageClass**  动态存储类
+
+** volumeClaimTemplates**  pvc模板，当有需要的时候，就向动态存储拿一份。
+
+案例：
+```
+spec:
+  serviceName: "nginx"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+        image: gcr.io/google_containers/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+      annotations:
+        volume.beta.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+```
 
 
 
