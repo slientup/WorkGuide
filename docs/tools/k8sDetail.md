@@ -86,6 +86,15 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 #### k8s 日志
 [k8s日志方案](k8s_log.md)
 
+#### rancher 搭建mysql pod时候始终无法起来
+背景：1.rancher 搭建mysql 2. pv卷是nfs 
+故障现象：pod 状态是运行的，但是mysql 并没有起来
+
+故障原因是：在配置pv pvc卷的时候 nfs 要配置成多个node读写访问模式 添加如下参数
+
+![image](https://user-images.githubusercontent.com/30467613/119460285-19fe9180-bd71-11eb-84c5-59b635661580.png)
+
+
 #### 参考连接
 
 
