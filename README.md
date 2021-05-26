@@ -49,7 +49,7 @@
 
 ### 监控
 * [grafana](docs/monitor/grafana.md)
-
+* [prometheus](docs/monitor/prometheus.md)
 ### 日志
 * [日志治理](docs/log/log.md)
 * [kibana](docs/log/kibana.md)
