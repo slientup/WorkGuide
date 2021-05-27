@@ -53,7 +53,7 @@ pod---cni(相当pod的网关)---ipvs---eth0，常用插件有Flannel，Calico，
 > 服务网格简单的理解就是应用程序中非功能模块，但又很重要，如流量管理，服务降级，故障注入等一切额外的功能，如果我们自己在写代码要实现这些功能一般会采用aop思想，但如果每个工程师
 在项目中都实现一遍的话，那对于企业来说成本非常高，那就抽象出来，让这些非功能模块的事情都交给服务网格来做(istio)
 
-* [服务网格istio](https://jimmysong.io/kubernetes-handbook/usecases/istio.html)
+* [服务网格istio](istio.md)
 
 
 #### 常用命令
