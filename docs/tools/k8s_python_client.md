@@ -12,7 +12,7 @@ api文档写的非常好 接口都可以点进去看到使用案例
 ![](https://files.mdnice.com/user/4251/d7dcb088-3aed-4bac-a722-79c772e2f976.png)
 
 代码案例：
-```
+```python
 from kubernetes import client
 from kubernetes.client import api_client
 from kubernetes.client.api import core_v1_api
