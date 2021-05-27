@@ -95,6 +95,10 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 ![image](https://user-images.githubusercontent.com/30467613/119460285-19fe9180-bd71-11eb-84c5-59b635661580.png)
 
 
+#### k8s client
+[python client使用案例](k8s_python_client.md)
+
+
 #### 参考连接
 
 
