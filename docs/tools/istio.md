@@ -49,3 +49,4 @@ Service Mesh由于可以用更高效和统一的方式在新的微服务和容�
 - [istio-handbook](https://jimmysong.io/istio-handbook/concepts/what-is-service-mesh.html)  写的很好
 - [腾讯云容器团队内部Istio专题分享](https://www.servicemesher.com/blog/istio-the-king-of-service-mesh/)
 - [服务网格发展历史](https://jimmysong.io/istio-handbook/concepts/what-is-service-mesh.html)
+- [istio官方文档](https://istio.io/latest/zh/docs/ops/deployment/architecture/)
