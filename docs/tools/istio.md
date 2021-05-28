@@ -33,10 +33,13 @@ Service Mesh由于可以用更高效和统一的方式在新的微服务和容�
 #### 服务网格的架构图
 
 ![](https://files.mdnice.com/user/4251/595c0c4e-87ca-43e2-90d4-b110b45454eb.png)
+![](https://istio.io/latest/zh/docs/ops/deployment/architecture/arch.svg)
 
 从架构中，我们可以看出`node`与`api server`之间出现了一层服务网格层，任何流量都需要经过服务网格转发。
 
 为了实现统一管理，必然会增加控制层，同时提供全局可视化工具，如`kiali`。
+
+
 
 #### 可视化工具 kiali
 
