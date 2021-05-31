@@ -28,7 +28,7 @@ rule_files:
 
 rules内容 /etc/prometheus/rules/test.rules
 
-```
+```yaml
 groups:
 - name: example
   rules:
@@ -47,7 +47,7 @@ groups:
 #### alertmanger 告警相关的配置
 
 只在文字说明处做了修改
-```
+```yaml
 global:
   resolve_timeout: 5m
   http_config: {}
@@ -86,7 +86,7 @@ templates: []
 #### 客户端接入案例
 
 - python 推送自定义标签数据
-    ```
+    ```python
   from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
 
@@ -109,7 +109,7 @@ templates: []
       push_to_gateway_label(value=1)
     ```
 - java 推送自定义标签数据(与python同一组数据)
-  ```
+  ```java
   import io.prometheus.client.CollectorRegistry;
   import io.prometheus.client.Gauge;
   import io.prometheus.client.exporter.PushGateway;
