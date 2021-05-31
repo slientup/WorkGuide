@@ -83,5 +83,53 @@ receivers:
 templates: []
 ```
 
+#### 客户端接入案例
+
+- python 推送自定义标签数据
+    ```
+  from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+
+
+  def push_to_gateway_label(value):
+      """
+      以下生成的metric为：
+      http_request_status{endpoint="/hello",instance="192.168.1.2:9100",job="test"，status_code="200"} 1
+      """
+      registry = CollectorRegistry()
+      # 自定义标签
+      labels = ['instance', 'endpoint', 'status_code']
+      g = Gauge('http_request_status', 'status if normal', labels, registry=registry)
+      # 标签赋值
+      g.labels('192.168.1.2:9100', '/hello', 200).set(value)
+      # 127.0.0.1:9091 pushgateway地址
+      push_to_gateway('127.0.0.1:9091', job='test', registry=registry)
+
+
+  if __name__ == '__main__':
+      push_to_gateway_label(value=1)
+    ```
+- java 推送自定义标签数据(与python同一组数据)
+  ```
+  import io.prometheus.client.CollectorRegistry;
+  import io.prometheus.client.Gauge;
+  import io.prometheus.client.exporter.PushGateway;
+
+  import java.io.IOException;
+
+  public class PushToGateway {
+      public static void main(String[] args) throws IOException {
+          CollectorRegistry registry = new CollectorRegistry();
+          Gauge gauge = Gauge.build()
+                  .name("http_request_status").help("status if normal").
+                          labelNames("instance", "endpoint", "status_code").register(registry);
+          gauge.labels("192.168.1.2:9100", "/hello", "200").set(1);
+          PushGateway pg = new PushGateway("127.0.0.1:9091");
+          pg.pushAdd(registry, "test456");
+      }
+  }
+  ```
+
+#### 参考文档
+- [不同客户端使用案例参考连接](https://prometheus.io/docs/instrumenting/pushing/)
 
 
