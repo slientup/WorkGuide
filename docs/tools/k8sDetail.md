@@ -62,6 +62,9 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 
 [常用命令](https://www.huaweicloud.com/articles/7d96cb778b661628f5c522e0fd1dda8d.html)
 
+#### 灰度发布
+k8s金丝雀发布的原理 就是一次更新一个pod 更新一定数量后就暂停
+
 #### 排障思路
 
 * [k8s排障思路](k8s_error_guide.md)
