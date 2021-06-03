@@ -85,6 +85,8 @@ templates: []
 
 #### 客户端接入案例
 
+启动pushgateway `docker run -d -p 9091:9091 prom/pushgateway`
+
 - python 推送自定义标签数据
     ```python
   from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
