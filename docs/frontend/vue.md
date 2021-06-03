@@ -12,11 +12,37 @@
 - [nprogress](#nprogress)
 - [npm](#npm)
 - [vue常用插件](#vue常用插件)
-- [故障记录](#故障记录)
+- [项目中问题记录](#项目中问题记录)
+- [最受欢迎的vue模板](#最受欢迎的vue模板)
 - [参考资料](#参考资料)
 
 ## 故障记录
 [故障记录](vue_issue.md)
+
+## 最受欢迎的vue模板
+- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md)
+- [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+
+这两个模板是一个人写的，第二个是简易版
+
+安装vue-element-admin中的报错记录：raphael.git
+```
+npm install --registry=https://registry.npm.taobao.org
+npm ERR! code 128
+npm ERR! command failed
+npm ERR! command git ls-remote ssh://git@github.com/nhn/raphael.git
+npm ERR! Host key verification failed.
+npm ERR! fatal: Could not read from remote repository.
+npm ERR!
+npm ERR! Please make sure you have the correct access rights
+npm ERR! and the repository exists.
+
+```
+
+- 这个错误是`tui-editor`安装失败导致的，暂时将这个包去掉后再安装就ok
+
+
+- `npm run dev`的时候会报`tui-editor`错误，直接将引入该包的文件注释就ok
 
 ## vue基础
 > vue属性是vue最重要的特性之一，其中**数据**和**方法**属性最重要
