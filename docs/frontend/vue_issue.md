@@ -7,6 +7,7 @@
 - 问题7 iframe height="100%"不生效的问题
 - 问题8 element ui 自定义图标和路径
 - 问题9 vue 通过设置环境变量，多环境部署
+- 问题10 vue router 传参
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -176,6 +177,26 @@ const service = axios.create({
        - index.html
 
 
-
+##### 问题10 vue router 传参
+参考连接：https://segmentfault.com/a/1190000012393587  方案三
+1. 设置this.$router.push
+```
+    this.$router.push({
+          path: '/describe',
+          query: {
+            id: id
+          }
+        })
+```
+2. 对应路由配置
+```
+   {
+     path: '/describe',
+     name: 'Describe',
+     component: Describe
+   }
+```
+3. Describe组件获取参数
+`this.$route.query.id`
       
 
