@@ -8,6 +8,7 @@
 - 问题8 element ui 自定义图标和路径
 - 问题9 vue 通过设置环境变量，多环境部署
 - 问题10 vue router 传参
+- 问题11 vue跳转同一页面强制刷新
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
