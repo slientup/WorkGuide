@@ -200,3 +200,34 @@ const service = axios.create({
 `this.$route.query.id`
       
 
+##### 问题11 vue跳转同一页面强制刷新
+
+当我们设置全局搜索的时候，当跳转到该页面，再次搜索的时候，vue不会再刷新，这是vue机制决定的。
+
+解决办法直接为每次路由设置不一样的key  解决代码如下：
+
+```vue
+<template>
+  <div id="app">
+    <router-view :key="key"></router-view>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  computed: {
+    key() {
+      return this.$route.name !== undefined? this.$route.name +new Date(): this.$route +new Date()
+    }
+  }
+}
+
+</script>
+
+```
+
+参考连接：
+- [vue跳转同一页面强制刷新](https://www.jianshu.com/p/56263ad8d2ff)
+- [vue-route开发注意事项](https://www.cnblogs.com/gopark/p/11536126.html)
+
