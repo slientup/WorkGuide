@@ -9,6 +9,7 @@
 - 问题9 vue 通过设置环境变量，多环境部署
 - 问题10 vue router 传参
 - 问题11 vue跳转同一页面强制刷新
+- 问题12 vue href中链接封装变量
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -232,3 +233,6 @@ export default {
 - [vue跳转同一页面强制刷新](https://www.jianshu.com/p/56263ad8d2ff)
 - [vue-route开发注意事项](https://www.cnblogs.com/gopark/p/11536126.html)
 
+#### 12 
+`:href="'http://'+row.ingress_url" `  注意这里的双引号和单引号  如果有变量 必须是单引号
+`<el-link v-if="row.ingress_url" :href="'http://'+row.ingress_url" type="success" target="_blank">ingress链接</el-link>`
