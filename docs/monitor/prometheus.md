@@ -2,6 +2,7 @@
   * [Promethouse+alertmanager告警测试](#Promethouse+alertmanager告警测试)
   * [客户端接入案例](#客户端接入案例)
   * [promethous api查询数据](#promethousapi查询数据)
+  * [promethous+k8s常用指标pod等计算](#promethous+k8s常用指标pod等计算)
 
 ### Promethouse+alertmanager告警测试
 #### 文档
@@ -155,4 +156,5 @@ api url：
 参考链接：
 `https://prometheus.io/docs/prometheus/latest/querying/api/`
 
-
+### promethous+k8s常用指标pod等计算
+https://www.jianshu.com/p/8b4cb143d174
