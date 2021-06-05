@@ -1,8 +1,8 @@
 
-  * [Promethouse+alertmanager 告警测试](#Promethouse+alertmanager 告警测试)
+  * [Promethouse+alertmanager告警测试](#Promethouse+alertmanager告警测试)
   * [客户端接入案例](#客户端接入案例)
 
-### Promethouse+alertmanager 告警测试
+### Promethouse+alertmanager告警测试
 #### 文档
 - [promethouse 文档](https://yunlzheng.gitbook.io/prometheus-book/part-iii-prometheus-shi-zhan/readmd/service-discovery-with-kubernetes)
 - [Prometheus 监控报警系统 AlertManager 之邮件告警](https://cloud.tencent.com/developer/article/1486483)
