@@ -137,7 +137,7 @@ templates: []
 #### 参考文档
 - [不同客户端使用案例参考连接](https://prometheus.io/docs/instrumenting/pushing/)
 
-### promethous api 查询数据
+### promethous api查询数据
 
 查询语句：
 `1 - sum ( node_memory_MemAvailable{instance=~"10.24.51.155:9100"} ) / sum (node_memory_MemTotal{instance=~"10.24.51.155:9100"})
