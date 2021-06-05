@@ -1,5 +1,8 @@
-### Promethouse+alertmanager 告警测试
 
+  * [Promethouse+alertmanager 告警测试](#Promethouse+alertmanager 告警测试)
+  * [客户端接入案例](#客户端接入案例)
+
+### Promethouse+alertmanager 告警测试
 #### 文档
 - [promethouse 文档](https://yunlzheng.gitbook.io/prometheus-book/part-iii-prometheus-shi-zhan/readmd/service-discovery-with-kubernetes)
 - [Prometheus 监控报警系统 AlertManager 之邮件告警](https://cloud.tencent.com/developer/article/1486483)
@@ -82,7 +85,7 @@ receivers:
 templates: []
 ```
 
-#### 客户端接入案例
+### 客户端接入案例
 
 启动pushgateway `docker run -d -p 9091:9091 prom/pushgateway`
 
@@ -132,5 +135,23 @@ templates: []
 
 #### 参考文档
 - [不同客户端使用案例参考连接](https://prometheus.io/docs/instrumenting/pushing/)
+
+### promethous api 查询数据
+
+查询语句：
+`1 - sum ( node_memory_MemAvailable{instance=~"10.24.51.155:9100"} ) / sum (node_memory_MemTotal{instance=~"10.24.51.155:9100"})
+`
+
+api url：
+`http://localhost:9090/api/v1/query?query=`
+
+最终调用api
+`api url`+`查询语句`
+
+`http://localhost:9090/api/v1/query?query=1 - sum ( node_memory_MemAvailable{instance=~"10.24.51.155:9100"} ) / sum (node_memory_MemTotal{instance=~"10.24.51.155:9100"})`
+
+
+参考链接：
+`https://prometheus.io/docs/prometheus/latest/querying/api/`
 
 
