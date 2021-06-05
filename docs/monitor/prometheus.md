@@ -1,6 +1,7 @@
 
   * [Promethouse+alertmanager告警测试](#Promethouse+alertmanager告警测试)
   * [客户端接入案例](#客户端接入案例)
+  * [promethous api查询数据](promethous api查询数据)
 
 ### Promethouse+alertmanager告警测试
 #### 文档
