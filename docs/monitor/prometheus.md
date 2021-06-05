@@ -1,9 +1,8 @@
+### Promethouse+alertmanager 告警测试
+
 #### 文档
 - [promethouse 文档](https://yunlzheng.gitbook.io/prometheus-book/part-iii-prometheus-shi-zhan/readmd/service-discovery-with-kubernetes)
 - [Prometheus 监控报警系统 AlertManager 之邮件告警](https://cloud.tencent.com/developer/article/1486483)
-
-
-### Promethouse+alertmanager 告警测试
 
 #### 启动Promethouse
 `docker run -p 9090:9090 -v $home/config.txt:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle`
