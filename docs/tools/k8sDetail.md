@@ -65,6 +65,20 @@ kubectl -n ingress-nginx logs -l app=ingress-nginx
 #### 灰度发布
 k8s金丝雀发布的原理 就是一次更新一个pod 更新一定数量后就暂停
 
+#### 资源限制 limit的策略
+
+limit 对于 CPU，还有内存，指的都是容器对这个资源使用的上限。
+
+但是这两种资源在针对容器使用量超过 limit 所表现出的行为也是不同的。
+
+**对 CPU 来说，容器使用 CPU 过多，内核调度器就会切换，使其使用的量不会超过 limit**
+
+**对内存来说，容器使用内存超过 limit，这个容器就会被 OOM kill 掉，从而发生容器的重启。**
+
+在容器没有指定 request 的时候，request 的值和 limit 默认相等。
+
+而如果容器没有指定 limit 的时候，`request`和`limit`会被设置成的值则根据不同的资源有不同的策略
+
 #### 排障思路
 
 * [k8s排障思路](k8s_error_guide.md)
