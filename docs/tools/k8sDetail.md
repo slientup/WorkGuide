@@ -79,6 +79,8 @@ limit 对于 CPU，还有内存，指的都是容器对这个资源使用的上�
 
 而如果容器没有指定 limit 的时候，`request`和`limit`会被设置成的值则根据不同的资源有不同的策略
 
+spec.containers[].resources.requests.ephemeral-storage 磁盘资源限制 
+
 [Kubenertes 资源分配之 Request 和 Limit 解析](https://zhuanlan.zhihu.com/p/28686531)
 
 #### 排障思路
