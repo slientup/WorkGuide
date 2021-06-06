@@ -6,9 +6,14 @@
 
 `docker run --name some-wordpress -p 8080:80 -d wordpress`
 
+
+3. 访问网址 `http://localhost:8080`
+4. 管理后台网址 `http://localhost:8080/wp-admin/`
+
 #### 数据库信息输入
 
 这里的host 注意一定要填写自己pc的实际ip地址，而不是`127.0.0.1`
+
 
 
 #### 效果
