@@ -83,7 +83,7 @@
 * [vue-admin-web](docs/frontend/vue-admin-web.md)
 
 ### 单点登录
-* [sso](docs/sso.sso.md)
+* [sso](docs/sso/sso.md)
 
 ### 项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
