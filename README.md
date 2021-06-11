@@ -82,6 +82,8 @@
 * [vue+element-ui实战视频](docs/frontend/vue_project.md)
 * [vue-admin-web](docs/frontend/vue-admin-web.md)
 
+### 单点登录
+* [sso](docs/sso.sso.md)
 
 ### 项目
 * [github不错的开源项目](docs/openSource/Java_Python.md)
