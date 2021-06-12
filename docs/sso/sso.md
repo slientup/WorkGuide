@@ -1,7 +1,7 @@
 
 ### apereo cas 安裝
 
-#### 默认搭建过程
+#### 1. 默认搭建过程
 
 - 项目配置目录：`/etc/cas`
 - 配置文件：`/etc/cas/config/cas.properties`
@@ -25,7 +25,7 @@
 - `https://www.selinux.tech/architecture/cas/cas-install`
 - 官方文档 https://github.com/apereo/cas-overlay-template
 
-#### docker环境
+#### 2.docker环境搭建
 > 上面这种还需要自己搭环境，那有没有更简单的方法，其实过程是非常麻烦的。有没有类似docker，一条命令就起来。
 
 
@@ -54,7 +54,7 @@
 - 增加ldap认证 （很遗憾在增加ldap的时候 docker容器无法启动ldap，应该是容器本身没有包含） 这里应该改进，即默认将所有常用的auth类型依赖都添加，当用户需要使用哪种的时候，就添加哪种，这是最好的，避免自己搭建开发环境。
 
 
-#### ldap认证
+#### 3.ldap认证配置
 > 采用自己打包的方式，并没有使用docker 因为docker存在异常
 
 参考文档：[CAS 集成LDAP](https://www.selinux.tech/architecture/cas/cas-ldap)
@@ -86,7 +86,7 @@
 上面第二步是最难的，这里需要你要了解自己公司的AD域结构，然后通过debug调试信息，慢慢比对才找到最终对的格式，而且cas 不同版本配置也不一样，这是很难受的
 
 
-#### cas client 对接
+#### 4. cas client 对接
 **测试基本信息**
 - django框架
 - django-cas-ng模块做客户端
@@ -129,7 +129,7 @@ AUTHENTICATION_BACKENDS = (
 
 - 参考文档 [CAS Service Management](https://www.selinux.tech/architecture/cas/cas-management-install)
 
-#### 关于允许http协议的问题
+#### 5. 关于允许http协议的问题
 > 之前我通过搜索引擎查到，需要使用`cas-management`来实现，今天在阅读文档的时候，发现可以不使用该方案，直接在`cas-server`服务器中安装依赖包就可以,应该是我的理解问题，**实际上本身就需要在`cas-server`中安装依赖包,做相应的配置，而`cas-management`只是外挂系统，对这些服务做一个管理，用户注册的过程不需要经过`cas-management`**
 
 1. 添加依赖，并重新打包
