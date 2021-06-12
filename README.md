@@ -129,6 +129,8 @@
 * [优质技术分享文章](docs/article/article.md)
 * [架构图和流程图收藏](docs/article/arch.md)
 
+### 论文
+* [论文集](https://github.com/jwasham/coding-interview-university/blob/main/translations/README-cn.md#%E8%AE%BA%E6%96%87)
 
 ### 其他
 
