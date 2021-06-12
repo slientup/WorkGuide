@@ -119,7 +119,6 @@ AUTHENTICATION_BACKENDS = (
 哎 重新配置后解决问题
 
 
-
 #### cas-management安装
 > 无论docker 还是overlay 打包的方式都没有成功，但记录下
 
@@ -130,6 +129,37 @@ AUTHENTICATION_BACKENDS = (
 
 - 参考文档 [CAS Service Management](https://www.selinux.tech/architecture/cas/cas-management-install)
 
+#### 关于允许http协议的问题
+> 之前我通过搜索引擎查到，需要使用`cas-management`来实现，今天在阅读文档的时候，发现可以不使用该方案，直接在`cas-server`服务器中安装依赖包就可以,应该是我的理解问题，**实际上本身就需要在`cas-server`中安装依赖包,做相应的配置，而`cas-management`只是外挂系统，对这些服务做一个管理，用户注册的过程不需要经过`cas-management`**
+
+1. 添加依赖，并重新打包
+    ```
+    implementation "org.apereo.cas:cas-server-support-json-service-registry:${project.'cas.version'}"
+    ```
+2. 在`cas.properties`中做配置
+    ```
+    cas.service-registry.core.init-from-json=true
+    cas.serviceRegistry.json.location=file:/etc/cas/services
+    ```
+3. 在`/etc/cas/services`文件配置服务注册允许规则
+    ```
+    {
+      "@class" : "org.apereo.cas.services.RegexRegisteredService",
+      "serviceId" : "^(https|imaps|http)://.*",
+      "name" : "web",
+      "id" : 10000001,
+      "evaluationOrder" : 10
+    }
+
+    ```
+参考链接：
+- [JSON Service Registry](https://apereo.github.io/cas/development/services/JSON-Service-Management.html)
+- [CAS Service Management](https://www.selinux.tech/architecture/cas/cas-management-install)
+
+
+#### 完整配置
+
+[完整配置](https://github.com/slientup/cas-overlay-template)
 
 #### 故障指南
 
