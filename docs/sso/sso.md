@@ -161,6 +161,10 @@ AUTHENTICATION_BACKENDS = (
 
 [完整配置](https://github.com/slientup/cas-overlay-template)
 
+#### 重定义login页面
+
+[CAS单点登录-自定义登录页、修改编辑登录页](https://www.cnblogs.com/hooly/p/12784397.html)
+
 #### 故障指南
 
 
