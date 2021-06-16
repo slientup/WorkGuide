@@ -91,14 +91,14 @@
 - django框架
 - django-cas-ng模块做客户端
 
-**问题一**
+**问题一 未认证授权的服务 不允许使用CAS来认证您访问的目标应用**
 - **描述：** 通过`python manager runserver 127.0.0.1:8080` 拉起服务，访问api时候跳转到`cas 页面`，但提示`未认证授权的服务 不允许使用CAS来认证您访问的目标应用。`
 
 ![](https://files.mdnice.com/user/4251/f25b8335-f591-4e0e-9fe6-91c0243db6c4.png)
 
 - **解决思路：** 默认情况下cas只放开了https，对http服务并没有放开，所以需要配置放开`http`，这需要用到`cas-management`,哎安装这个过程又是一件痛苦的事情，服务就从来没有拉起来过，我选择了将测试django 以https的方式启动
 
-**问题二：**
+**问题二： `cas login` 认证能通过，但是通过之后不断重复重定向 **
 - **描述** `python manage.py runserver_plus --cert cert 127.0.0.1:8000`  以这条命令启动，能正常弹出`cas login` 认证也能通过，但是通过之后不断重复重定向。
 - **解决思路**： 通过查看源码发现，不断重复是因为没有解析到用户，我就非常疑惑，为什么没有用户，看cas的debug信息都没什么异常信息，我被卡住了，没有思路，卡了好一会儿，我就打算开始调试`django-cas-ng`的源码 一步一步测试的过程发现它调用了`backend`，我隐隐觉得是我配置没有写全，配置是我从我以前另一个项目拿过来的，上次都一年前了，我去看了官网配置，果然是在settings中配置不全导致的
 ```
@@ -117,6 +117,45 @@ AUTHENTICATION_BACKENDS = (
 ```
 
 哎 重新配置后解决问题
+
+**问题三：cas认证通过后返回client 多个属性 比如`email` `mobile`等 **
+
+1. `cas.properties` 增加如下配置：
+    ```
+    # ldap 返回多个属性配置
+    cas.authn.attribute-repository.ldap[0].base-dn=${ldap-base-dn}
+    cas.authn.attribute-repository.ldap[0].bind-dn=${ldap-bind-dn}
+    cas.authn.attribute-repository.ldap[0].ldap-url=${ldap-url}
+    cas.authn.attribute-repository.ldap[0].search-filter=(cn={user})
+    cas.authn.attribute-repository.ldap[0].bind-credential=${ldap-bind-credential}
+    # 具体的属性键值对 如果需要添加则再增加
+    cas.authn.attribute-repository.ldap[0].attributes.givenName=first_name
+    cas.authn.attribute-repository.ldap[0].attributes.sn=last_name
+    cas.authn.attribute-repository.ldap[0].attributes.mail=email
+    cas.authn.attribute-repository.ldap[0].attributes.mobile=mobile
+    ```
+    参考连接：[LDAP Attribute Resolution](https://apereo.github.io/cas/development/integration/Attribute-Resolution-LDAP.html)
+2. 做了上述配置之后，通过cas login页面看返回的属性中增加了上述的中的属性，但通过`django-cas-ng`的client却没有相应的属性
+
+3. 我需要判断是`django-cas-ng`的问题还是`cas server`的问题,`django-cas-ng`中打印返回的信息
+    ```
+            username, attributes, pgtiou = client.verify_ticket(ticket)
+            print("auth",username,attributes,pgtiou)
+    ```
+    返回结果如下：（**说明已经返回属性了**）
+      ```
+      auth zhixiong.zeng {'credentialType': 'UsernamePasswordCredential', 'firstName': 'Zhixiong', 'lastName': 'Zeng', 'isFromNewLogin': 'true', 'authenticati
+      onDate': '2021-06-16T08:31:00.187228Z', 'authenticationMethod': 'LdapAuthenticationHandler', 'successfulAuthenticationHandlers': 'LdapAuthenticationHand
+      ler', 'mobile': 'xxxxx', 'longTermAuthenticationRequestTokenUsed': 'false', 'email': 'zhixiong.zeng@123.com'} None
+      ````
+4. 继续查看源码，发现默认只添加用户名，但可以通过设置`CAS_APPLY_ATTRIBUTES_TO_USER`字段实现其他字段的添加，`CAS_RENAME_ATTRIBUTES`该字段重命名属性，增加如下配置
+    ```
+    CAS_APPLY_ATTRIBUTES_TO_USER = True
+    CAS_RENAME_ATTRIBUTES = {
+        "firstName": "first_name",
+        "lastName": "last_name",
+    }
+    ```
 
 
 #### cas-management安装
