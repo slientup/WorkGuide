@@ -1,7 +1,7 @@
 
-### apereo cas 安裝
+## apereo cas 安裝
 
-#### 1. 默认搭建过程
+### 1. 默认搭建过程
 
 - 项目配置目录：`/etc/cas`
 - 配置文件：`/etc/cas/config/cas.properties`
@@ -25,7 +25,7 @@
 - `https://www.selinux.tech/architecture/cas/cas-install`
 - 官方文档 https://github.com/apereo/cas-overlay-template
 
-#### 2.docker环境搭建
+### 2.docker环境搭建
 > 上面这种还需要自己搭环境，那有没有更简单的方法，其实过程是非常麻烦的。有没有类似docker，一条命令就起来。
 
 
@@ -54,7 +54,7 @@
 - 增加ldap认证 （很遗憾在增加ldap的时候 docker容器无法启动ldap，应该是容器本身没有包含） 这里应该改进，即默认将所有常用的auth类型依赖都添加，当用户需要使用哪种的时候，就添加哪种，这是最好的，避免自己搭建开发环境。
 
 
-#### 3.ldap认证配置
+### 3.ldap认证配置
 > 采用自己打包的方式，并没有使用docker 因为docker存在异常
 
 参考文档：[CAS 集成LDAP](https://www.selinux.tech/architecture/cas/cas-ldap)
@@ -86,19 +86,20 @@
 上面第二步是最难的，这里需要你要了解自己公司的AD域结构，然后通过debug调试信息，慢慢比对才找到最终对的格式，而且cas 不同版本配置也不一样，这是很难受的
 
 
-#### 4. cas client 对接
+### 4. cas client 对接
 **测试基本信息**
 - django框架
 - django-cas-ng模块做客户端
 
-**问题一 未认证授权的服务 不允许使用CAS来认证您访问的目标应用**
+##### 问题一 未认证授权的服务 不允许使用CAS来认证您访问的目标应用
 - **描述：** 通过`python manager runserver 127.0.0.1:8080` 拉起服务，访问api时候跳转到`cas 页面`，但提示`未认证授权的服务 不允许使用CAS来认证您访问的目标应用。`
 
 ![](https://files.mdnice.com/user/4251/f25b8335-f591-4e0e-9fe6-91c0243db6c4.png)
 
 - **解决思路：** 默认情况下cas只放开了https，对http服务并没有放开，所以需要配置放开`http`，这需要用到`cas-management`,哎安装这个过程又是一件痛苦的事情，服务就从来没有拉起来过，我选择了将测试django 以https的方式启动
 
-**问题二： `cas login` 认证能通过，但是通过之后不断重复重定向 **
+##### 问题二： `cas login` 认证能通过，但是通过之后不断重复重定向
+
 - **描述** `python manage.py runserver_plus --cert cert 127.0.0.1:8000`  以这条命令启动，能正常弹出`cas login` 认证也能通过，但是通过之后不断重复重定向。
 - **解决思路**： 通过查看源码发现，不断重复是因为没有解析到用户，我就非常疑惑，为什么没有用户，看cas的debug信息都没什么异常信息，我被卡住了，没有思路，卡了好一会儿，我就打算开始调试`django-cas-ng`的源码 一步一步测试的过程发现它调用了`backend`，我隐隐觉得是我配置没有写全，配置是我从我以前另一个项目拿过来的，上次都一年前了，我去看了官网配置，果然是在settings中配置不全导致的
 ```
@@ -118,7 +119,7 @@ AUTHENTICATION_BACKENDS = (
 
 哎 重新配置后解决问题
 
-**问题三：cas认证通过后返回client 多个属性 比如`email` `mobile`等 **
+##### 问题三：cas认证通过后返回client 多个属性 比如`email` `mobile`等 
 
 1. `cas.properties` 增加如下配置：
     ```
