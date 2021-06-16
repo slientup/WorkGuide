@@ -197,6 +197,12 @@ AUTHENTICATION_BACKENDS = (
 - [CAS Service Management](https://www.selinux.tech/architecture/cas/cas-management-install)
 
 
+#### cas 监控
+- 需要引入包`implementation "org.apereo.cas:cas-server-support-metrics:${project.'cas.version'}"`
+- 采用`prometheus`来存储监控的数据
+- 参考连接：
+   - [Storage - CAS Metrics](https://apereo.github.io/cas/development/monitoring/Configuring-Metrics-Storage.html)
+   - [CAS Metrics](https://apereo.github.io/cas/development/monitoring/Configuring-Metrics.html)
 #### 完整配置
 
 [完整配置](https://github.com/slientup/cas-overlay-template)
