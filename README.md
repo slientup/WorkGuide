@@ -120,6 +120,8 @@
 ### 个人网站
 * [wordpress](docs/wordpress/wordpress.md)
 
+### jira
+* [jira](docs/jira/jira.md)
 
 ### 故障记录
 * [docker](docs/fault/docker.md)
