@@ -12,6 +12,7 @@
 - **问题12 vue href中链接封装变量**
 - **问题13 `element-ui`中，在表单中修改数据，表格的数据也跟着修改的问题**
 - **问题14 替换`el-table`中某一行的部分数据table数据**
+- **问题15 同一个vue页面两个table表，其中一个table表选项框无法勾选**
 #### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -255,5 +256,9 @@ export default {
  this.serverList.splice(this.dialogEditIndex, 1, this.form)
 ```
 
+#### 问题15 同一个vue页面两个table表，其中一个table表选项框无法勾选
+
+**故障现象：** 同一个vue页面两个table，第一个table有分页功能，当点击table多选时会触发两次操作，勾选后再取消勾选。
+**解决方案: ** [使用el-pagination后el-table的多选框无法勾选](https://blog.csdn.net/qq_32682301/article/details/111212983)
 
 
