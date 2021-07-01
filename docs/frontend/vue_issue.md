@@ -12,7 +12,7 @@
 - 问题12 vue href中链接封装变量
 - 问题13 `element-ui`中，在表单中修改数据，表格的数据也跟着修改的问题
 - 问题14 替换`el-table`中某一行的部分数据table数据
-##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
+#### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
 解决思路：
@@ -27,7 +27,7 @@ cas认证本质是cookie信息
 参考链接：[axios 跨域处理以及带 cookies 的请求](https://www.jianshu.com/p/161cd33af3a0)
 
 
-##### 问题2：vue前端axios提交数据 django post 403报错
+#### 问题2：vue前端axios提交数据 django post 403报错
 
 解决方法1 post方法的时候在头部带上`csrftoken`信息
 ```
@@ -43,7 +43,7 @@ cas认证本质是cookie信息
 参考链接：[django 解决使用django rest framework时web请求报CSRF Failed: CSRF cookie not set](http://www.chenxm.cc/article/589.html)
 
 
-##### 问题3： vue前端通过axios提交时间类型的参数时时区自动转换问题。
+#### 问题3： vue前端通过axios提交时间类型的参数时时区自动转换问题。
 
 通过 Chrome 浏览器的Inspect功能，查看Network，发现时间参数被自动修改了，我们选定的时间是`2019-07-12 00:00:00`，在传输的时候却被修改为`2019-07-11 16:00:00`
 
@@ -59,7 +59,7 @@ cas认证本质是cookie信息
 参考链接：[解决 axios 提交时间类型参数遇到的时区自动转换问题](https://cloud.tencent.com/developer/article/1518582)
 
 
-##### 问题4： vue定时更新setInterval整个页面抖动
+#### 问题4： vue定时更新setInterval整个页面抖动
 
 如果直接粗暴对整个表进行定时刷新就会出现这种情况，只需要对会变化的字段进行刷新就会不会出现页面抖动
 
@@ -104,7 +104,7 @@ cas认证本质是cookie信息
     },
 ```
 
-##### 问题7 iframe height="100%"不生效的问题
+#### 问题7 iframe height="100%"不生效的问题
 参考连接：https://www.jianshu.com/p/ae8f417e0824
 
 有两种方案，最终选择了第二种方案，大小自适应。(第一种怎么试都不行)
@@ -126,7 +126,7 @@ export default {
 }
 </script>
 ```
-##### 问题8 element ui 自定义图标和路径
+#### 问题8 element ui 自定义图标和路径
 参考链接：https://segmentfault.com/a/1190000025176437
 
 1. 定义  注意这里的图标引入路径
@@ -145,7 +145,7 @@ export default {
 `<el-button  icon="el-icon-custom-grafana"  size="mini"`
  
  
-##### 问题9 vue 通过设置环境变量，多环境部署
+#### 问题9 vue 通过设置环境变量，多环境部署
 参考连接：
 - https://github.com/Charles2mx/vue-admin-template-1   
 
@@ -181,7 +181,7 @@ const service = axios.create({
        - index.html
 
 
-##### 问题10 vue router 传参
+#### 问题10 vue router 传参
 参考连接：https://segmentfault.com/a/1190000012393587  方案三
 1. 设置this.$router.push
 ```
@@ -204,7 +204,7 @@ const service = axios.create({
 `this.$route.query.id`
       
 
-##### 问题11 vue跳转同一页面强制刷新
+#### 问题11 vue跳转同一页面强制刷新
 
 当我们设置全局搜索的时候，当跳转到该页面，再次搜索的时候，vue不会再刷新，这是vue机制决定的。
 
@@ -235,7 +235,7 @@ export default {
 - [vue跳转同一页面强制刷新](https://www.jianshu.com/p/56263ad8d2ff)
 - [vue-route开发注意事项](https://www.cnblogs.com/gopark/p/11536126.html)
 
-#### 12 vue href中链接封装变量
+####  问题12 vue href中链接封装变量
 `:href="'http://'+row.ingress_url" `  注意这里的双引号和单引号  如果有变量 必须是单引号
 `<el-link v-if="row.ingress_url" :href="'http://'+row.ingress_url" type="success" target="_blank">ingress链接</el-link>`
 
