@@ -10,6 +10,8 @@
 - 问题10 vue router 传参
 - 问题11 vue跳转同一页面强制刷新
 - 问题12 vue href中链接封装变量
+- 问题13 `element-ui`中，在表单中修改数据，表格的数据也跟着修改的问题
+- 问题14 替换`el-table`中某一行的部分数据table数据
 ##### 问题1：vue前端axios提交数据携带cookie信息 用于cas认证
 cas认证本质是cookie信息
 
@@ -233,6 +235,25 @@ export default {
 - [vue跳转同一页面强制刷新](https://www.jianshu.com/p/56263ad8d2ff)
 - [vue-route开发注意事项](https://www.cnblogs.com/gopark/p/11536126.html)
 
-#### 12 
+#### 12 vue href中链接封装变量
 `:href="'http://'+row.ingress_url" `  注意这里的双引号和单引号  如果有变量 必须是单引号
 `<el-link v-if="row.ingress_url" :href="'http://'+row.ingress_url" type="success" target="_blank">ingress链接</el-link>`
+
+#### 问题13 `element-ui`中，在表单中修改数据，表格的数据也跟着修改的问题
+参考连接：https://blog.csdn.net/SmallTeddy/article/details/106542890
+
+问题根因：`this.currentInfo = row;` 如果直接赋值的话，就变成了浅拷贝，复制的是地址
+
+
+解决方案：`this.form = Object.assign({}, row)`
+
+#### 问题14 替换`el-table`中某一行的部分数据table数据
+
+使用：splice方法，该方法实现删除 替换 替换
+```
+ // splice 替换时 会重新刷新页面
+ this.serverList.splice(this.dialogEditIndex, 1, this.form)
+```
+
+
+
