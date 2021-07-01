@@ -259,6 +259,7 @@ export default {
 #### 问题15 同一个vue页面两个table表，其中一个table表选项框无法勾选
 
 **故障现象：** 同一个vue页面两个table，第一个table有分页功能，当点击table多选时会触发两次操作，勾选后再取消勾选。
+
 **解决方案: ** [使用el-pagination后el-table的多选框无法勾选](https://blog.csdn.net/qq_32682301/article/details/111212983)
 
 
